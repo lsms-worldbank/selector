@@ -46,6 +46,7 @@
 # Stata
 !/**/*.do
 !/**/*.ado
+!/**/sthlp/*.sthlp
 !src/stata.toc
 !src/*.pkg
 
