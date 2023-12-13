@@ -6,6 +6,11 @@ qui {
     * Update the syntax. This is only a placeholder to make the command run
     syntax [using]
 
+    //List all properties to add to char
+    local cols "variable_label type"
+
+    char _dta[selector_chars] "`cols'"
+
     * Store meta data in a frame
     tempname metadata
     frame create `metadata'
@@ -24,9 +29,6 @@ qui {
         exit
       }
     }
-
-    //List all properties to add to char
-    local cols "variable_label type"
 
     // Loop over all varaibles and get the properties from the char
     foreach var of varlist _all {
