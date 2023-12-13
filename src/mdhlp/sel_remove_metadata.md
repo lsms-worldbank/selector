@@ -37,7 +37,7 @@ that was added by `sel_add_metadata`. If other custom chars were added by the us
 
 __**miss**__ suppresses the error that is thrown when
 no chars to remove was provided. Neither through the option `char()` or
-in meta data written by `sel_add_metadata`
+in meta data written by `sel_add_metadata`.
 
 # Examples
 
