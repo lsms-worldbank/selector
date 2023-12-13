@@ -37,10 +37,12 @@
     
     * Simple type match
     sel_vars , type("NumericQuestion")
+    return list
     di "`r(varlist)'"
     
     * Combine a type match with a custom query
     local query `""variable_label Uniforms and other school clothing" "'
     sel_vars `query', type("NumericQuestion")
+    return list
     di "`r(varlist)'" 
      
