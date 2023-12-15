@@ -9,7 +9,7 @@ qui {
     * Store meta data in a frame
     tempname metadata
     frame create `metadata'
-    frame `metadata': import delimited `using', varnames(1) clear
+    frame `metadata': use `using', clear
 
     * Make sure that varname is unique in the frame
     frame `metadata' {

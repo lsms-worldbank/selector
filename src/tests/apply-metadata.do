@@ -26,7 +26,7 @@
     * Load a dataset in 
     use "${data_fldr}\dta/meta_PERSONS.dta", clear
 
-    local metadatafile "${data_fldr}\csv/question_metadata2.csv"
+    local metadatafile "${data_fldr}\csv/question_metadata.dta"
     sel_add_metadata using `metadatafile'
     
     * See output
