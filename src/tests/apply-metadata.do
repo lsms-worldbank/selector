@@ -3,6 +3,9 @@
     if "`c(username)'" == "wb462869" {
         global clone "C:\Users\wb462869\github\selector"
     }
+    if "`c(username)'" == "wb393438" {
+        global clone "C:\Users\wb393438\stata_funs\selector"
+    }
 
     * Set global to ado_fldr
     global src_fldr  "${clone}/src"
