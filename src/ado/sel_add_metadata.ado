@@ -81,6 +81,61 @@ qui {
       }
     }
 
+    * compile lists of system-generated variables
+    local id_vars "interview__key interview__id assignment__id"
+    local oth_vars "sssys_irnd has__error interview__status"
+
+    * Set the char of SuSo's system-generated variables
+    forvalues i = 1/`count_meta' {
+      
+      * determine whether variable is any of the system-generated types
+      local is_id_var : list var in id_vars
+      local is_oth_sys_var : list var in oth_vars
+      local is_roster_id_var = (`is_id_var' == 0) & ustrregexm("`var'", "__id$")
+      
+      if (`is_id_var' == 1) {
+        * label, manually reproducing labels used in export data
+        if ("`var'" == "interview__key") {
+          return local variable_label "Interview key (identifier in XX-XX-XX-XX format)"
+        }
+        else if ("`var'" == "interview__id") {
+          return local variable_label "Unique 32-character long identifier of the interview"
+        }
+        else if ("`var'" == "assignment__id") {
+          return local variable_label "Assignment id (identifier in numeric format)"
+        }
+        * type
+        return local type "System-generated ID variable"
+        * success
+        return local success "true"
+        exit
+      }
+      else if (`is_oth_sys_var' == 1) {
+        * label, manually reproducing labels used in export data
+        if ("`var'" == "sssys_irnd") {
+          return local variable_label "Random number in the range 0..1 associated with interview"
+        }
+        else if ("`var'" == "has__error") {
+          return local variable_label "Errors count in the interview"
+        }
+        else if ("`var'" == "interview__status") {
+          return local variable_label "Status of the interview"
+        }
+        * type
+        return local type "System-generated"
+        * success
+        return local success "true"
+        exit
+      }
+      else if (`is_roster_id_var' == 1) {
+        return local variable_label "Roster ID variable"
+        return local type "System-generated ID variable"
+        return local success "true"
+        exit
+      }
+
+    }
+
     * If code ends up here, then the varname was not found
     return local success "false"
 
