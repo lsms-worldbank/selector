@@ -20,7 +20,7 @@
     cap net uninstall selector
     net install selector, from("${src_fldr}") replace
     
-    * output version iof this package
+    * output version of this package
     selector
     
     * Load a dataset in 

@@ -25,10 +25,7 @@ qui {
       }
     }
 
-    //List all properties to add to char
-    local cols "variable_label type"
-
-    // Loop over all varaibles and get the properties from the char
+    // Loop over all variables and get the properties from the char
     foreach var of varlist _all {
       frame `metadata': noi extract_value, var("`var'") cols("`cols'")
       if ("`r(success)'" == "true") {
