@@ -20,11 +20,11 @@ See the Stata helpfile for char for more info on chars.
 This command has options provided for chars that
 the dataset will typically have after
 the command `sel_add_metadata` has been used.
-That command takes meta information from SurveySolutions (SuSo) and
-apply meta data in chars.
+That command takes meta information from Survey Solutions (SuSo) and
+applies meta data in chars.
 Then this command can be used to filter variable by matching on that meta data.
 
-While some convenience options has been provided for a SuSo workflow,
+While some convenience options have been provided for a SuSo workflow,
 this command is by no means limited to data collected by SuSo.
 The _query_string_ allows the user to filter on any value in any custom char
 in any Stata dataset.
