@@ -45,7 +45,7 @@ qui {
       * First handle system vars
       if (`is_id_var' | `is_oth_sys_var' | `is_roster_id_var') {
         * Get hardcoded meta info for system generated varaibles
-        noi get_systemvar_values, var("`var'") ///
+        noi get_system_var_values, var("`var'") ///
           is_id_var(`is_id_var') ///
           is_roster_id_var(`is_roster_id_var') ///
           is_oth_sys_var(`is_oth_sys_var')
@@ -71,8 +71,8 @@ qui {
 }
 end
 
-cap program drop   get_systemvar_values
-    program define get_systemvar_values, rclass
+cap program drop   get_system_var_values
+    program define get_system_var_values, rclass
 
 qui {
     syntax, var(string) ///
