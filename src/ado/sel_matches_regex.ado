@@ -2,11 +2,11 @@ cap program drop   sel_matches_regex
     program define sel_matches_regex, rclass
 
 qui {
-    syntax anything (name=pattern), [NEGate]
+    syntax anything (name=pattern), [NEGate] [varlist(varlist)]
 
     version 14
 
-    d, varlist
+    d `varlist', varlist
     local vars = r(varlist)
 
     * initiate return_vars. If negate is not used, start with empty list.

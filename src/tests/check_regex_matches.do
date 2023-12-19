@@ -101,3 +101,43 @@ else {
 
 * tear-down
 drop `test_vars2'
+
+* =============================================================================
+* Test `varlist` option. Narrows the scope of search
+* =============================================================================
+
+* setup
+#delim ;
+local test_vars3 "
+var1
+var1a
+var1b
+var2
+var2a
+var2b
+var3
+var4
+var5
+";
+#delim cr
+
+foreach test_var of local test_vars3 {
+    capture gen `test_var' = .
+}
+
+* test
+sel_matches_regex "var[0-9][a-z]", varlist(var2 - var3)
+local matches_in_scope = r(varlist)
+local matches_in_scope : list clean matches_in_scope
+
+capture assert "`matches_in_scope'" == "var2a var2b"
+if _rc != 0 {
+    di as error "Test failed"
+    error 0
+}
+else {
+    di as result "Test passed"
+}
+
+* tear-down
+drop `test_vars3'
