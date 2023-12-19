@@ -3,6 +3,9 @@
     if "`c(username)'" == "wb462869" {
         global clone "C:\Users\wb462869\github\selector"
     }
+    if "`c(username)'" == "wb393438" {
+        global clone "C:\Users\wb393438\stata_funs\selector"
+    }
 
     * Set global to ado_fldr
     global src_fldr  "${clone}/src"
@@ -17,13 +20,13 @@
     cap net uninstall selector
     net install selector, from("${src_fldr}") replace
     
-    * output version iof this package
+    * output version of this package
     selector
     
     * Load a dataset in 
     use "${data_fldr}\dta/meta_PERSONS.dta", clear
 
-    local metadatafile "${data_fldr}\csv/question_metadata2.csv"
+    local metadatafile "${data_fldr}\csv/question_metadata.dta"
     sel_add_metadata using `metadatafile'
     
     * See output
