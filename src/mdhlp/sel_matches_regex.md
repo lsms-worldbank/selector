@@ -4,7 +4,7 @@ __sel_matches_regex__ - Get variables that match a regular expression.
 
 # Syntax
 
-__sel_matches_regex__ _regex_string_, [NEGate]
+__sel_matches_regex__ _regex_string_, [__**neg**ate__]
 
 | _options_ | Description |
 |-----------|-------------|
@@ -12,7 +12,7 @@ __sel_matches_regex__ _regex_string_, [NEGate]
 
 # Description
 
-By default, Stata allows users to specify a list of variables through through a range (e.g., `var1 - var5`) or a (glob) pattern (e.g., `var*`). See more [here](https://www.stata.com/manuals/u11.pdf#u11.4varnameandvarlists). 
+By default, Stata allows users to specify a list of variables through a range (e.g., `var1 - var5`) or a (glob) pattern (e.g., `var*`). See more [here](https://www.stata.com/manuals/u11.pdf#u11.4varnameandvarlists).
 
 However, there is no straight-forward way to specify a list of variables that match a regular expression, a pattern specification that is typically more precise than either of the foregoing Stata options. The `sel_matches_regex` command fills that gap in functionality.
 
