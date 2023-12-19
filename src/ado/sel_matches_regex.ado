@@ -1,14 +1,15 @@
 capture program drop sel_matches_regex
-program define sel_matches_regex, rclass 
+program define sel_matches_regex, rclass
 
+qui {
     syntax anything (name=pattern), [negate]
 
-    qui: d, varlist
+    d, varlist
     local vars = r(varlist)
 
     * initialize matching vars to be an empty set
     local matching_vars ""
-    
+
     * loop over variables
     foreach var of local vars {
 
@@ -29,7 +30,7 @@ program define sel_matches_regex, rclass
     * handle `negate` flag, if present
     if ("`negate'" != "") {
         local not_matching_vars : list vars - matching_vars
-        di "`not_matching_vars'"
+        noi di "`not_matching_vars'"
         local matching_vars = "`not_matching_vars'"
     }
 
@@ -39,12 +40,12 @@ program define sel_matches_regex, rclass
     * message about outcome
     local n_matches : list sizeof matching_vars
     if (`n_matches' >= 1) {
-        di as result "Matches found (`n_matches' variables) :"
-        di as text "`matching_vars'"
+        noi di as result "Matches found (`n_matches' variables) :"
+        noi di as text "`matching_vars'"
     }
     else if (`n_matches' == 0) {
-        di as error "No matching variables found"
-        di as result "If this result is unexpected, please check the regular expression provided."
+        noi di as error "No matching variables found"
+        noi di as result "If this result is unexpected, please check the regular expression provided."
     }
-
+}
 end
