@@ -48,7 +48,7 @@ foreach test_var of local test_vars {
 
 * select variables that end in `_unit` for questions 02 and 03
 sel_matches_regex "0[23]_unit$"
-local unit_vars = r(matching_vars)
+local unit_vars = r(varlist)
 local unit_vars : list clean unit_vars
 
 * test
@@ -86,7 +86,7 @@ foreach test_var of local test_vars2 {
 
 * identify variables that do NOT follow the pattern
 sel_matches_regex "s01q0[0-9][a-z]*$", negate
-local not_matching_vars = r(matching_vars)
+local not_matching_vars = r(varlist)
 local not_matching_vars : list clean not_matching_vars
 
 * test

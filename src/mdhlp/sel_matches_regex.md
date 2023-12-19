@@ -71,7 +71,7 @@ sel_matches_regex "s01q0[0-9][a-z]*$", negate
 * preventing variable naming problems, say, in disseminated data
 local pattern_for_data "s01q0[0-9][a-z]*$"
 qui: sel_matches_regex "`pattern_for_data'", negate
-local not_follow = r(matching_vars)
+local not_follow = r(varlist)
 local n_not_follow : list sizeof not_follow
 capture assert n_not_follow == 0
 if _rc != 1 {
