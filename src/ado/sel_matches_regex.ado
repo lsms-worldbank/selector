@@ -17,9 +17,9 @@ qui {
         * check whether variable matches
         if (`=ustrregexm("`var'", `pattern')') {
           * If negate not used add to return_vars
-          if missing("`negate'") local return_vars : list vars | return_vars
+          if missing("`negate'") local return_vars : list return_vars | var
           * If negate was used, remove var from return_vars
-          else local return_vars : list return_vars - vars
+          else local return_vars : list return_vars - var
         }
     }
 
