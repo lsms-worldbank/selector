@@ -18,10 +18,10 @@ However, there is no straight-forward way to specify a list of variables that ma
 
 In particular, this function aims to meet a few needs:
 
-1. [Select variables more precisely](#example-1-select-variables-more-precisely)
-1. [Identify no variables fail to follow a pattern](#example-2-identify-variables-that-do-not-follow-a-pattern)
+1. Select variables more precisely
+1. Identify no variables fail to follow a pattern
 
-See [examples](#examples) below.
+See examples below.
 
 # Options
 
