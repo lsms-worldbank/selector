@@ -27,11 +27,11 @@ qui {
     return local varlist =  "`return_vars'"
 
     * message about outcome
-    local n_matches : list sizeof matching_vars
+    local n_matches : list sizeof return_vars
     return local count_regex_matches =  "`n_matches'"
     if (`n_matches' >= 1) {
         noi di as result "Matches found (`n_matches' variables) :"
-        noi di as text "`matching_vars'"
+        noi di as text "`return_vars'"
     }
     else if (`n_matches' == 0) {
         noi di as error "No matching variables found"
