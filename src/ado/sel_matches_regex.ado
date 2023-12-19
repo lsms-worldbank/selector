@@ -2,7 +2,7 @@ capture program drop sel_matches_regex
 program define sel_matches_regex, rclass
 
 qui {
-    syntax anything (name=pattern), [negate]
+    syntax anything (name=pattern), [NEGate]
 
     d, varlist
     local vars = r(varlist)
