@@ -4,6 +4,8 @@ cap program drop   sel_matches_regex
 qui {
     syntax anything (name=pattern), [NEGate]
 
+    version 14
+
     d, varlist
     local vars = r(varlist)
 
