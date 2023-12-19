@@ -20,7 +20,7 @@ repado , adopath("${test_fldr}/plus-ado") mode(strict)
 cap net uninstall selector
 net install selector, from("${src_fldr}") replace
 
-* output version iof this package
+* output version of this package
 selector
 
 * =============================================================================

@@ -31,7 +31,6 @@ __**neg**ate__ inverts the regex selection. Rather than return matching variable
 __varlist__ restricts the scope of the regex search to the user-provided variable list. By default, `sel_matches_regex` searches for matches in all variables in memory. With __varlist__, the scope of the search can be narrowed. This narrower varlist could come, for example, from other commands in `selector`.
 
 # Examples
-<!-- A couple of examples to help the user get started and a short explanation of each of them. -->
 
 ## Example 1: Select variables more precisely
 
