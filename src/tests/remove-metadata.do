@@ -104,22 +104,17 @@ sel_remove_metadata
 
 * check that errors if try to remove non-existing chars
 capture sel_remove_metadata
-if _rc {
-    di as result "Test passed"
-    di as result "sel_remove_metadata errors if no chars found"
-}
-else {
-    di as error "Test failed"
+if !_rc {
+    di as error "Test failed - Expected rc 0 got rc:"
+    di _rc
     di as result "sel_remove_metadata errors if no chars found"
 }
 
+
 * check that misscharok suppresses error if try to remove non-existing chars
 capture sel_remove_metadata, misscharsok
-if _rc == 0 {
-    di as result "Test passed"
-    di as result "misscharok suppresses error if try to remove non-existing chars"
-}
-else {
-    di as error "Test failed"
+if _rc {
+    di as error "Test failed - Expected rc 99 got rc:"
+    di _rc
     di as result "misscharok suppresses error if try to remove non-existing chars"
 }
