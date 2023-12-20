@@ -104,7 +104,7 @@ sel_remove_metadata
 
 * check that errors if try to remove non-existing chars
 capture sel_remove_metadata
-if `_rc' != 0 {
+if _rc {
     di as result "Test passed"
     di as result "sel_remove_metadata errors if no chars found"
 }
@@ -114,8 +114,8 @@ else {
 }
 
 * check that misscharok suppresses error if try to remove non-existing chars
-capture sel_remove_metadata, misscharok
-if `_rc' == 0 {
+capture sel_remove_metadata, misscharsok
+if _rc == 0 {
     di as result "Test passed"
     di as result "misscharok suppresses error if try to remove non-existing chars"
 }
