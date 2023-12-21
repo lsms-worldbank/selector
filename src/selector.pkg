@@ -20,10 +20,12 @@ d
 d Distribution-Date: 20231206
 d
 *** adofiles
+f ado/sel_vars.ado
 f ado/sel_add_metadata.ado
 f ado/selector.ado
 
 *** helpfiles
+f sthlp/sel_vars.sthlp
 f sthlp/sel_add_metadata.sthlp
 f sthlp/selector.sthlp
 
