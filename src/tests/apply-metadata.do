@@ -3,7 +3,7 @@
     if "`c(username)'" == "wb462869" {
         global clone "C:\Users\wb462869\github\selector"
     }
-    if "`c(username)'" == "wb393438" {
+    else if "`c(username)'" == "wb393438" {
         global clone "C:\Users\wb393438\stata_funs\selector"
     }
 
@@ -23,6 +23,9 @@
     * output version of this package
     selector
     
+    ***********************************
+    * Tests for sel_add_metadata 
+    
     * Load a dataset in 
     use "${data_fldr}\dta/meta_PERSONS.dta", clear
 
@@ -31,3 +34,18 @@
     
     * See output
     char list
+
+    ***********************************
+    * Tests for sel_vars
+    
+    * Simple type match
+    sel_vars , type("NumericQuestion")
+    return list
+    di "`r(varlist)'"
+    
+    * Combine a type match with a custom query
+    local query `""variable_label Uniforms and other school clothing" "'
+    sel_vars `query', type("NumericQuestion")
+    return list
+    di "`r(varlist)'" 
+     
