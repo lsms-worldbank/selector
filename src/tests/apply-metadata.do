@@ -20,7 +20,7 @@
     cap net uninstall selector
     net install selector, from("${src_fldr}") replace
     
-    * output version iof this package
+    * output version of this package
     selector
     
     ***********************************
@@ -29,7 +29,7 @@
     * Load a dataset in 
     use "${data_fldr}\dta/meta_PERSONS.dta", clear
 
-    local metadatafile "${data_fldr}\csv/question_metadata2.csv"
+    local metadatafile "${data_fldr}\csv/question_metadata.dta"
     sel_add_metadata using `metadatafile'
     
     * See output
