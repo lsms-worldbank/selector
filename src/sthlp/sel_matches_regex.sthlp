@@ -11,14 +11,14 @@
 
 {title:Syntax}
 
-{phang}{bf:sel_matches_regex} {it:regex}string{it:, [{bf:{ul:neg}ate}]
+{phang}{bf:sel_matches_regex} {it:regex}string{it:, [{bf:{ul:var}list}(}varlist{it:) {bf:{ul:neg}ate}]
 {p_end}
 
-{synoptset 7}{...}
+{synoptset 16}{...}
 {synopthdr:options}
 {synoptline}
 {synopt: {bf:{ul:neg}ate}}Returns variables **not** matched by regex{p_end}
-{synopt: {bf:varlist}}Sets the scope of the regex search{p_end}
+{synopt: {bf:{ul:var}list}({it:varlist})}Sets the scope of the regex search{p_end}
 {synoptline}
 
 {title:Description}
@@ -44,7 +44,7 @@
 {pstd}{bf:{ul:neg}ate} inverts the regex selection. Rather than return matching variables, this option returns variables that do not match.
 {p_end}
 
-{pstd}{bf:varlist} restricts the scope of the regex search to the user-provided variable list. By default, {inp:sel_matches_regex} searches for matches in all variables in memory. With {bf:varlist}, the scope of the search can be narrowed. This narrower varlist could come, for example, from other commands in {inp:selector}.
+{pstd}{bf:{ul:var}list}({it:varlist}) restricts the scope of the regex search to the user-provided variable list. By default, {inp:sel_matches_regex} searches for matches in all variables in memory. With {bf:varlist}, the scope of the search can be narrowed. This narrower varlist could come, for example, from other commands in {inp:selector}.
 {p_end}
 
 {title:Examples}

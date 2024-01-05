@@ -1,6 +1,6 @@
 # Title
 
-__selector__ - - Package command with utilities for the rest of the package
+__selector__ - Package command with utilities for the rest of the package
 
 # Syntax
 

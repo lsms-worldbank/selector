@@ -11,128 +11,98 @@
 
 {title:Syntax}
 
-{phang}{bf:sel_vars}  {it:query}string{it:, {bf:{ul:t}ype}(}string{it:)
+{phang}{bf:sel_vars} {it:sub-command}, [{bf:{ul:var}list}({it:varlist}) {bf:{ul:neg}ate}]
 {p_end}
 
-{phang}where {it:query}string{it: is a string with custom values to match on.
-More details on this in the Options section below.
+{phang}where {it:sub-command} is one of the sub-commands listed in the {bf:Sub-commands} section below.
 {p_end}
 
-{synoptset 12}{...}
+{synoptset 16}{...}
 {synopthdr:options}
 {synoptline}
-{synopt: {bf:{ul:t}ype}({it:string})}The value to match on for char {inp:type}{p_end}
+{synopt: {bf:{ul:neg}ate}}Returns variables **not** matched{p_end}
+{synopt: {bf:{ul:var}list}({it:varlist})}Specify a subset of current variables to search{p_end}
 {synoptline}
 
 {title:Description}
 
-{pstd}This command is intended to filter variables on values in chars.
-See the Stata helpfile for char for more info on chars.
-This command has options provided for chars that
-the dataset will typically have after
-the command {inp:sel_add_metadata} has been used.
-That command takes meta information from SurveySolutions (SuSo) and
-apply meta data in chars.
-Then this command can be used to filter variable by matching on that meta data.
+{pstd}This command is intended to filter variables on {browse "https://www.stata.com/manuals/pchar.pdf":chars} set up by {inp:sel_add_metadata}. That command takes meta information from Survey Solutions (SuSo) questionnaires and applies meta data in to {inp:chars}.
 {p_end}
 
-{pstd}While some convenience options has been provided for a SuSo workflow,
-this command is by no means limited to data collected by SuSo.
-The {it:query}string{it: allows the user to filter on any value in any custom char
-in any Stata dataset.
+{pstd}This command {inp:sel_vars} provides short-hands for common searches. For example, this command can be used to filter all variables with types such as  {inp:TextQuestion} or {inp:NumericQuestion}. Another example is filter all variables that are time stamps or are dates. See full description of the options below.
 {p_end}
 
-{pstd}The command can at this point not match on multiple values. For example,
-filter all variables with either the value {inp:TextQuestion} or
-{inp:NumericQuestion} in the char {inp:type}.
-However, example TODO below suggest a simple way of accomplishing that
-by running the command twice and then
-get the union of the result in those two runs.
+{pstd}Custom searches not covered by this command can be made by the command {inp:sel_char} also found in this package {inp:selector}.
+{p_end}
+
+{title:Sub-commands}
+
+{pstd}{bf:is_single_select} filters variables that are of type {it:SingleQuestion} and
+  and has no value in the char {inp:linked_to_roster_id}.
+{p_end}
+
+{pstd}{bf:is_numeric} filters variables that are of type {it:NumericQuestion}.
+{p_end}
+
+{pstd}{bf:has_decimals} filters variables that are of type {it:NumericQuestion} and is not an integer.
+{p_end}
+
+{pstd}{bf:is_text} filters variables that are of type {it:NumericQuestion} and do {it:not} have any mask value.
+{p_end}
+
+{pstd}{bf:follows_pattern} filters variables that are of type {it:NumericQuestion} and have any mask value.
+{p_end}
+
+{pstd}{bf:is_list} filters variables that are of type {it:TextListQuestion}.
+{p_end}
+
+{pstd}{bf:is_multi_select} filters variables that are of type {it:MultyOptionsQuestion}.
+{p_end}
+
+{pstd}{bf:is_multi_ordered} filters variables that are of type {it:MultyOptionsQuestion} and has value 1 for {inp:are_answers_ordered}.
+{p_end}
+
+{pstd}{bf:is_multi_yn} filters variables that are of type {it:MultyOptionsQuestion}  and has value 1 for {inp:yes_no_view}.
+{p_end}
+
+{pstd}{bf:is_multi_checkbox} filters variables that are of type {it:MultyOptionsQuestion}  and has value 1 for {inp:yes_no_view}.
+{p_end}
+
+{pstd}{bf:is_date} filters variables that are of type {it:DateTimeQuestion}  and has value 0 for {inp:is_timestamp}.
+{p_end}
+
+{pstd}{bf:is_timestamp} filters variables that are of type {it:DateTimeQuestion}  and has value 1 for {inp:is_timestamp}.
+{p_end}
+
+{pstd}{bf:is_gps} filters variables that are of type {it:GpsCoordinateQuestion}.
+{p_end}
+
+{pstd}{bf:is_variable} filters variables that are of type {it:Variable}.
+{p_end}
+
+{pstd}{bf:is_picture} filters variables that are of type {it:MultimediaQuestion}.
+{p_end}
+
+{pstd}{bf:is_barcode} filters variables that are of type {it:QRBarcodeQuestion}.
 {p_end}
 
 {title:Options}
 
-{pstd}{it:query}string{it: is a string on with pairs of char names and char values.
-Each pair should be enclosed as it{c 39}s own string.
-That string should be on format {inp:{c 34}char value{c 34}} where
- {inp:char} must be a single word
-(as that is a requirement for {inp:chars} in stat)
-but {inp:value} can be any text as long as
-it does not include the character {inp:{c 34}}.
+{pstd}{bf:{ul:neg}ate} inverts the matching. Rather than return variables variables that match the criteria, this option returns variables that do not match.
 {p_end}
 
-{pstd}You can have a single char/value pair or several.
-Regardless of which you must enclose the pair or pairs in a compounded quote.
-For example, if you want to list all variables that has {inp:NumericQuestion} as value in a {inp:char} named {inp:type}, you can do:
-{p_end}
-
-{input}{space 8}sel_vars `" "type NumericQuestion" "'
-{text}
-{pstd}If you want to list all variables that has {inp:NumericQuestion} as value in a {inp:char} named {inp:type} and has {inp:2} as value in a {inp:char} named {inp:num_decimal_places}, you can do:
-{p_end}
-
-{input}{space 8}sel_vars `" "type NumericQuestion" "num_decimal_places 2" "'
-{text}
-{pstd}You may not use the same char name twice.
-So there is no way to do a char being either of two values.
-However, example 3 below shows an simple way of
-accomplishing this running the command twice.
-{p_end}
-
-{pstd}{bf:{ul:t}ype}({it:string}) is used as a short hand
-for the query string {inp:{c 34}type NumericQuestion{c 34}}.
-This shorthand exists as {inp:type} is a common meta info character in SuSo data.
-{p_end}
-
-{title:Stored results}
-
-{pstd}If the command is set to only filter on one char name,
-then the command stores the following results in {inp:r()}:
-{p_end}
-
-{pstd}If two or more char values are used to filter, then for each char, these results are also store in {inp:r()}. These stored results is intended to be helpful when doing a complex filtering and the users do not get the result they expected. Then this information may be useful in debugging purposes:
+{pstd}{bf:{ul:var}list}({it:varlist}) allows the user to specify a subset of the variables in the data set to filter on. The default is that the command filter on all variables in the current data set. With {bf:{ul:var}list}({it:varlist}), the scope of the search can be narrowed. This narrower variable list could come, for example, from other commands in {inp:selector}.
 {p_end}
 
 {title:Examples}
 
 {dlgtab:Example 1}
 
-{pstd}The following two examples are identical and filter variables that has {inp:NumericQuestion} as value in a {inp:char} named {inp:type}:
+{pstd}This example lists all variables that are collected as {inp:NumericQuestion} in SuSo.
 {p_end}
 
-{pstd}Example 1a:
-{input}{space 8}sel_vars `" "type NumericQuestion" "'
-{text}
-{p_end}
-
-{pstd}Example 1b:
-{input}{space 8}sel_vars, type("NumericQuestion")
-{text}
-{p_end}
-
-{dlgtab:Example 2}
-
-{pstd}In this examples, the command lists all variables that has {inp:NumericQuestion} as value in a {inp:char} named {inp:type} and has {inp:my text} as value in a {inp:char} named {inp:mychar}. This way you can combine SuSo chars with your own custom chars.
-{p_end}
-
-{input}{space 8}sel_vars  `" "mychar my text" "', type("NumericQuestion")
-{text}
-{dlgtab:Example 3}
-
-{pstd}If you want to do an either or match you need to run the command twice and then combine the varlists. For example, if you want to filter the variables that  that has either {inp:NumericQuestion} or {inp:TextQuestion} as value in a {inp:char} named {inp:type}, then you can do this:
-{p_end}
-
-{input}{space 8}* First get all variables with value "NumericQuestion"
-{space 8}sel_vars, type("NumericQuestion")
-{space 8}local varlist1 = `r(varlist)''
-{space 8}
-{space 8}* Then get all variable with value "TextQuestion"
-{space 8}sel_vars, type("TextQuestion")
-{space 8}local varlist2 = `r(varlist)'
-{space 8}
-{space 8}* Then combine them into one list. This results in the union of
-{space 8}* varlist1 and varlist2, and do not create duplicates
-{space 8}local varlist : list varlist1 | varlist1
+{input}{space 8}sel_vars is_numeric
+{space 8}return list
 {text}
 {title:Feedback, Bug Reports, and Contributions}
 

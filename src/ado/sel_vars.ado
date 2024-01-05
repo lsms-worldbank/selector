@@ -6,7 +6,7 @@ cap program drop   sel_vars
     version 14
 
     * Update the syntax. This is only a placeholder to make the command run
-    syntax anything, [ varlist(varlist) negate]
+    syntax anything, [ VARlist(varlist) NEGate]
 
     if missing("`anything'") {
       noi di as error "{pstd}You must provide a sub-command.{p_end}"

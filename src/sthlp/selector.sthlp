@@ -6,7 +6,7 @@
 
 {title:Title}
 
-{phang}{bf:selector} - - Package command with utilities for the rest of the package
+{phang}{bf:selector} - Package command with utilities for the rest of the package
 {p_end}
 
 {title:Syntax}

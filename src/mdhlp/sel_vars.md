@@ -4,130 +4,73 @@ __sel_vars__ - This command lists variables by matching char values
 
 # Syntax
 
-__sel_vars__  _query_string_, __**t**ype__(_string_)
+__sel_vars__ _sub-command_, [__**var**list__(_varlist_) __**neg**ate__]
 
-where _query_string_ is a string with custom values to match on.
-More details on this in the Options section below.
+where _sub-command_ is one of the sub-commands listed in the __Sub-commands__ section below.
 
 | _options_ | Description |
 |-----------|-------------|
-| __**t**ype__(_string_)   | The value to match on for char `type`  |
+| __**neg**ate__ | Returns variables **not** matched |
+| __**var**list__(_varlist_) | Specify a subset of current variables to search  |
 
 # Description
 
-This command is intended to filter variables on values in chars.
-See the Stata helpfile for char for more info on chars.
-This command has options provided for chars that
-the dataset will typically have after
-the command `sel_add_metadata` has been used.
-That command takes meta information from Survey Solutions (SuSo) and
-applies meta data in chars.
-Then this command can be used to filter variable by matching on that meta data.
+This command is intended to filter variables on [chars](https://www.stata.com/manuals/pchar.pdf) set up by `sel_add_metadata`. That command takes meta information from Survey Solutions (SuSo) questionnaires and applies meta data in to `chars`.
 
-While some convenience options have been provided for a SuSo workflow,
-this command is by no means limited to data collected by SuSo.
-The _query_string_ allows the user to filter on any value in any custom char
-in any Stata dataset.
+This command `sel_vars` provides short-hands for common searches. For example, this command can be used to filter all variables with types such as  `TextQuestion` or `NumericQuestion`. Another example is filter all variables that are time stamps or are dates. See full description of the options below.
 
-The command can at this point not match on multiple values. For example,
-filter all variables with either the value `TextQuestion` or
-`NumericQuestion` in the char `type`.
-However, example TODO below suggest a simple way of accomplishing that
-by running the command twice and then
-get the union of the result in those two runs.
+Custom searches not covered by this command can be made by the command `sel_char` also found in this package `selector`.
+
+# Sub-commands
+
+__is_single_select__ filters variables that are of type _SingleQuestion_ and
+  and has no value in the char `linked_to_roster_id`.
+
+__is_numeric__ filters variables that are of type _NumericQuestion_.
+
+__has_decimals__ filters variables that are of type _NumericQuestion_ and is not an integer.
+
+__is_text__ filters variables that are of type _NumericQuestion_ and do _not_ have any mask value.
+
+__follows_pattern__ filters variables that are of type _NumericQuestion_ and have any mask value.
+
+__is_list__ filters variables that are of type _TextListQuestion_.
+
+__is_multi_select__ filters variables that are of type _MultyOptionsQuestion_.
+
+__is_multi_ordered__ filters variables that are of type _MultyOptionsQuestion_ and has value 1 for `are_answers_ordered`.
+
+__is_multi_yn__ filters variables that are of type _MultyOptionsQuestion_  and has value 1 for `yes_no_view`.
+
+__is_multi_checkbox__ filters variables that are of type _MultyOptionsQuestion_  and has value 1 for `yes_no_view`.
+
+__is_date__ filters variables that are of type _DateTimeQuestion_  and has value 0 for `is_timestamp`.
+
+__is_timestamp__ filters variables that are of type _DateTimeQuestion_  and has value 1 for `is_timestamp`.
+
+__is_gps__ filters variables that are of type _GpsCoordinateQuestion_.
+
+__is_variable__ filters variables that are of type _Variable_.
+
+__is_picture__ filters variables that are of type _MultimediaQuestion_.
+
+__is_barcode__ filters variables that are of type _QRBarcodeQuestion_.
 
 # Options
 
-_query_string_ is a string on with pairs of char names and char values.
-Each pair should be enclosed as it's own string.
-That string should be on format `"char value"` where
- `char` must be a single word
-(as that is a requirement for `chars` in stat)
-but `value` can be any text as long as
-it does not include the character `"`.
+__**neg**ate__ inverts the matching. Rather than return variables variables that match the criteria, this option returns variables that do not match.
 
-You can have a single char/value pair or several.
-Regardless of which you must enclose the pair or pairs in a compounded quote.
-For example, if you want to list all variables that has `NumericQuestion` as value in a `char` named `type`, you can do:
-
-```
-sel_vars `" "type NumericQuestion" "'
-```
-If you want to list all variables that has `NumericQuestion` as value in a `char` named `type` and has `2` as value in a `char` named `num_decimal_places`, you can do:
-
-```
-sel_vars `" "type NumericQuestion" "num_decimal_places 2" "'
-```
-You may not use the same char name twice.
-So there is no way to do a char being either of two values.
-However, example 3 below shows an simple way of
-accomplishing this running the command twice.
-
-__**t**ype__(_string_) is used as a short hand
-for the query string `"type NumericQuestion"`.
-This shorthand exists as `type` is a common meta info character in SuSo data.
-
-# Stored results
-
-If the command is set to only filter on one char name,
-then the command stores the following results in `r()`:
-
-| _r-macro_ | Description |
-|-----------|-------------|
-| `varlist`   | The list of variables which char values matched the filtering criteria |
-| `match_count`   | The number of variables in `varlist` |
-
-If two or more char values are used to filter, then for each char, these results are also store in `r()`. These stored results is intended to be helpful when doing a complex filtering and the users do not get the result they expected. Then this information may be useful in debugging purposes:
-
-| _r-macro_ | Description |
-|-----------|-------------|
-| `char*`   | The name of the char |
-| `char*_value`   | The char value used to filter on |
-| `has_char*`   | The list of variables that had this char regardless of what value |
-| `has_char*_count`   | The number of variables in `has_char*`  |
-| `match_char*`   | The list of variables that had this char and the value matched `char*_value` |
-| `match_char*_count`   | The number of variables in `match_char*` |
+__**var**list__(_varlist_) allows the user to specify a subset of the variables in the data set to filter on. The default is that the command filter on all variables in the current data set. With __**var**list__(_varlist_), the scope of the search can be narrowed. This narrower variable list could come, for example, from other commands in `selector`.
 
 # Examples
 
 ## Example 1
 
-The following two examples are identical and filter variables that has `NumericQuestion` as value in a `char` named `type`:
-
-Example 1a:
-```
-sel_vars `" "type NumericQuestion" "'
-```
-
-Example 1b:
-```
-sel_vars, type("NumericQuestion")
-```
-
-## Example 2
-
-In this examples, the command lists all variables that has `NumericQuestion` as value in a `char` named `type` and has `my text` as value in a `char` named `mychar`. This way you can combine SuSo chars with your own custom chars.
+This example lists all variables that are collected as `NumericQuestion` in SuSo.
 
 ```
-sel_vars  `" "mychar my text" "', type("NumericQuestion")
-```
-
-## Example 3
-
-If you want to do an either or match you need to run the command twice and then combine the varlists. For example, if you want to filter the variables that  that has either `NumericQuestion` or `TextQuestion` as value in a `char` named `type`, then you can do this:
-
-```
-* First get all variables with value "NumericQuestion"
-sel_vars, type("NumericQuestion")
-local varlist1 = `r(varlist)''
-
-* Then get all variable with value "TextQuestion"
-sel_vars, type("TextQuestion")
-local varlist2 = `r(varlist)'
-
-* Then combine them into one list. This results in the union of
-* varlist1 and varlist2, and do not create duplicates
-local varlist : list varlist1 | varlist1
+sel_vars is_numeric
+return list
 ```
 
 # Feedback, Bug Reports, and Contributions

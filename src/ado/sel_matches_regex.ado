@@ -7,7 +7,7 @@ qui {
 
     version 14
 
-    syntax anything (name=pattern), [NEGate] [varlist(varlist)]
+    syntax anything (name=pattern), [NEGate VARlist(varlist)]
 
 
 
