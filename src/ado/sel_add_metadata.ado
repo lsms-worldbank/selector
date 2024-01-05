@@ -7,7 +7,7 @@ qui {
     version 14
 
     * Syntax is only reading the meta data file
-    syntax [using]
+    syntax using
 
     * Setup lists of system-generated variables
     local id_vars "interview__key interview__id assignment__id"
@@ -78,7 +78,6 @@ end
 * This sub-command generates the meta data for system generated variables
 cap program drop   get_system_var_values
     program define get_system_var_values, rclass
-
 qui {
     syntax, var(string) ///
       is_id_var(numlist) ///
@@ -135,6 +134,7 @@ cap program drop   extract_meta_value
     program define extract_meta_value, rclass
 qui {
     syntax, var(string) cols(string)
+    local success "false"
 
     * Get the number of rows
     qui count
@@ -146,27 +146,28 @@ qui {
         foreach col of local cols {
           return local `col' "`=`col'[`i']'"
         }
-        return local success "true"
-        exit
+        local success "true"
       }
     }
 
-    * Get part before __ and search on that, get the meta data
-    local prefix = substr("`var'",1,strpos("`var'","__")-1)
-    if !missing("`prefix'") {
-      //noi di "{pstd}Second search for `var' with prefix `prefix'.{p_end}"
-      forvalues i = 1/`var_n' {
-        if ("`prefix'" == "`=varname[`i']'") {
-          foreach col of local cols {
-            return local `col' "`=`col'[`i']'"
+    * Skip if meta data already found for this var
+    if ("`success'" != "true") {
+      * Get part before __ and search on that, get the meta data
+      local prefix = substr("`var'",1,strpos("`var'","__")-1)
+      if !missing("`prefix'") {
+        //noi di "{pstd}Second search for `var' with prefix `prefix'.{p_end}"
+        forvalues i = 1/`var_n' {
+          if ("`prefix'" == "`=varname[`i']'") {
+            foreach col of local cols {
+              return local `col' "`=`col'[`i']'"
+            }
+            local success "true"
           }
-          return local success "true"
-          exit
         }
       }
     }
 
     * If code ends up here, then the varname was not found
-    return local success "false"
+    return local success "`success'"
 }
 end
