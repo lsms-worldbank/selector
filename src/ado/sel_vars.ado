@@ -29,7 +29,8 @@ cap program drop   sel_vars
     * Loop over all subcommands
 
     if ("`subcommand'" == "is_single_select" ) {
-      filter_vars , varlist("`varlist'") type("SingleQuestion") linked_to_roster_id
+      filter_vars , varlist("`varlist'") type("SingleQuestion")
+      filter_vars , varlist("`r(varlist)'") linked_to_roster_id negate
     }
     else if ("`subcommand'" == "is_numeric" ) {
       filter_vars , varlist("`varlist'") type("NumericQuestion")
