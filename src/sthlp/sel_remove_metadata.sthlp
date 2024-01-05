@@ -1,5 +1,5 @@
 {smcl}
-{* 01 Jan 1960}{...}
+{* 05 Jan 2024}{...}
 {hline}
 {pstd}help file for {hi:sel_remove_metadata}{p_end}
 {hline}
@@ -44,7 +44,7 @@ removing chars not added by {inp:sel_add_metadata}.
 
 {pstd}{bf:{ul:c}har}({it:string}) allows the user to manually add chars to be removed.
 If the chars to be removed were added by {inp:sel_add_metadata},
-then this option is not required as {inp:sel_remove_metadata} can read what chars  
+then this option is not required as {inp:sel_remove_metadata} can read what chars
 that was added by {inp:sel_add_metadata}. If other custom chars were added by the user or other commands and should also be removed, then this option is required.
 {p_end}
 
