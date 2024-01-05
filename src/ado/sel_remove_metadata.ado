@@ -1,9 +1,9 @@
-*! version XX XXXXXXXXX ADAUTHORNAME ADCONTACTINFO
+*! version 1.0 05JAN2024 LSMS Team World Bank lsms@worldbank.org
 
 cap program drop   sel_remove_metadata
     program define sel_remove_metadata
 
-    version 16
+    version 14
 
     * Update the syntax. This is only a placeholder to make the command run
     syntax , [Chars(string) MISScharsok]

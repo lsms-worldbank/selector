@@ -1,24 +1,27 @@
-*! version XX XXXXXXXXX ADAUTHORNAME ADCONTACTINFO
+*! version 1.0 05JAN2024 LSMS Team World Bank lsms@worldbank.org
 
 cap program drop   sel_add_metadata
     program define sel_add_metadata, rclass
 qui {
-    * Update the syntax. This is only a placeholder to make the command run
+
+    version 14
+
+    * Syntax is only reading the meta data file
     syntax [using]
 
-    * compile lists of system-generated variables
+    * Setup lists of system-generated variables
     local id_vars "interview__key interview__id assignment__id"
     local oth_vars "sssys_irnd has__error interview__status"
 
-    //List all properties to add to char
+    * List all properties to add to char
     local cols "variable_label type"
-
+    * Add the list of chars this command creates so they can be easily removed
     char _dta[selector_chars] "`cols'"
 
     * Store meta data in a frame
-    tempname metadata
+    tempname      metadata
     frame create `metadata'
-    frame `metadata': use `using', clear
+    frame        `metadata': use `using', clear
 
     * Make sure that varname is unique in the frame
     frame `metadata' {
@@ -71,6 +74,8 @@ qui {
 }
 end
 
+
+* This sub-command generates the meta data for system generated variables
 cap program drop   get_system_var_values
     program define get_system_var_values, rclass
 
@@ -125,6 +130,7 @@ qui {
 }
 end
 
+* This sub-command generates the meta data from meta data file in using
 cap program drop   extract_meta_value
     program define extract_meta_value, rclass
 qui {

@@ -1,10 +1,15 @@
+*! version 1.0 05JAN2024 LSMS Team World Bank lsms@worldbank.org
+
 cap program drop   sel_matches_regex
     program define sel_matches_regex, rclass
 
 qui {
-    syntax anything (name=pattern), [NEGate] [varlist(varlist)]
 
     version 14
+
+    syntax anything (name=pattern), [NEGate] [varlist(varlist)]
+
+
 
     d `varlist', varlist
     local vars = r(varlist)

@@ -1,9 +1,9 @@
-*! version XX XXXXXXXXX ADAUTHORNAME ADCONTACTINFO
+*! version 1.0 05JAN2024 LSMS Team World Bank lsms@worldbank.org
 
 cap program drop   selector
     program define selector, rclass
 
-    version 13
+    version 14
 
     * UPDATE THESE LOCALS FOR EACH NEW VERSION PUBLISHED
   	local version "1.0"
