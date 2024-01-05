@@ -14,7 +14,7 @@ qui {
     local oth_vars "sssys_irnd has__error interview__status"
 
     * List all properties to add to char
-    local cols "variable_label type"
+    local cols "type variable_label linked_to_roster_id is_integer mask are_answers_ordered yes_no_view is_timestamp"
     * Add the list of chars this command creates so they can be easily removed
     char _dta[selector_chars] "`cols'"
 
@@ -144,7 +144,9 @@ qui {
     forvalues i = 1/`var_n' {
       if ("`var'" == "`=varname[`i']'") {
         foreach col of local cols {
-          return local `col' "`=`col'[`i']'"
+          if !(missing("`=`col'[`i']'") | "`=`col'[`i']'" == ".") {
+            return local `col' "`=`col'[`i']'"
+          }
         }
         local success "true"
       }
@@ -159,7 +161,9 @@ qui {
         forvalues i = 1/`var_n' {
           if ("`prefix'" == "`=varname[`i']'") {
             foreach col of local cols {
-              return local `col' "`=`col'[`i']'"
+              if !(missing("`=`col'[`i']'") | "`=`col'[`i']'" == ".") {
+                return local `col' "`=`col'[`i']'"
+              }
             }
             local success "true"
           }

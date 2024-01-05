@@ -6,111 +6,91 @@ cap program drop   sel_vars
     version 14
 
     * Update the syntax. This is only a placeholder to make the command run
-    syntax [anything], [Type(string)]
+    syntax anything, [ varlist(varlist) negate]
+
+    if missing("`anything'") {
+      noi di as error "{pstd}You must provide a sub-command.{p_end}"
+      error 198
+      exit
+    }
+    local subcommand = "`anything'"
 
     *****************************************
     * initiate locals
 
-    * Start with a list of all variables in the data set
-    qui ds
-    local h_union = "`r(varlist)'"
-    local varcount : word count `h_union'
-    * The char that has predefined options
-    local charoptions "type"
-    * The chars used either in query string or in options
-    local c_used = ""
-    * List for all vars that match all chars
-    local matched_vars = ""
+    * If no varlist is provided, use all vars in current dataset
+    if missing("`varlist'") {
+      qui ds
+      local varlist = "`r(varlist)'"
+    }
+    local varcount : word count `varlist'
 
     *****************************************
-    * Parse query string
+    * Loop over all subcommands
 
-    * Parse the query string if not missing
-    if !missing(`"`anything'"') {
-
-      * Tokenize the query string
-      tokenize `"`anything'"'
-
-      * Initiate query index and loop until all query pairs
-      * are exhausted
-      local i = 0
-      while (!missing("``++i''")) {
-
-          * Get the first word in pair which is the char
-          local c = trim("`: word 1 of ``i'''")
-          * Get the rest of the pair which is the value
-          local v = trim(subinstr("``i''","`c'","",1))
-
-          * Test if char already specified, if not,
-          * then add to c_used
-          if (`: list posof "`c'" in c_used') {
-            noi di as error "That char is already used"
-            error 198
-            exit
-          }
-          local c_used = "`c_used' `c'"
-
-          * Add this char condition
-          local `c' = "`v'"
-      }
+    if ("`subcommand'" == "is_single_select" ) {
+      filter_vars , varlist("`varlist'") type("SingleQuestion") linked_to_roster_id
+    }
+    else if ("`subcommand'" == "is_numeric" ) {
+      filter_vars , varlist("`varlist'") type("NumericQuestion")
+    }
+    else if ("`subcommand'" == "has_decimals" ) {
+      filter_vars , varlist("`varlist'") type("NumericQuestion") is_integer("0")
+    }
+    else if ("`subcommand'" == "is_text" ) {
+      filter_vars , varlist("`varlist'") type("TextQuestion")
+      filter_vars , varlist("`r(varlist)'") mask negate
+    }
+    else if ("`subcommand'" == "follows_pattern" ) {
+      filter_vars , varlist("`varlist'") type("TextQuestion") mask
+    }
+    else if ("`subcommand'" == "is_list" ) {
+      filter_vars , varlist("`varlist'") type("TextListQuestion")
+    }
+    else if ("`subcommand'" == "is_multi_select" ) {
+      filter_vars , varlist("`varlist'") type("MultyOptionsQuestion")
+    }
+    else if ("`subcommand'" == "is_multi_ordered" ) {
+      filter_vars , varlist("`varlist'") type("MultyOptionsQuestion") are_answers_ordered("1")
+    }
+    else if ("`subcommand'" == "is_multi_yn" ) {
+      filter_vars , varlist("`varlist'") type("MultyOptionsQuestion") yes_no_view("1")
+    }
+    else if ("`subcommand'" == "is_multi_checkbox" ) {
+      filter_vars , varlist("`varlist'") type("MultyOptionsQuestion") yes_no_view("1")
+    }
+    else if ("`subcommand'" == "is_date" ) {
+      filter_vars , varlist("`varlist'") type("DateTimeQuestion") is_timestamp("0")
+    }
+    else if ("`subcommand'" == "is_timestamp" ) {
+      filter_vars , varlist("`varlist'") type("DateTimeQuestion") is_timestamp("1")
+    }
+    else if ("`subcommand'" == "is_gps" ) {
+      filter_vars , varlist("`varlist'") type("GpsCoordinateQuestion")
+    }
+    else if ("`subcommand'" == "is_variable" ) {
+      filter_vars , varlist("`varlist'") type("Variable")
+    }
+    else if ("`subcommand'" == "is_picture" ) {
+      filter_vars , varlist("`varlist'") type("MultimediaQuestion")
+    }
+    else if ("`subcommand'" == "is_barcode" ) {
+      filter_vars , varlist("`varlist'") type("QRBarcodeQuestion")
     }
 
-    *****************************************
-    * Loop over chars in options
-
-    foreach c of local charoptions {
-      if !missing("``c''") {
-        * Test if char already specified, if not,
-        * then add to c_used
-        if (`: list posof "`c'" in c_used') {
-          noi di as error "That char is already used"
-          error 198
-          exit
-        }
-        local c_used = "`c_used' `c'"
-
-        * Add this char condition
-        local `c' = "``c''"
-      }
+    * Incorrect subcommand used
+    else {
+      noi di as error "{pstd}Invalid subcommand [`subcommand']. See helpfile for valid sub-commands.{p_end}"
+      error 99
+      exit
     }
 
-    *****************************************
-    * List vars with these chars
+    * Store returned values from filter_vars in locals
+    local matched_vars "`r(varlist)'"
+    local has_all_count "`r(has_all_count)'"
 
-    * Loop over each required char
-    foreach c of local c_used {
-
-      * Get a list of all vars with this char and initiate a list for matches
-      qui ds, has(char `c')
-      local h`c' `r(varlist)'
-      local m`c' = ""
-
-      * Get the union of the vars that has this chars
-      * and all other still elegible vars
-      local h_union : list h_union & h`c'
-    }
-
-    * Get the count of varaibles that has all the required chars
-    local has_all_count : word count `h_union'
-
-    *****************************************
-    * Test which vars match the chat
-
-    foreach thisvar of local h_union {
-      local match = 1 //Start by assuming match in all chars
-      * Loop over each char
-      foreach c of local c_used {
-        * Test if this variable char value match the value provided
-        if ("`: char `thisvar'[`c']'" == "``c''") {
-          * Add to match list for this char
-          local m`c' : list m`c' | thisvar
-        }
-        * Otherwise stop assuming match
-        else local match = 0
-      }
-      * If still assuming match, then add to final match vars
-      if (`match' == 1) local matched_vars : list matched_vars | thisvar
-    }
+    * Apply negate if used
+    if !missing("`negate'") local matched_vars : list varlist - matched_vars
 
     * Get the count of match vars, and return the count and the full list
     local match_count : word count `matched_vars'
@@ -118,32 +98,65 @@ cap program drop   sel_vars
     return local varlist `matched_vars'
 
     *****************************************
-    * Output results for each char if multiple chars were used
-
-    if (`: word count `c_used'' > 1 ) {
-      noi di as res _n "{pstd}{ul: Results for each char:}{p_end}"
-
-      local i = 0
-      foreach c of local c_used {
-        local i = `++i'
-        local hl`c' : word count `h`c''
-        local ml`c' : word count `m`c''
-
-        return local match_char`i'_count `ml`c''
-        return local match_char`i' `m`c''
-        return local has_char`i'_count `hl`c''
-        return local has_char`i' `h`c''
-        return local char`i'_value "``c''"
-        return local char`i' "`c'"
-
-        noi di as text _n `"{pstd}Out of the `varcount' variables in this data set, `hl`c'' variable(s) have the char {bf:`c'}. Out of those variables, `ml`c'' variable(s) has the value {bf:"``c''"} in that char.{p_end}"'
-      }
-    }
-
-    *****************************************
     * Output results for the final match
 
     noi di as res _n "{pstd}{ul: Results:}{p_end}"
     noi di as text _n `"{pstd}Out of the `varcount' variables in this data set, `has_all_count' variable(s) had the required char(s). Out of those variables, `match_count' variable(s) matched the value for the required char(s).{p_end}"'
+
+end
+
+cap program drop   filter_vars
+    program define filter_vars, rclass
+
+    syntax , varlist(string) [ ///
+      type(string) is_integer(string) ///
+      are_answers_ordered(string) ///
+      yes_no_view(string) is_timestamp(string) ///
+      linked_to_roster_id mask ///
+      negate ///
+    ]
+
+    *Var list to filter on variables with the correct char
+    local fvarlist = "`varlist'"
+
+    * List the chars
+    local value_chars "type is_integer are_answers_ordered yes_no_view is_timestamp"
+    local exist_chars "linked_to_roster_id mask"
+    local chars "`value_chars' `exist_chars'"
+
+    * Get the list of variables that has all the relevant chars
+    foreach char of local chars {
+      if !missing("``char''") {
+        * Keep only the vars in the varlist that has this char
+        qui ds, has(char `char')
+        local this_varlist `r(varlist)'
+        local fvarlist : list fvarlist & this_varlist
+      }
+    }
+
+    * Return number of varaibles that has the relevant chars
+    return local has_all_count : word count `fvarlist'
+
+    * Copy filter varlist to a varlist for matched vars
+    local mvarlist "`fvarlist'"
+
+    foreach thisvar of local fvarlist {
+      local match = 1 //Start by assuming match in all chars
+      * Loop over each char
+
+      foreach char of local value_chars {
+        if !missing("``char''") {
+          if ("`: char `thisvar'[`char']'" != "``char''") {
+            local match = 0
+          }
+        }
+      }
+
+      * If not a match, remove from match list
+      if (`match' == 0) local mvarlist : list mvarlist - thisvar
+    }
+
+    if missing("`negate'") return local varlist "`mvarlist'"
+    else return local varlist : list varlist - mvarlist
 
 end
