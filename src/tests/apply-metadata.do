@@ -54,3 +54,11 @@
     local query `""variable_label Roster ID variable" "'
     sel_char `query'
     return list
+    
+    * Combine a type match with a custom query
+    local query `" "variable_label Has the household paid for [NAME] to have [ITEM] in the past 12 months?" "yes_no_view 1" "'
+    sel_char "variable_label Has the household paid for [NAME] to have [ITEM] in the past 12 months?" "yes_no_view 1"
+    return list
+    
+    
+   sel_remove_metadata

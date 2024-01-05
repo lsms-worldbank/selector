@@ -53,4 +53,5 @@
 # Markdown
 !/**/*.md
 
+* Ignore the local env
 /**/plus-ado/
