@@ -30,13 +30,7 @@ That is the main purpose of this command.
 
 {title:Feedback, Bug Reports, and Contributions}
 
-{pstd}Read more about the commands in this package at https://github.com/lsms-worldbank/selector.
-{p_end}
-
-{pstd}Please provide any feedback by opening an issue at https://github.com/lsms-worldbank/selector/issues.
-{p_end}
-
-{pstd}PRs with suggestions for improvements are also greatly appreciated.
+{pstd}Read more about these commands on {browse "https://github.com/lsms-worldbank/selector":this repo} where this package is developed. Please provide any feedback by {browse "https://github.com/lsms-worldbank/selector/issues":opening an issue}. PRs with suggestions for improvements are also greatly appreciated.
 {p_end}
 
 {title:Authors}

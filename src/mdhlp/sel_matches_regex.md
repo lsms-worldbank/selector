@@ -82,13 +82,9 @@ if _rc != 1 {
 }
 ```
 
-# Feedback, bug reports and contributions
+# Feedback, Bug Reports, and Contributions
 
-Read more about the commands in this package at https://github.com/lsms-worldbank/selector.
-
-Please provide any feedback by opening an issue at https://github.com/lsms-worldbank/selector/issues.
-
-PRs with suggestions for improvements are also greatly appreciated.
+Read more about these commands on [this repo](https://github.com/lsms-worldbank/selector) where this package is developed. Please provide any feedback by [opening an issue](https://github.com/lsms-worldbank/selector/issues). PRs with suggestions for improvements are also greatly appreciated.
 
 # Authors
 
