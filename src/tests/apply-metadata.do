@@ -37,15 +37,20 @@
 
     ***********************************
     * Tests for sel_vars
-    
-    * Simple type match
-    sel_vars , type("NumericQuestion")
+   
+    sel_vars is_numeric
     return list
-    di "`r(varlist)'"
+    
+    sel_vars is_date
+    return list
+    
+    sel_vars is_timestamp
+    return list
+    
+    ***********************************
+    * Tests for sel_char
     
     * Combine a type match with a custom query
-    local query `""variable_label Uniforms and other school clothing" "'
-    sel_vars `query', type("NumericQuestion")
+    local query `""variable_label Roster ID variable" "'
+    sel_char `query'
     return list
-    di "`r(varlist)'" 
-     
