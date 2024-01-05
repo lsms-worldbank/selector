@@ -46,10 +46,10 @@ gen s01q03_unit = .
 gen s01q04_quantity = .
 gen s01q04_unit = .
 
-* select variables that end in `_unit`
+* select variables that end in _unit
 sel_matches_regex "_unit$"
 
-* select variables that end in `_unit` for questions 02 and 03
+* select variables that end in _unit for questions 02 and 03
 sel_matches_regex "0[23]_unit$"
 ```
 
