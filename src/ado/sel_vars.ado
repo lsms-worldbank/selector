@@ -56,7 +56,7 @@ cap program drop   sel_vars
       filter_vars , varlist("`varlist'") type("MultyOptionsQuestion") yes_no_view("1")
     }
     else if ("`subcommand'" == "is_multi_checkbox" ) {
-      filter_vars , varlist("`varlist'") type("MultyOptionsQuestion") yes_no_view("1")
+      filter_vars , varlist("`varlist'") type("MultyOptionsQuestion") yes_no_view("0")
     }
     else if ("`subcommand'" == "is_date" ) {
       filter_vars , varlist("`varlist'") type("DateTimeQuestion")
