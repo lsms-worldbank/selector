@@ -28,29 +28,29 @@ For selections not covered by this command--for example, different question type
 
 # Sub-commands
 
-Each sub-command lists variables linked to particular question types or question attributes 
+Each sub-command lists variables linked to particular question types or question attributes
 in the Survey Solutions' questionnaire used to collect the data.
 
-__is_numeric__. Numeric questions 
-(i.e., where the `Question type` field is set to `Numeric` in Designer) 
+__is_numeric__. Numeric questions
+(i.e., where the `Question type` field is set to `Numeric` in Designer)
 
-__has_decimals__. Numeric questions with any number of decimal places allowed 
-(i.e., where the `Question type` field is set to `Numeric` and 
+__has_decimals__. Numeric questions with any number of decimal places allowed
+(i.e., where the `Question type` field is set to `Numeric` and
 the `Integer` checkbox is not ticked in Designer).
 
-__is_text__. Text question 
+__is_text__. Text question
 (i.e. where the `Question type` field is set to `Text`)
 <!-- TODO: reconsider this decision. Better to select a broader set that subsequent selections can winnow down -->
 Note: questions with a value in the `Pattern` field are excluded.
 
-__follows_pattern__. Text question with a pattern specified 
+__follows_pattern__. Text question with a pattern specified
 (i.e. where the `Question type` field is set to `Text` and the `Pattern` is non-empty).
 
 __is_list__. List question
 (i.e. where the `Question type` field is set to `List`)
 
 __is_single_select__. Single-select questions
-(i.e., where the `Question type` field is set to `Categorical: Single-select` in Designer). 
+(i.e., where the `Question type` field is set to `Categorical: Single-select` in Designer).
 <!-- TODO: reconsider this decision. Better to select a broader set that subsequent selections can winnow down -->
 Note: linked questions are excluded
 
@@ -60,32 +60,31 @@ __is_multi_select__ Multi-select question
 __is_multi_ordered__ Multi-select question with answer order recorded
 (i.e. where the `Question type` field is set to `Categorical: Multi-select` and the `Record answer order` box is ticked).
 
-__is_multi_yn__. Multi-select question where items are selected as yes/no questions 
+__is_multi_yn__. Multi-select question where items are selected as yes/no questions
 (i.e. where the `Question type` field is set to `Categorical: Multi-select` and the `Display mode` field is set to `Yes/No buttons`).
 
-__is_multi_checkbox__. Multi-select question where answers are provided as ticked checkboxes 
+__is_multi_checkbox__. Multi-select question where answers are provided as ticked checkboxes
 (i.e. where the `Question type` field is set to `Categorical: Multi-select` and the `Display mode` field is set to `Checkboxes`).
 
-<!-- TODO: consider 
+<!-- TODO: consider
 - reassigning this sub-command to selection of variables that are dates, regardless of whether they're calendar dates or timestamps
-- retaining this description for a sub-command `is_calendar_date`
- -->
-__is_date__. Date question where the answer is provided as a selection from a calendar 
+- retaining this description for a sub-command is_calendar_date -->
+__is_date__. Date question where the answer is provided as a selection from a calendar
 (i.e. where the `Question type` field is set to `Date` and the `Current timestamp (date & time)` box is not ticked).
 
-__is_timestamp__. Date question where the answer represents a timestamp. 
+__is_timestamp__. Date question where the answer represents a timestamp.
 (i.e. where the `Question type` field is set to `Date` and the `Current timestamp (date & time)` box is ticked).
 
-__is_gps__. GPS question 
+__is_gps__. GPS question
 (i.e. where the `Question type` field is set to `GPS`).
 
-__is_variable__. Variable rather than a question 
+__is_variable__. Variable rather than a question
 (i.e., a variable that Survey Solutions computed rather than a question that interviewer/respondent answered).
 
-__is_picture__. Picture question 
+__is_picture__. Picture question
 (i.e. where the `Question type` field is set to `Picture`).
 
-__is_barcode__. QR/barcode question 
+__is_barcode__. QR/barcode question
 (i.e. where the `Question type` field is set to `Barcode`).
 
 # Options
