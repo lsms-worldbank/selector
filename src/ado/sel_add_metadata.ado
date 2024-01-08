@@ -14,7 +14,7 @@ qui {
     local oth_vars "sssys_irnd has__error interview__status"
 
     * List all properties to add to char
-    local cols "type variable_label linked_to_roster_id is_integer mask are_answers_ordered yes_no_view is_timestamp"
+    local cols "type variable_label linked_to_roster_id linked_to_question_id is_integer mask are_answers_ordered yes_no_view is_timestamp"
     * Add the list of chars this command creates so they can be easily removed
     char _dta[selector_chars] "`cols'"
 
