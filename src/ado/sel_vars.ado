@@ -39,7 +39,6 @@ cap program drop   sel_vars
     }
     else if ("`subcommand'" == "is_text" ) {
       filter_vars , varlist("`varlist'") type("TextQuestion")
-      filter_vars , varlist("`r(varlist)'") mask negate
     }
     else if ("`subcommand'" == "follows_pattern" ) {
       filter_vars , varlist("`varlist'") type("TextQuestion") mask

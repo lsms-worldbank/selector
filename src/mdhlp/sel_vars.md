@@ -39,9 +39,7 @@ __has_decimals__. Numeric questions with any number of decimal places allowed
 the `Integer` checkbox is not ticked in Designer).
 
 __is_text__. Text question 
-(i.e. where the `Question type` field is set to `Text`)
-<!-- TODO: reconsider this decision. Better to select a broader set that subsequent selections can winnow down -->
-Note: questions with a value in the `Pattern` field are excluded.
+(i.e. where the `Question type` field is set to `Text`).
 
 __follows_pattern__. Text question with a pattern specified 
 (i.e. where the `Question type` field is set to `Text` and the `Pattern` is non-empty).
