@@ -20,7 +20,6 @@ For data collected with Survey Solutions, data users can only select variables b
 This command aims to select variables in the data based on the characteristics of their corresponding questions/variables in Designer. This selection is powered by the Designer questionnaire metadata that is attached to the Stata data by the `sel_add_metadata` as [chars](https://www.stata.com/manuals/pchar.pdf).
 
 To make selection simple, this command provides several short-hand selectors for common variable searches. Several selectors target variables linked to particular question types (e.g., text, numeric, or multi-select). Some selectors target question sub-types (e.g., multi-select captured as yes/no, multi-select where answer order is recorded, etc.). And still other selectors target characteristics that span several question types (e.g. is linked).
-<!-- NOTE: this last example doesn't exist yet, but should -->
 
 To make compound selections, this command could be used in a selection pipeline. For example, a user could first select linked questions and then select those among them that are also-multi-select.
 
@@ -61,6 +60,9 @@ __is_multi_yn__. Multi-select question where items are selected as yes/no questi
 
 __is_multi_checkbox__. Multi-select question where answers are provided as ticked checkboxes 
 (i.e. where the `Question type` field is set to `Categorical: Multi-select` and the `Display mode` field is set to `Checkboxes`).
+
+__is_linked__. Single-select or multi-select question whose answers are linked to a roster ID or a (list) question
+(i.e. where the `Source of categories` field is set to `List of question or question from roster group` and the `Bind list question or question from roster group` field is set to a roster or question).
 
 __is_date__. Date question, whether calendar date or timestamp 
 (i.e. where the `Question type` field is set to `Date`).

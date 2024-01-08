@@ -58,6 +58,19 @@ cap program drop   sel_vars
     else if ("`subcommand'" == "is_multi_checkbox" ) {
       filter_vars , varlist("`varlist'") type("MultyOptionsQuestion") yes_no_view("0")
     }
+    else if ("`subcommand'" == "is_linked" ) {
+      * linked to a roster ID
+      filter_vars , varlist("`varlist'") linked_to_roster_id
+      local linked_to_roster "`r(varlist)'"
+      * linked to a (list) question
+      filter_vars , varlist("`varlist'") linked_to_question_id
+      local linked_to_question "`r(varlist)'"
+      * combine both sets of linked questions
+      local linked : list linked_to_roster | linked_to_question
+      * pass through ds in order to have r(varlist) returned by the sub-command
+      * NOTE: r(match_count) won't be right with this kludgy solution
+      qui: ds `linked'
+    }
     else if ("`subcommand'" == "is_date" ) {
       filter_vars , varlist("`varlist'") type("DateTimeQuestion")
     }
@@ -114,7 +127,7 @@ cap program drop   filter_vars
       type(string) is_integer(string) ///
       are_answers_ordered(string) ///
       yes_no_view(string) is_timestamp(string) ///
-      linked_to_roster_id mask ///
+      linked_to_roster_id linked_to_question_id mask ///
       negate ///
     ]
 
@@ -123,7 +136,7 @@ cap program drop   filter_vars
 
     * List the chars
     local value_chars "type is_integer are_answers_ordered yes_no_view is_timestamp"
-    local exist_chars "linked_to_roster_id mask"
+    local exist_chars "linked_to_roster_id linked_to_question_id mask"
     local chars "`value_chars' `exist_chars'"
 
     * Get the list of variables that has all the relevant chars

@@ -40,13 +40,19 @@
    
     sel_vars is_numeric
     return list
+
+    sel_vars follows_pattern
+    return list
     
     sel_vars is_date
     return list
     
     sel_vars is_timestamp
     return list
-    
+
+    sel_vars is_linked
+    return list
+
     ***********************************
     * Tests for sel_char
     
