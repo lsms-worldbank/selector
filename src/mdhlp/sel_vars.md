@@ -51,8 +51,6 @@ __is_list__. List question
 
 __is_single_select__. Single-select questions
 (i.e., where the `Question type` field is set to `Categorical: Single-select` in Designer). 
-<!-- TODO: reconsider this decision. Better to select a broader set that subsequent selections can winnow down -->
-Note: linked questions are excluded
 
 __is_multi_select__ Multi-select question
 (i.e. where the `Question type` field is set to `Categorical: Multi-select`).
