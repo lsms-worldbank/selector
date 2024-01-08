@@ -1,6 +1,6 @@
 # Title
 
-__sel_vars__ - This command lists variables by matching char values
+__sel_vars__ - List variables with matching characteristics in the Survey Solutions' Designer.
 
 # Syntax
 
@@ -10,51 +10,83 @@ where _sub-command_ is one of the sub-commands listed in the __Sub-commands__ se
 
 | _options_ | Description |
 |-----------|-------------|
-| __**neg**ate__ | Returns variables **not** matched |
-| __**var**list__(_varlist_) | Specify a subset of current variables to search  |
+| __**neg**ate__ | Returns variables **not** matched by the sub-command |
+| __**var**list__(_varlist_) | Specify a subset of the current variables to search  |
 
 # Description
 
-This command is intended to filter variables on [chars](https://www.stata.com/manuals/pchar.pdf) set up by `sel_add_metadata`. That command takes meta information from Survey Solutions (SuSo) questionnaires and applies meta data in to `chars`.
+For data collected with Survey Solutions, data users can only select variables based on variable names.
 
-This command `sel_vars` provides short-hands for common searches. For example, this command can be used to filter all variables with types such as  `TextQuestion` or `NumericQuestion`. Another example is filter all variables that are time stamps or are dates. See full description of the options below.
+This command aims to select variables in the data based on the characteristics of their corresponding questions/variables in Designer. This selection is powered by the Designer questionnaire metadata that is attached to the Stata data by the `sel_add_metadata` as [chars](https://www.stata.com/manuals/pchar.pdf).
 
-Custom searches not covered by this command can be made by the command `sel_char` also found in this package `selector`.
+To make selection simple, this command provides several short-hand selectors for common variable searches. Several selectors target variables linked to particular question types (e.g., text, numeric, or multi-select). Some selectors target question sub-types (e.g., multi-select captured as yes/no, multi-select where answer order is recorded, etc.). And still other selectors target characteristics that span several question types (e.g. is linked).
+<!-- NOTE: this last example doesn't exist yet, but should -->
+
+To make compound selections, this command could be used in a selection pipeline. For example, a user could first select linked questions and then select those among them that are also-multi-select.
+
+For selections not covered by this command--for example, different question types, non-SuSo chars, etc.--see the `sel_char` command also found in the `selector` package.
 
 # Sub-commands
 
-__is_single_select__ filters variables that are of type _SingleQuestion_ and
-  and has no value in the char `linked_to_roster_id`.
+Each sub-command lists variables linked to particular question types or question attributes 
+in the Survey Solutions' questionnaire used to collect the data.
 
-__is_numeric__ filters variables that are of type _NumericQuestion_.
+__is_numeric__. Numeric questions 
+(i.e., where the `Question type` field is set to `Numeric` in Designer) 
 
-__has_decimals__ filters variables that are of type _NumericQuestion_ and is not an integer.
+__has_decimals__. Numeric questions with any number of decimal places allowed 
+(i.e., where the `Question type` field is set to `Numeric` and 
+the `Integer` checkbox is not ticked in Designer).
 
-__is_text__ filters variables that are of type _NumericQuestion_ and do _not_ have any mask value.
+__is_text__. Text question 
+(i.e. where the `Question type` field is set to `Text`)
+<!-- TODO: reconsider this decision. Better to select a broader set that subsequent selections can winnow down -->
+Note: questions with a value in the `Pattern` field are excluded.
 
-__follows_pattern__ filters variables that are of type _NumericQuestion_ and have any mask value.
+__follows_pattern__. Text question with a pattern specified 
+(i.e. where the `Question type` field is set to `Text` and the `Pattern` is non-empty).
 
-__is_list__ filters variables that are of type _TextListQuestion_.
+__is_list__. List question
+(i.e. where the `Question type` field is set to `List`)
 
-__is_multi_select__ filters variables that are of type _MultyOptionsQuestion_.
+__is_single_select__. Single-select questions
+(i.e., where the `Question type` field is set to `Categorical: Single-select` in Designer). 
+<!-- TODO: reconsider this decision. Better to select a broader set that subsequent selections can winnow down -->
+Note: linked questions are excluded
 
-__is_multi_ordered__ filters variables that are of type _MultyOptionsQuestion_ and has value 1 for `are_answers_ordered`.
+__is_multi_select__ Multi-select question
+(i.e. where the `Question type` field is set to `Categorical: Multi-select`).
 
-__is_multi_yn__ filters variables that are of type _MultyOptionsQuestion_  and has value 1 for `yes_no_view`.
+__is_multi_ordered__ Multi-select question with answer order recorded
+(i.e. where the `Question type` field is set to `Categorical: Multi-select` and the `Record answer order` box is ticked).
 
-__is_multi_checkbox__ filters variables that are of type _MultyOptionsQuestion_  and has value 1 for `yes_no_view`.
+__is_multi_yn__. Multi-select question where items are selected as yes/no questions 
+(i.e. where the `Question type` field is set to `Categorical: Multi-select` and the `Display mode` field is set to `Yes/No buttons`).
 
-__is_date__ filters variables that are of type _DateTimeQuestion_  and has value 0 for `is_timestamp`.
+__is_multi_checkbox__. Multi-select question where answers are provided as ticked checkboxes 
+(i.e. where the `Question type` field is set to `Categorical: Multi-select` and the `Display mode` field is set to `Checkboxes`).
 
-__is_timestamp__ filters variables that are of type _DateTimeQuestion_  and has value 1 for `is_timestamp`.
+<!-- TODO: consider 
+- reassigning this sub-command to selection of variables that are dates, regardless of whether they're calendar dates or timestamps
+- retaining this description for a sub-command `is_calendar_date`
+ -->
+__is_date__. Date question where the answer is provided as a selection from a calendar 
+(i.e. where the `Question type` field is set to `Date` and the `Current timestamp (date & time)` box is not ticked).
 
-__is_gps__ filters variables that are of type _GpsCoordinateQuestion_.
+__is_timestamp__. Date question where the answer represents a timestamp. 
+(i.e. where the `Question type` field is set to `Date` and the `Current timestamp (date & time)` box is ticked).
 
-__is_variable__ filters variables that are of type _Variable_.
+__is_gps__. GPS question 
+(i.e. where the `Question type` field is set to `GPS`).
 
-__is_picture__ filters variables that are of type _MultimediaQuestion_.
+__is_variable__. Variable rather than a question 
+(i.e., a variable that Survey Solutions computed rather than a question that interviewer/respondent answered).
 
-__is_barcode__ filters variables that are of type _QRBarcodeQuestion_.
+__is_picture__. Picture question 
+(i.e. where the `Question type` field is set to `Picture`).
+
+__is_barcode__. QR/barcode question 
+(i.e. where the `Question type` field is set to `Barcode`).
 
 # Options
 
@@ -66,7 +98,7 @@ __**var**list__(_varlist_) allows the user to specify a subset of the variables 
 
 ## Example 1
 
-This example lists all variables that are collected as `NumericQuestion` in SuSo.
+This example lists all variables linked to numeric question in SuSo Designer:
 
 ```
 sel_vars is_numeric
