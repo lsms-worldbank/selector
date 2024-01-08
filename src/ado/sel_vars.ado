@@ -59,6 +59,9 @@ cap program drop   sel_vars
       filter_vars , varlist("`varlist'") type("MultyOptionsQuestion") yes_no_view("1")
     }
     else if ("`subcommand'" == "is_date" ) {
+      filter_vars , varlist("`varlist'") type("DateTimeQuestion")
+    }
+    else if ("`subcommand'" == "is_calendar_date" ) {
       filter_vars , varlist("`varlist'") type("DateTimeQuestion") is_timestamp("0")
     }
     else if ("`subcommand'" == "is_timestamp" ) {

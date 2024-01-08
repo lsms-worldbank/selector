@@ -62,11 +62,10 @@ __is_multi_yn__. Multi-select question where items are selected as yes/no questi
 __is_multi_checkbox__. Multi-select question where answers are provided as ticked checkboxes 
 (i.e. where the `Question type` field is set to `Categorical: Multi-select` and the `Display mode` field is set to `Checkboxes`).
 
-<!-- TODO: consider 
-- reassigning this sub-command to selection of variables that are dates, regardless of whether they're calendar dates or timestamps
-- retaining this description for a sub-command `is_calendar_date`
- -->
-__is_date__. Date question where the answer is provided as a selection from a calendar 
+__is_date__. Date question, whether calendar date or timestamp 
+(i.e. where the `Question type` field is set to `Date`).
+
+__is_calendar_date__. Date question where the answer is provided as a selection from a calendar 
 (i.e. where the `Question type` field is set to `Date` and the `Current timestamp (date & time)` box is not ticked).
 
 __is_timestamp__. Date question where the answer represents a timestamp. 
