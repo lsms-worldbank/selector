@@ -66,10 +66,7 @@ cap program drop   sel_vars
       filter_vars , varlist("`varlist'") linked_to_question_id
       local linked_to_question "`r(varlist)'"
       * combine both sets of linked questions
-      local linked : list linked_to_roster | linked_to_question
-      * pass through ds in order to have r(varlist) returned by the sub-command
-      * NOTE: r(match_count) won't be right with this kludgy solution
-      qui: ds `linked'
+      combine_varlists, union(`linked_to_roster' `linked_to_question')
     }
     else if ("`subcommand'" == "is_date" ) {
       filter_vars , varlist("`varlist'") type("DateTimeQuestion")
@@ -174,4 +171,18 @@ cap program drop   filter_vars
     if missing("`negate'") return local varlist "`mvarlist'"
     else return local varlist : list varlist - mvarlist
 
+end
+
+cap program drop   combine_varlists
+    program define combine_varlists, rclass
+
+    syntax, union(varlist) [remove(varlist)]
+
+    * Allows multiple varlists to be combined to one
+    local varlist : list uniq union
+    * Allows to remove specific variables
+    local varlist : list varlist - remove
+
+    * Return on the format r(varlist)
+    return local varlist "`varlist'"
 end
