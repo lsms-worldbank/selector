@@ -19,52 +19,34 @@
 
     cap net uninstall selector
     net install selector, from("${src_fldr}") replace
-    
+
     * output version of this package
     selector
-    
+
     ***********************************
-    * Tests for sel_add_metadata 
-    
-    * Load a dataset in 
+    * Tests for sel_add_metadata
+
+    * Load a dataset in
     use "${data_fldr}\dta/meta_PERSONS.dta", clear
 
     local metadatafile "${data_fldr}\csv/question_metadata.dta"
     sel_add_metadata using `metadatafile'
-    
+
     * See output
     char list
 
-    ***********************************
-    * Tests for sel_vars
-   
-    sel_vars is_numeric
-    return list
+    * Test some random variables
+    assert "`: char n4100[is_timestamp]'"       == "0"
+    assert "`: char n4100[variable_label]'"     == "IS [NAME] AVAILABLE TO BE INTERVIEWED?"
+    assert "`: char n4100[type]'"               == "SingleQuestion"
 
-    sel_vars follows_pattern
-    return list
-    
-    sel_vars is_date
-    return list
-    
-    sel_vars is_timestamp
-    return list
+    assert "`: char v560b__17[is_timestamp]'"   == "0"
+    assert "`: char v560b__17[variable_label]'" == "PLEASE WRITE DOWN ANY OTHER FOODS THAT [NAME] ATE"
+    assert "`: char v560b__17[type]'"           == "TextListQuestion"
 
-    sel_vars is_linked
-    return list
+    assert "`: char SleepHour[type]'"           == "Variable"
 
-    ***********************************
-    * Tests for sel_char
-    
-    * Combine a type match with a custom query
-    local query `""variable_label Roster ID variable" "'
-    sel_char `query'
-    return list
-    
-    * Combine a type match with a custom query
-    local query `" "variable_label Has the household paid for [NAME] to have [ITEM] in the past 12 months?" "yes_no_view 1" "'
-    sel_char "variable_label Has the household paid for [NAME] to have [ITEM] in the past 12 months?" "yes_no_view 1"
-    return list
-    
-    
-   sel_remove_metadata
+    assert "`: char v518_1[is_timestamp]'"      == "0"
+    assert "`: char v518_1[is_integer]'"        == "0"
+    assert "`: char v518_1[variable_label]'"    == "V518_1. WEIGHT OF [NAME] IN KILOGRAMS"
+    assert "`: char v518_1[type]'"              == "NumericQuestion"
