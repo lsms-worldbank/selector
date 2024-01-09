@@ -30,8 +30,6 @@ cap program drop   sel_vars
 
     if ("`subcommand'" == "is_single_select" ) {
       filter_vars , varlist("`varlist'") type("SingleQuestion")
-      filter_vars , varlist("`r(varlist)'") linked_to_roster_id negate
-      filter_vars , varlist("`r(varlist)'") linked_to_question_id negate
     }
     else if ("`subcommand'" == "is_numeric" ) {
       filter_vars , varlist("`varlist'") type("NumericQuestion")
@@ -41,7 +39,6 @@ cap program drop   sel_vars
     }
     else if ("`subcommand'" == "is_text" ) {
       filter_vars , varlist("`varlist'") type("TextQuestion")
-      filter_vars , varlist("`r(varlist)'") mask negate
     }
     else if ("`subcommand'" == "follows_pattern" ) {
       filter_vars , varlist("`varlist'") type("TextQuestion") mask
@@ -61,7 +58,20 @@ cap program drop   sel_vars
     else if ("`subcommand'" == "is_multi_checkbox" ) {
       filter_vars , varlist("`varlist'") type("MultyOptionsQuestion") yes_no_view("0")
     }
+    else if ("`subcommand'" == "is_linked" ) {
+      * linked to a roster ID
+      filter_vars , varlist("`varlist'") linked_to_roster_id
+      local linked_to_roster "`r(varlist)'"
+      * linked to a (list) question
+      filter_vars , varlist("`varlist'") linked_to_question_id
+      local linked_to_question "`r(varlist)'"
+      * combine both sets of linked questions
+      combine_varlists, union(`linked_to_roster' `linked_to_question')
+    }
     else if ("`subcommand'" == "is_date" ) {
+      filter_vars , varlist("`varlist'") type("DateTimeQuestion")
+    }
+    else if ("`subcommand'" == "is_calendar_date" ) {
       filter_vars , varlist("`varlist'") type("DateTimeQuestion") is_timestamp("0")
     }
     else if ("`subcommand'" == "is_timestamp" ) {
@@ -114,7 +124,7 @@ cap program drop   filter_vars
       type(string) is_integer(string) ///
       are_answers_ordered(string) ///
       yes_no_view(string) is_timestamp(string) ///
-      linked_to_roster_id mask ///
+      linked_to_roster_id linked_to_question_id mask ///
       negate ///
     ]
 
@@ -123,7 +133,7 @@ cap program drop   filter_vars
 
     * List the chars
     local value_chars "type is_integer are_answers_ordered yes_no_view is_timestamp"
-    local exist_chars "linked_to_roster_id mask"
+    local exist_chars "linked_to_roster_id linked_to_question_id mask"
     local chars "`value_chars' `exist_chars'"
 
     * Get the list of variables that has all the relevant chars
@@ -161,4 +171,18 @@ cap program drop   filter_vars
     if missing("`negate'") return local varlist "`mvarlist'"
     else return local varlist : list varlist - mvarlist
 
+end
+
+cap program drop   combine_varlists
+    program define combine_varlists, rclass
+
+    syntax, union(varlist) [remove(varlist)]
+
+    * Allows multiple varlists to be combined to one
+    local varlist : list uniq union
+    * Allows to remove specific variables
+    local varlist : list varlist - remove
+
+    * Return on the format r(varlist)
+    return local varlist "`varlist'"
 end
