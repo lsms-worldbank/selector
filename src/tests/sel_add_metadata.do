@@ -54,4 +54,4 @@
     * Recreate and save the labelled data set
     use "${data_fldr}/raw/dataset.dta", clear
     sel_add_metadata using "${data_fldr}/raw/metadata.dta"
-    save "${data_fldr}/labeled/lbl_dataset.dta"
+    save "${data_fldr}/labeled/lbl_dataset.dta", replace

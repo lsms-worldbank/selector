@@ -22,26 +22,30 @@
     
     * output version of this package
     selector
-    
+    confirm number `r(version)'
+    assert  !missing("`r(version)'")
+    assert  !missing("`r(versiondate)'")
+    assert  strlen("`r(versiondate)'") == 9
+
     ********************************
     * Test each command
     
     * Test sel_add_metadata command
     clear
-    do "${test_fldr}/sel_add_metadata.do"
+    qui do "${test_fldr}/sel_add_metadata.do"
     
     * Test sel_vars command
     clear
-    do "${test_fldr}/sel_vars.do"
+    qui do "${test_fldr}/sel_vars.do"
     
     * Test sel_matches_regex command
     clear
-    do "${test_fldr}/sel_matches_regex.do"
+    qui do "${test_fldr}/sel_matches_regex.do"
     
     * Test sel_char command
     clear
-    do "${test_fldr}/sel_char.do"
+    qui do "${test_fldr}/sel_char.do"
     
     * Test sel_remove_metadata command
     clear
-    do "${test_fldr}/sel_remove_metadata.do"
+    qui do "${test_fldr}/sel_remove_metadata.do"
