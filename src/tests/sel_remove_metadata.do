@@ -32,12 +32,8 @@ selector
 * Setup
 * ------------------------------------------------------------------------------
 
-* Load a dataset in 
-use "${data_fldr}\dta/meta_PERSONS.dta", clear
-
-* add metadata
-local metadatafile "${data_fldr}\csv/question_metadata.dta"
-sel_add_metadata using `metadatafile'
+* Set up the test data to test on
+use "${data_fldr}/labeled/lbl_dataset.dta", clear
 
 * ------------------------------------------------------------------------------
 * Test
@@ -61,12 +57,8 @@ clear
 * Setup
 * ------------------------------------------------------------------------------
 
-* Load a dataset in 
-use "${data_fldr}\dta/meta_PERSONS.dta", clear
-
-* add metadata
-local metadatafile "${data_fldr}\csv/question_metadata.dta"
-sel_add_metadata using `metadatafile'
+* Set up the test data to test on
+use "${data_fldr}/labeled/lbl_dataset.dta", clear
 
 * ------------------------------------------------------------------------------
 * Test
@@ -88,12 +80,8 @@ clear
 * Setup
 * ------------------------------------------------------------------------------
 
-* Load a dataset in 
-use "${data_fldr}\dta/meta_PERSONS.dta", clear
-
-* add metadata
-local metadatafile "${data_fldr}\csv/question_metadata.dta"
-sel_add_metadata using `metadatafile'
+* Set up the test data to test on
+use "${data_fldr}/labeled/lbl_dataset.dta", clear
 
 * ------------------------------------------------------------------------------
 * Test

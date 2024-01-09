@@ -27,10 +27,8 @@
     * Tests for sel_add_metadata
 
     * Load a dataset in
-    use "${data_fldr}\dta/meta_PERSONS.dta", clear
-
-    local metadatafile "${data_fldr}\csv/question_metadata.dta"
-    sel_add_metadata using `metadatafile'
+    use "${data_fldr}/raw/dataset.dta", clear
+    sel_add_metadata using "${data_fldr}/raw/metadata.dta"
 
     * See output
     char list
@@ -50,3 +48,10 @@
     assert "`: char v518_1[is_integer]'"        == "0"
     assert "`: char v518_1[variable_label]'"    == "V518_1. WEIGHT OF [NAME] IN KILOGRAMS"
     assert "`: char v518_1[type]'"              == "NumericQuestion"
+
+
+
+    * Recreate and save the labelled data set
+    use "${data_fldr}/raw/dataset.dta", clear
+    sel_add_metadata using "${data_fldr}/raw/metadata.dta"
+    save "${data_fldr}/labeled/lbl_dataset.dta"

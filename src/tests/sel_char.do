@@ -24,9 +24,7 @@ net install selector, from("${src_fldr}") replace
 * output version of this package
 selector
 * Set up the test data to test on
-use "${data_fldr}\dta/meta_PERSONS.dta", clear
-sel_add_metadata using "${data_fldr}\csv/question_metadata.dta"
-
+use "${data_fldr}/labeled/lbl_dataset.dta", clear
 
 ***********************************
 * Tests for sel_char
