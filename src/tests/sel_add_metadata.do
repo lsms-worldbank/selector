@@ -48,10 +48,3 @@
     assert "`: char v518_1[is_integer]'"        == "0"
     assert "`: char v518_1[variable_label]'"    == "V518_1. WEIGHT OF [NAME] IN KILOGRAMS"
     assert "`: char v518_1[type]'"              == "NumericQuestion"
-
-
-
-    * Recreate and save the labelled data set
-    use "${data_fldr}/raw/dataset.dta", clear
-    sel_add_metadata using "${data_fldr}/raw/metadata.dta"
-    save "${data_fldr}/labeled/lbl_dataset.dta", replace

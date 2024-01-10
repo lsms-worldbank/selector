@@ -1,4 +1,4 @@
-    
+
     * Kristoffer's root path
     if "`c(username)'" == "wb462869" {
         global clone "C:\Users\wb462869\github\selector"
@@ -11,7 +11,7 @@
     global src_fldr  "${clone}/src"
     global test_fldr "${src_fldr}/tests"
     global data_fldr "${test_fldr}/testdata"
-    
+
     * Install the version of this package in
     * the plus-ado folder in the test folder
     cap mkdir "${test_fldr}/plus-ado"
@@ -19,7 +19,7 @@
 
     cap net uninstall selector
     net install selector, from("${src_fldr}") replace
-    
+
     * output version of this package
     selector
     confirm number `r(version)'
@@ -29,23 +29,32 @@
 
     ********************************
     * Test each command
-    
+
     * Test sel_add_metadata command
     clear
     qui do "${test_fldr}/sel_add_metadata.do"
-    
+
+    ****************************************************************
+    * The remaining test files needs this file to be set up
+
+    * Recreate and save the labelled data set
+    use "${data_fldr}/raw/dataset.dta", clear
+    sel_add_metadata using "${data_fldr}/raw/metadata.dta"
+    cap mkdir "${data_fldr}/labeled
+    save "${data_fldr}/labeled/lbl_dataset.dta", replace
+
     * Test sel_vars command
     clear
     qui do "${test_fldr}/sel_vars.do"
-    
+
     * Test sel_matches_regex command
     clear
     qui do "${test_fldr}/sel_matches_regex.do"
-    
+
     * Test sel_char command
     clear
     qui do "${test_fldr}/sel_char.do"
-    
+
     * Test sel_remove_metadata command
     clear
     qui do "${test_fldr}/sel_remove_metadata.do"
