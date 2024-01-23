@@ -15,8 +15,8 @@
 
   * Install the version of this package in
   * the plus-ado folder in the test folder
-  cap mkdir "${test_fldr}/plus-ado"
-  repado , adopath("${test_fldr}/plus-ado") mode(strict)
+  cap mkdir    "${test_fldr}/dev-env"
+  repado using "${test_fldr}/dev-env"
 
   cap net uninstall selector
   net install selector, from("${src_fldr}") replace
@@ -30,25 +30,25 @@
 
   * Set up the test data to test on
   use "${data_fldr}/labeled/lbl_dataset.dta", clear
-  
+
   * Add custom char
   char age[test] "test"
 
   * remove metadata
   sel_remove_metadata
-  
+
   * Rest removal dataset char
   assert missing("`: char _dta[selector_chars]'")
-  
+
   * Test some random variables
   assert missing("`: char n4100[is_timestamp]'")
   assert missing("`: char SleepHour[type]'")
   assert missing("`: char v518_1[is_integer]'")
   assert missing("`: char v560b__17[variable_label]'")
-  
+
   * Make sure custom char is still there
   assert "`: char age[test]'" == "test"
-    
+
 
   * ============================================================================
   * Test that removes specified char(s)
@@ -56,24 +56,24 @@
 
   * Set up the test data to test on
   use "${data_fldr}/labeled/lbl_dataset.dta", clear
-  
+
   * Add custom char
   char age[test] "test"
 
   sel_remove_metadata, char("test")
-  
+
   * Rest removal dataset char
   assert missing("`: char _dta[selector_chars]'")
-  
+
   * Test some random variables
   assert missing("`: char n4100[is_timestamp]'")
   assert missing("`: char SleepHour[type]'")
   assert missing("`: char v518_1[is_integer]'")
   assert missing("`: char v560b__17[variable_label]'")
-  
-  * Make sure custom char is now removed 
+
+  * Make sure custom char is now removed
   assert missing("`: char age[test]'")
-  
+
 
   * ============================================================================
   * Test that misscharok works
@@ -92,13 +92,12 @@
 
   * remove all SuSo chars
   sel_remove_metadata
-  
+
   * check that errors if try to remove non-existing chars
   capture sel_remove_metadata
   * Make sure error is thrown if sel_remove_metadata is used without char()
   * when the selector chars are already removed
-  assert _rc == 99 
+  assert _rc == 99
 
   * check that misscharok suppresses error if try to remove non-existing chars
   sel_remove_metadata, misscharsok
-  

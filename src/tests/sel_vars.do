@@ -14,8 +14,8 @@
 
   * Install the version of this package in
   * the plus-ado folder in the test folder
-  cap mkdir "${test_fldr}/plus-ado"
-  repado , adopath("${test_fldr}/plus-ado") mode(strict)
+  cap mkdir    "${test_fldr}/dev-env"
+  repado using "${test_fldr}/dev-env"
 
   cap net uninstall selector
   net install selector, from("${src_fldr}") replace
@@ -77,9 +77,8 @@
   sel_vars is_variable
   assert "`r(varlist)'" == "age v107 v108 w_mob v404 v503 v503a Calculated_Age_year Calculated_Age_BD_year age_n Calculated_Age_BD year_of_birth month_of_birth year_of_int month_of_int day_of_int v510a v510b v510 v511a v511b v511 v512 v513 v519 v561 em_mob v6104 n_plotwcrop_0 n_unitwsize_0 n_cond_0 auto_totqty_0 tot_qty_0 tot_unit_code_0 tot_unit_str_0 tot_size_code_0 after_sales_qty_0 sales_text_0 n_plotwcrop_1 n_unitwsize_1 n_cond_1 auto_totqty_1 tot_qty_1 tot_cond_1 tot_unit_code_1 tot_unit_str_1 after_sales_qty_1 sales_text_1 w_bmi1 w_bmi2 v4_n11_weight_diff12 v4_n12_height_diff12 w_bmi3 v4_n7_weight_diff13 v4_n8_weight_diff23 v4_n9_height_diff13 v4_n10_height_diff23 w_weight w_height w_bmi age_months additional_months sexboo weight_diff12 height_diff12 weight_diff13 weight_diff23 height_diff13 height_diff23 weight height hfa wfa wfh WakeHour WakeQ SleepHour SleepQ educ_exp"
 
-  sel_vars is_picture 
+  sel_vars is_picture
   assert "`r(varlist)'" == "nutrition_femme nutrition_enfant"
 
   sel_vars is_barcode
   assert "`r(varlist)'" == ""
-    

@@ -14,8 +14,8 @@
 
   * Install the version of this package in
   * the plus-ado folder in the test folder
-  cap mkdir "${test_fldr}/plus-ado"
-  repado , adopath("${test_fldr}/plus-ado") mode(strict)
+  cap mkdir    "${test_fldr}/dev-env"
+  repado using "${test_fldr}/dev-env"
 
   cap net uninstall selector
   net install selector, from("${src_fldr}") replace
@@ -37,14 +37,14 @@
   * Combine a type match with a custom query
   local query `" "variable_label Has the household paid for [NAME] to have [ITEM] in the past 12 months?" "yes_no_view 1" "'
   sel_char "variable_label Has the household paid for [NAME] to have [ITEM] in the past 12 months?" "yes_no_view 1"
-  
+
   assert "`r(varlist)'" == "v213n__1 v213n__2 v213n__3"
   assert "`r(match_count)'" == "3"
-  
+
   assert "`r(char1)'" == "variable_label"
   assert "`r(has_char1_count)'" == "278"
   assert "`r(char1_value)'" == "Has the household paid for [NAME] to have [ITEM] in the past 12 months?"
-  
+
   assert "`r(char2)'" == "yes_no_view"
   assert "`r(has_char2_count)'" == "58"
   assert "`r(char2_value)'" == "1"

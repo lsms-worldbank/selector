@@ -14,8 +14,8 @@ global data_fldr "${test_fldr}/testdata"
 
 * Install the version of this package in
 * the plus-ado folder in the test folder
-cap mkdir "${test_fldr}/plus-ado"
-repado , adopath("${test_fldr}/plus-ado") mode(strict)
+cap mkdir    "${test_fldr}/dev-env"
+repado using "${test_fldr}/dev-env"
 
 cap net uninstall selector
 net install selector, from("${src_fldr}") replace
@@ -62,7 +62,7 @@ else {
 }
 
 * tear-down
-drop `test_vars' 
+drop `test_vars'
 
 * =============================================================================
 * Selects complement of selection
