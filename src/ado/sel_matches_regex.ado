@@ -9,8 +9,6 @@ qui {
 
     syntax anything (name=pattern), [NEGate VARlist(varlist)]
 
-
-
     d `varlist', varlist
     local vars = r(varlist)
 

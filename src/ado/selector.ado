@@ -3,6 +3,8 @@
 cap program drop   selector
     program define selector, rclass
 
+qui {
+
     version 14
 
     * UPDATE THESE LOCALS FOR EACH NEW VERSION PUBLISHED
@@ -24,4 +26,6 @@ cap program drop   selector
       local col2 = max(strlen("`vtitle'"),strlen("`btitle'"))
       noi di as text _col(4) "`vtitle'" _col(`col2')"`version'"
       noi di as text _col(4) "`btitle'" _col(`col2')"`versionDate'"
+
+}
 end

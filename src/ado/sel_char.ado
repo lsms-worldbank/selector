@@ -3,6 +3,8 @@
 cap program drop   sel_char
     program define sel_char, rclass
 
+qui {
+
     version 14
 
     * Update the syntax. This is only a placeholder to make the command run
@@ -132,4 +134,5 @@ cap program drop   sel_char
     noi di as res _n "{pstd}{ul: Results:}{p_end}"
     noi di as text _n `"{pstd}Out of the `varcount' variables in this data set, `has_all_count' variable(s) had the required char(s). Out of those variables, `match_count' variable(s) matched the value for the required char(s).{p_end}"'
 
+}
 end

@@ -3,6 +3,8 @@
 cap program drop   sel_remove_metadata
     program define sel_remove_metadata
 
+qui {
+
     version 14
 
     * Update the syntax. This is only a placeholder to make the command run
@@ -42,4 +44,5 @@ cap program drop   sel_remove_metadata
     * End by deleting the data set char
     char _dta[selector_chars]
 
+}
 end
