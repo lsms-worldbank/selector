@@ -2,6 +2,7 @@
 
 cap program drop   sel_add_metadata
     program define sel_add_metadata, rclass
+
 qui {
 
     version 14
@@ -15,6 +16,10 @@ qui {
 
     * List all properties to add to char
     local cols "type variable_label linked_to_roster_id linked_to_question_id is_integer mask are_answers_ordered yes_no_view is_timestamp"
+
+    * MultyOptionsQuestion specific cols
+    local cols "`cols' answer_text"
+
     * Add the list of chars this command creates so they can be easily removed
     char _dta[selector_chars] "`cols'"
 
@@ -136,6 +141,10 @@ qui {
     syntax, var(string) cols(string)
     local success "false"
 
+    * Remove non general cols from cols
+    local multyOptionsQuestionCols "answer_text"
+    local cols : list cols - multyOptionsQuestionCols
+
     * Get the number of rows
     qui count
     local var_n = `r(N)'
@@ -165,6 +174,36 @@ qui {
                 return local `col' "`=`col'[`i']'"
               }
             }
+
+            * Add answer_text char to MultyOptionsQuestion
+            if ("`=type[`i']'" == "MultyOptionsQuestion") {
+              *Get the code used in SuSo
+              local suso_code = subinstr("`var'","`prefix'__","",1)
+              * Loop over all answer_value_* vars to find the suso_code
+              local j = 1
+              while (`j'>0) {
+                * If no more answer_text vars exit while loop and return N/A
+                cap confirm variable answer_value_`j'
+                if _rc {
+                  return local answer_text "N/A - not found"
+                  noi di "Var `var': N/A"
+                  local j = -1
+                }
+                * More vars exists keep looking for the suso_code
+                else {
+                  * If suso_code found, return the corresponding answer_text
+                  * and exit the while loop
+                  if (`=answer_value_`j'[`i']' == `suso_code') {
+                    return local answer_text "`=answer_text_`j'[`i']'"
+                    local j = -1
+                  }
+                }
+                * If loop is not exited, then move to next answer_value_* var
+                local j = `j' + 1
+              }
+            }
+
+            * Variable found, return success
             local success "true"
           }
         }
