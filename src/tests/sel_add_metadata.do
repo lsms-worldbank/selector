@@ -48,3 +48,14 @@
     assert "`: char v518_1[is_integer]'"        == "0"
     assert "`: char v518_1[variable_label]'"    == "V518_1. WEIGHT OF [NAME] IN KILOGRAMS"
     assert "`: char v518_1[type]'"              == "NumericQuestion"
+    
+    
+    * Testing MultyOptionsQuestion chars
+    
+    assert "`: char v213n__1[answer_text]'" == "Vaccination"
+    * Testing that all MultyOptionsQuestion got this char
+    ds, has(char answer_text)
+    foreach var in `r(varlist)' {
+      assert "`: char `var'[answer_text]'" != "N/A - not found"
+    }
+      
