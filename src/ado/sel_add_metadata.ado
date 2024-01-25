@@ -15,7 +15,7 @@ qui {
     local oth_vars "sssys_irnd has__error interview__status"
 
     * List all properties to add to char
-    local cols "type variable_label linked_to_roster_id linked_to_question_id is_integer mask are_answers_ordered yes_no_view is_timestamp"
+    local cols "type variable_label linked_to_roster_id linked_to_question_id is_integer mask are_answers_ordered yes_no_view is_timestamp question_text"
 
     * MultyOptionsQuestion specific cols
     local cols "`cols' answer_text"
