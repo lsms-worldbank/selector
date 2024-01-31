@@ -46,8 +46,14 @@
 # Stata
 !/**/*.do
 !/**/*.ado
+!/**/sthlp/*.sthlp
 !src/stata.toc
 !src/*.pkg
 
-# Markdown
+# Markdown and web docs files
 !/**/*.md
+!src/dev/assets/*.png
+!src/dev/assets/*.css
+
+* Ignore the local dev env set up by repado
+src/tests/dev-env/

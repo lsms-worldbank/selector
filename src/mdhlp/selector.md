@@ -1,29 +1,27 @@
 # Title
 
-__selector__ - This command is used for short description.
+__selector__ - Package command with utilities for the rest of the package
 
 # Syntax
 
-__selector__ , __**opt**ion1__(_string_)
-
-| _options_ | Description |
-|-----------|-------------|
-| __**opt**ion1__(_string_)   | Short description of option1  |
+__selector__
 
 # Description
-<!-- Longer description of the intended use of the command and best practices related to the usage. -->
+
+This command only returns the version number and version data to the user.
+This command has little application for the user.
+For packages installed on SSC it is important that a there is a command
+in the package that has the same name as the package.
+That is the main purpose of this command.
 
 # Options
-<!-- Longer description (paragraph length) of all options, their intended use case and best practices related to them. -->
 
-__**opt**ion1__(_string_) is used for xyz. Longer description (paragraph length) of all options, their intended use case and best practices related to them.
+This command has no options.
 
-# Examples
-<!-- A couple of examples to help the user get started and a short explanation of each of them. -->
+# Feedback, Bug Reports, and Contributions
 
-# Feedback, bug reports and contributions
-<!-- A couple of examples to help the user get started and a short explanation of each of them. -->
+Read more about these commands on [this repo](https://github.com/lsms-worldbank/selector) where this package is developed. Please provide any feedback by [opening an issue](https://github.com/lsms-worldbank/selector/issues). PRs with suggestions for improvements are also greatly appreciated.
 
 # Authors
 
-TODO: Populate this field from .pkg file
+LSMS Team, The World Bank lsms@worldbank.org
