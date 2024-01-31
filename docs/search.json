@@ -1,0 +1,212 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "selector",
+    "section": "",
+    "text": "Load SuSo meta data into chars and utilities using them"
+  },
+  {
+    "objectID": "src/mdhlp/sel_matches_regex.html",
+    "href": "src/mdhlp/sel_matches_regex.html",
+    "title": "selector",
+    "section": "",
+    "text": "sel_matches_regex - Get variables that match a regular expression."
+  },
+  {
+    "objectID": "src/mdhlp/sel_matches_regex.html#example-1-select-variables-more-precisely",
+    "href": "src/mdhlp/sel_matches_regex.html#example-1-select-variables-more-precisely",
+    "title": "selector",
+    "section": "Example 1: Select variables more precisely",
+    "text": "Example 1: Select variables more precisely\n* create sets of variables\ngen housing_unit = .\ngen s01q01_quantity = .\ngen s01q01_unit = .\ngen s01q02_quantity = .\ngen s01q02_unit = .\ngen s01q03_quantity = .\ngen s01q03_unit = .\ngen s01q04_quantity = .\ngen s01q04_unit = .\n\n* select variables that end in _unit\nsel_matches_regex \"_unit$\"\n\n* select variables that end in _unit for questions 02 and 03\nsel_matches_regex \"0[23]_unit$\""
+  },
+  {
+    "objectID": "src/mdhlp/sel_matches_regex.html#example-2-identify-variables-that-do-not-follow-a-pattern",
+    "href": "src/mdhlp/sel_matches_regex.html#example-2-identify-variables-that-do-not-follow-a-pattern",
+    "title": "selector",
+    "section": "Example 2: Identify variables that do not follow a pattern",
+    "text": "Example 2: Identify variables that do not follow a pattern\n* create a set of variables that mostly follow a pattern\n* importantly, some don't\ngen s01q01 = .\ngen s01q02 = .\ngen s01_q03 = .\ngen s01q04 = .\ngen S01q04 = .\ngen s01q05a = .\ngen s01q05_unit = .\n\n* identify variables that do NOT follow the pattern\nsel_matches_regex \"s01q0[0-9][a-z]*$\", negate\n\n* assert that there are no variables fail to follow the pattern\n* preventing variable naming problems, say, in disseminated data\nlocal pattern_for_data \"s01q0[0-9][a-z]*$\"\nqui: sel_matches_regex \"`pattern_for_data'\", negate\nlocal not_follow = r(varlist)\nlocal n_not_follow : list sizeof not_follow\ncapture assert n_not_follow == 0\nif _rc != 1 {\n    di as error \"Some variables do not follow the desired pattern (`pattern_for_data')\"\n    di as text \"`not_follow'\"\n}"
+  },
+  {
+    "objectID": "src/mdhlp/sel_add_metadata.html",
+    "href": "src/mdhlp/sel_add_metadata.html",
+    "title": "selector",
+    "section": "",
+    "text": "Syntax\nsel_add_metadata using path/to/metadata.dta\n\n\nDescription\nThis command applies Survey Solutions (SuSo) meta data to chars. This command expects as input the file outputted by the R-function cleanstart.\nAfter this commands runs successfully, SuSo meta data is stored in char values that can be read like this:\nlocal type : char varA[type]\"\nif \"`type'\" == \"NumericQuestion\" {\n  // Do something to numeric questons\n}\n\n\nOptions\nThis command does not have any options. It only takes the path to the meta data file in using.\n\n\nExamples\nlocal metadatafile \"${meta_data}/question_metadata.dta\"\nsel_add_metadata using `metadatafile'\n\n\nFeedback, Bug Reports, and Contributions\nRead more about these commands on this repo where this package is developed. Please provide any feedback by opening an issue. PRs with suggestions for improvements are also greatly appreciated.\n\n\nAuthors\nLSMS Team, The World Bank lsms@worldbank.org"
+  },
+  {
+    "objectID": "src/mdhlp/sel_remove_metadata.html",
+    "href": "src/mdhlp/sel_remove_metadata.html",
+    "title": "selector",
+    "section": "",
+    "text": "sel_remove_metadata - Clean up metadata only needed during cleaning"
+  },
+  {
+    "objectID": "src/mdhlp/sel_remove_metadata.html#example-1",
+    "href": "src/mdhlp/sel_remove_metadata.html#example-1",
+    "title": "selector",
+    "section": "Example 1",
+    "text": "Example 1\nIf the meta data to be removed was added by sel_add_metadata then this command can be specified as simply as this:\n  sel_remove_metadata"
+  },
+  {
+    "objectID": "src/mdhlp/sel_remove_metadata.html#example-2",
+    "href": "src/mdhlp/sel_remove_metadata.html#example-2",
+    "title": "selector",
+    "section": "Example 2",
+    "text": "Example 2\nIf it custom chars to be removed, for example mychar and abc, the the command should be specified like thisL\n  sel_remove_metadata, chars(mychar abc)"
+  },
+  {
+    "objectID": "src/mdhlp/sel_char.html",
+    "href": "src/mdhlp/sel_char.html",
+    "title": "selector",
+    "section": "",
+    "text": "sel_char - This command is used for short description."
+  },
+  {
+    "objectID": "src/mdhlp/sel_char.html#example-1",
+    "href": "src/mdhlp/sel_char.html#example-1",
+    "title": "selector",
+    "section": "Example 1",
+    "text": "Example 1\nIn this example a second price varible is created. The currency used for the variables is stored in the char value “currency”. Then sel_char is used to list all variables that has the value “USD” in the char “currency”.\nsysuse auto, clear\n\nchar price[currency] \"USD\"\n\ngen  price_eur = price * .9\nchar price_eur[currency] \"EUR\"\n\nsel_char \"currency USD\"\nreturn list"
+  },
+  {
+    "objectID": "src/mdhlp/sel_char.html#example-2",
+    "href": "src/mdhlp/sel_char.html#example-2",
+    "title": "selector",
+    "section": "Example 2",
+    "text": "Example 2\nYou can combine multiple char values to filter your variable list further. When combining multiple chars the command returns data on the filtering on each char.\nsysuse auto, clear\n\nchar price[currency] \"USD\"\n\ngen  price_eur = price * .9\nchar price_eur[currency] \"EUR\"\n\nchar price[raw] \"1\"\nchar price_eur[raw] \"1\"\n\nsel_char \"raw 1\" \"currency USD\"\nreturn list"
+  },
+  {
+    "objectID": "src/mdhlp/sel_char.html#example-3",
+    "href": "src/mdhlp/sel_char.html#example-3",
+    "title": "selector",
+    "section": "Example 3",
+    "text": "Example 3\nThis example is synonymous with example 2, as the variable list that is a result of the first run of sel_char is passed into the varlist() option in the second run of sel_char. This can be especially useful when combining this command with other commands in the selector package.\nsysuse auto, clear\n\nchar price[currency] \"USD\"\n\ngen  price_eur = price * .9\nchar price_eur[currency] \"EUR\"\n\nchar price[raw] \"1\"\nchar price_eur[raw] \"1\"\n\nsel_char \"raw 1\"\nsel_char \"currency USD\" , varlist(`r(varlist)')\nreturn list"
+  },
+  {
+    "objectID": "src/mdhlp/selector.html",
+    "href": "src/mdhlp/selector.html",
+    "title": "selector",
+    "section": "",
+    "text": "Syntax\nselector\n\n\nDescription\nThis command only returns the version number and version data to the user. This command has little application for the user. For packages installed on SSC it is important that a there is a command in the package that has the same name as the package. That is the main purpose of this command.\n\n\nOptions\nThis command has no options.\n\n\nFeedback, Bug Reports, and Contributions\nRead more about these commands on this repo where this package is developed. Please provide any feedback by opening an issue. PRs with suggestions for improvements are also greatly appreciated.\n\n\nAuthors\nLSMS Team, The World Bank lsms@worldbank.org"
+  },
+  {
+    "objectID": "src/mdhlp/sel_vars.html",
+    "href": "src/mdhlp/sel_vars.html",
+    "title": "selector",
+    "section": "",
+    "text": "sel_vars - List variables with matching characteristics in the Survey Solutions’ Designer."
+  },
+  {
+    "objectID": "src/mdhlp/sel_vars.html#example-1",
+    "href": "src/mdhlp/sel_vars.html#example-1",
+    "title": "selector",
+    "section": "Example 1",
+    "text": "Example 1\nThis example lists all variables linked to numeric question in SuSo Designer:\nsel_vars is_numeric\nreturn list"
+  },
+  {
+    "objectID": "reference/sel_add_metadata.html",
+    "href": "reference/sel_add_metadata.html",
+    "title": "sel_add_metadata.md",
+    "section": "",
+    "text": "Syntax\nsel_add_metadata using path/to/metadata.dta\n\n\nDescription\nThis command applies Survey Solutions (SuSo) meta data to chars. This command expects as input the file outputted by the R-function cleanstart.\nAfter this commands runs successfully, SuSo meta data is stored in char values that can be read like this:\nlocal type : char varA[type]\"\nif \"`type'\" == \"NumericQuestion\" {\n  // Do something to numeric questons\n}\n\n\nOptions\nThis command does not have any options. It only takes the path to the meta data file in using.\n\n\nExamples\nlocal metadatafile \"${meta_data}/question_metadata.dta\"\nsel_add_metadata using `metadatafile'\n\n\nFeedback, Bug Reports, and Contributions\nRead more about these commands on this repo where this package is developed. Please provide any feedback by opening an issue. PRs with suggestions for improvements are also greatly appreciated.\n\n\nAuthors\nLSMS Team, The World Bank lsms@worldbank.org"
+  },
+  {
+    "objectID": "reference/index.html",
+    "href": "reference/index.html",
+    "title": "Function reference",
+    "section": "",
+    "text": "Functions\nDescription\n\n\n\n\nsel_add_metadata\nApply SuSo metadata to current data\n\n\nsel_char\nThis command is used for short description.\n\n\nsel_matches_regex\nGet variables that match a regular expression.\n\n\nsel_remove_metadata\nClean up metadata only needed during cleaning\n\n\nsel_vars\nList variables with matching characteristics in the Survey Solutions’ Designer.\n\n\nselector\nPackage command with utilities for the rest of the package"
+  },
+  {
+    "objectID": "reference/sel_matches_regex.html",
+    "href": "reference/sel_matches_regex.html",
+    "title": "sel_matches_regex.md",
+    "section": "",
+    "text": "sel_matches_regex - Get variables that match a regular expression."
+  },
+  {
+    "objectID": "reference/sel_matches_regex.html#example-1-select-variables-more-precisely",
+    "href": "reference/sel_matches_regex.html#example-1-select-variables-more-precisely",
+    "title": "sel_matches_regex.md",
+    "section": "Example 1: Select variables more precisely",
+    "text": "Example 1: Select variables more precisely\n* create sets of variables\ngen housing_unit = .\ngen s01q01_quantity = .\ngen s01q01_unit = .\ngen s01q02_quantity = .\ngen s01q02_unit = .\ngen s01q03_quantity = .\ngen s01q03_unit = .\ngen s01q04_quantity = .\ngen s01q04_unit = .\n\n* select variables that end in _unit\nsel_matches_regex \"_unit$\"\n\n* select variables that end in _unit for questions 02 and 03\nsel_matches_regex \"0[23]_unit$\""
+  },
+  {
+    "objectID": "reference/sel_matches_regex.html#example-2-identify-variables-that-do-not-follow-a-pattern",
+    "href": "reference/sel_matches_regex.html#example-2-identify-variables-that-do-not-follow-a-pattern",
+    "title": "sel_matches_regex.md",
+    "section": "Example 2: Identify variables that do not follow a pattern",
+    "text": "Example 2: Identify variables that do not follow a pattern\n* create a set of variables that mostly follow a pattern\n* importantly, some don't\ngen s01q01 = .\ngen s01q02 = .\ngen s01_q03 = .\ngen s01q04 = .\ngen S01q04 = .\ngen s01q05a = .\ngen s01q05_unit = .\n\n* identify variables that do NOT follow the pattern\nsel_matches_regex \"s01q0[0-9][a-z]*$\", negate\n\n* assert that there are no variables fail to follow the pattern\n* preventing variable naming problems, say, in disseminated data\nlocal pattern_for_data \"s01q0[0-9][a-z]*$\"\nqui: sel_matches_regex \"`pattern_for_data'\", negate\nlocal not_follow = r(varlist)\nlocal n_not_follow : list sizeof not_follow\ncapture assert n_not_follow == 0\nif _rc != 1 {\n    di as error \"Some variables do not follow the desired pattern (`pattern_for_data')\"\n    di as text \"`not_follow'\"\n}"
+  },
+  {
+    "objectID": "reference/sel_char.html",
+    "href": "reference/sel_char.html",
+    "title": "sel_char.md",
+    "section": "",
+    "text": "sel_char - This command is used for short description."
+  },
+  {
+    "objectID": "reference/sel_char.html#example-1",
+    "href": "reference/sel_char.html#example-1",
+    "title": "sel_char.md",
+    "section": "Example 1",
+    "text": "Example 1\nIn this example a second price varible is created. The currency used for the variables is stored in the char value “currency”. Then sel_char is used to list all variables that has the value “USD” in the char “currency”.\nsysuse auto, clear\n\nchar price[currency] \"USD\"\n\ngen  price_eur = price * .9\nchar price_eur[currency] \"EUR\"\n\nsel_char \"currency USD\"\nreturn list"
+  },
+  {
+    "objectID": "reference/sel_char.html#example-2",
+    "href": "reference/sel_char.html#example-2",
+    "title": "sel_char.md",
+    "section": "Example 2",
+    "text": "Example 2\nYou can combine multiple char values to filter your variable list further. When combining multiple chars the command returns data on the filtering on each char.\nsysuse auto, clear\n\nchar price[currency] \"USD\"\n\ngen  price_eur = price * .9\nchar price_eur[currency] \"EUR\"\n\nchar price[raw] \"1\"\nchar price_eur[raw] \"1\"\n\nsel_char \"raw 1\" \"currency USD\"\nreturn list"
+  },
+  {
+    "objectID": "reference/sel_char.html#example-3",
+    "href": "reference/sel_char.html#example-3",
+    "title": "sel_char.md",
+    "section": "Example 3",
+    "text": "Example 3\nThis example is synonymous with example 2, as the variable list that is a result of the first run of sel_char is passed into the varlist() option in the second run of sel_char. This can be especially useful when combining this command with other commands in the selector package.\nsysuse auto, clear\n\nchar price[currency] \"USD\"\n\ngen  price_eur = price * .9\nchar price_eur[currency] \"EUR\"\n\nchar price[raw] \"1\"\nchar price_eur[raw] \"1\"\n\nsel_char \"raw 1\"\nsel_char \"currency USD\" , varlist(`r(varlist)')\nreturn list"
+  },
+  {
+    "objectID": "reference/selector.html",
+    "href": "reference/selector.html",
+    "title": "selector.md",
+    "section": "",
+    "text": "Syntax\nselector\n\n\nDescription\nThis command only returns the version number and version data to the user. This command has little application for the user. For packages installed on SSC it is important that a there is a command in the package that has the same name as the package. That is the main purpose of this command.\n\n\nOptions\nThis command has no options.\n\n\nFeedback, Bug Reports, and Contributions\nRead more about these commands on this repo where this package is developed. Please provide any feedback by opening an issue. PRs with suggestions for improvements are also greatly appreciated.\n\n\nAuthors\nLSMS Team, The World Bank lsms@worldbank.org"
+  },
+  {
+    "objectID": "reference/sel_remove_metadata.html",
+    "href": "reference/sel_remove_metadata.html",
+    "title": "sel_remove_metadata.md",
+    "section": "",
+    "text": "sel_remove_metadata - Clean up metadata only needed during cleaning"
+  },
+  {
+    "objectID": "reference/sel_remove_metadata.html#example-1",
+    "href": "reference/sel_remove_metadata.html#example-1",
+    "title": "sel_remove_metadata.md",
+    "section": "Example 1",
+    "text": "Example 1\nIf the meta data to be removed was added by sel_add_metadata then this command can be specified as simply as this:\n  sel_remove_metadata"
+  },
+  {
+    "objectID": "reference/sel_remove_metadata.html#example-2",
+    "href": "reference/sel_remove_metadata.html#example-2",
+    "title": "sel_remove_metadata.md",
+    "section": "Example 2",
+    "text": "Example 2\nIf it custom chars to be removed, for example mychar and abc, the the command should be specified like thisL\n  sel_remove_metadata, chars(mychar abc)"
+  },
+  {
+    "objectID": "reference/sel_vars.html",
+    "href": "reference/sel_vars.html",
+    "title": "sel_vars.md",
+    "section": "",
+    "text": "sel_vars - List variables with matching characteristics in the Survey Solutions’ Designer."
+  },
+  {
+    "objectID": "reference/sel_vars.html#example-1",
+    "href": "reference/sel_vars.html#example-1",
+    "title": "sel_vars.md",
+    "section": "Example 1",
+    "text": "Example 1\nThis example lists all variables linked to numeric question in SuSo Designer:\nsel_vars is_numeric\nreturn list"
+  }
+]
