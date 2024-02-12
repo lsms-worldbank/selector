@@ -5,7 +5,7 @@ cap program drop   sel_add_metadata
 
 qui {
 
-version 14.1
+    version 14.1
 
     * Syntax is only reading the meta data file
     syntax using

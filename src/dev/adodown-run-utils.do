@@ -5,14 +5,9 @@
       global clone "C:\Users\wb393438\stata_funs\selector"
   }
 
-//   ad_setup, adf("${clone}")  ///
-//       name("selector")             ///
-//       description("Load SuSo meta data into chars and utilities using them.")      ///
-//       author("LSMS Worldbank")           ///
-//       contact("lsms@worldbank.org")          ///
-//       url("https://github.com/lsms-worldbank/selector") ///
-//       github
-
-  //ad_command create sel_remove_metadata, adf("${clone}") pkg("selector")
-
-  ad_sthlp, adf("${clone}")
+  cap ado uninstall adodown
+  net install   adodown, from("C:\Users\wb462869\github\adodown\src") replace
+  
+  ad_publish , adf("${clone}") ssczip
+  
+  

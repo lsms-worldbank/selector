@@ -5,11 +5,11 @@ cap program drop   selector
 
 qui {
 
-version 14.1
+    version 14.1
 
     * UPDATE THESE LOCALS FOR EACH NEW VERSION PUBLISHED
   	local version "1.0"
-  	local versionDate "05NOV2023"
+    local versionDate "20231206" 
 
   	syntax [anything]
 

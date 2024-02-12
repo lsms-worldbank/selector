@@ -5,7 +5,7 @@ cap program drop   sel_remove_metadata
 
 qui {
 
-version 14.1
+    version 14.1
 
     * Update the syntax. This is only a placeholder to make the command run
     syntax , [Chars(string) MISScharsok]

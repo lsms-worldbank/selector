@@ -5,7 +5,7 @@ cap program drop   sel_matches_regex
 
 qui {
 
-version 14.1
+    version 14.1
 
     syntax anything (name=pattern), [NEGate VARlist(varlist)]
 
