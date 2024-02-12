@@ -1,12 +1,12 @@
 {smcl}
-{* 05 Jan 2024}{...}
+{* *! version 1.0 12FEB2024}{...}
 {hline}
 {pstd}help file for {hi:sel_vars}{p_end}
 {hline}
 
 {title:Title}
 
-{phang}{bf:sel_vars} - This command lists variables by matching char values
+{phang}{bf:sel_vars} - List variables with matching characteristics in the Survey Solutions{c 39} Designer.
 {p_end}
 
 {title:Syntax}
@@ -20,70 +20,104 @@
 {synoptset 16}{...}
 {synopthdr:options}
 {synoptline}
-{synopt: {bf:{ul:neg}ate}}Returns variables **not** matched{p_end}
-{synopt: {bf:{ul:var}list}({it:varlist})}Specify a subset of current variables to search{p_end}
+{synopt: {bf:{ul:neg}ate}}Returns variables **not** matched by the sub-command{p_end}
+{synopt: {bf:{ul:var}list}({it:varlist})}Specify a subset of the current variables to search{p_end}
 {synoptline}
 
 {title:Description}
 
-{pstd}This command is intended to filter variables on {browse "https://www.stata.com/manuals/pchar.pdf":chars} set up by {inp:sel_add_metadata}. That command takes meta information from Survey Solutions (SuSo) questionnaires and applies meta data in to {inp:chars}.
+{pstd}For data collected with Survey Solutions, data users can only select variables based on variable names.
 {p_end}
 
-{pstd}This command {inp:sel_vars} provides short-hands for common searches. For example, this command can be used to filter all variables with types such as  {inp:TextQuestion} or {inp:NumericQuestion}. Another example is filter all variables that are time stamps or are dates. See full description of the options below.
+{pstd}This command aims to select variables in the data based on the characteristics of their corresponding questions/variables in Designer. This selection is powered by the Designer questionnaire metadata that is attached to the Stata data by the {inp:sel_add_metadata} as {browse "https://www.stata.com/manuals/pchar.pdf":chars}. 
 {p_end}
 
-{pstd}Custom searches not covered by this command can be made by the command {inp:sel_char} also found in this package {inp:selector}.
+{pstd}To make selection simple, this command provides several short-hand selectors for common variable searches. Several selectors target variables linked to particular question types (e.g., text, numeric, or multi-select). Some selectors target question sub-types (e.g., multi-select captured as yes/no, multi-select where answer order is recorded, etc.). And still other selectors target characteristics that span several question types (e.g. is linked).
+{p_end}
+
+{pstd}To make compound selections, this command could be used in a selection pipeline. For example, a user could first select linked questions and then select those among them that are also-multi-select.
+{p_end}
+
+{pstd}For selections not covered by this command--for example, different question types, non-SuSo chars, etc.--see the {inp:sel_char} command also found in the {inp:selector} package. 
 {p_end}
 
 {title:Sub-commands}
 
-{pstd}{bf:is_single_select} filters variables that are of type {it:SingleQuestion} and
-  and has no value in the char {inp:linked_to_roster_id}.
+{pstd}Each sub-command lists variables linked to particular question types or question attributes
+in the Survey Solutions{c 39} questionnaire used to collect the data.
 {p_end}
 
-{pstd}{bf:is_numeric} filters variables that are of type {it:NumericQuestion}.
+{pstd}{bf:is_numeric}. Numeric questions
+(i.e., where the {inp:Question type} field is set to {inp:Numeric} in Designer) 
 {p_end}
 
-{pstd}{bf:has_decimals} filters variables that are of type {it:NumericQuestion} and is not an integer.
+{pstd}{bf:has_decimals}. Numeric questions with any number of decimal places allowed
+(i.e., where the {inp:Question type} field is set to {inp:Numeric} and 
+the {inp:Integer} checkbox is not ticked in Designer). 
 {p_end}
 
-{pstd}{bf:is_text} filters variables that are of type {it:NumericQuestion} and do {it:not} have any mask value.
+{pstd}{bf:is_text}. Text question 
+(i.e. where the {inp:Question type} field is set to {inp:Text}). 
 {p_end}
 
-{pstd}{bf:follows_pattern} filters variables that are of type {it:NumericQuestion} and have any mask value.
+{pstd}{bf:follows_pattern}. Text question with a pattern specified
+(i.e. where the {inp:Question type} field is set to {inp:Text} and the {inp:Pattern} is non-empty). 
 {p_end}
 
-{pstd}{bf:is_list} filters variables that are of type {it:TextListQuestion}.
+{pstd}{bf:is_list}. List question
+(i.e. where the {inp:Question type} field is set to {inp:List}) 
 {p_end}
 
-{pstd}{bf:is_multi_select} filters variables that are of type {it:MultyOptionsQuestion}.
+{pstd}{bf:is_single_select}. Single-select questions
+(i.e., where the {inp:Question type} field is set to {inp:Categorical: Single-select} in Designer).  
 {p_end}
 
-{pstd}{bf:is_multi_ordered} filters variables that are of type {it:MultyOptionsQuestion} and has value 1 for {inp:are_answers_ordered}.
+{pstd}{bf:is_multi_select} Multi-select question
+(i.e. where the {inp:Question type} field is set to {inp:Categorical: Multi-select}). 
 {p_end}
 
-{pstd}{bf:is_multi_yn} filters variables that are of type {it:MultyOptionsQuestion}  and has value 1 for {inp:yes_no_view}.
+{pstd}{bf:is_multi_ordered} Multi-select question with answer order recorded
+(i.e. where the {inp:Question type} field is set to {inp:Categorical: Multi-select} and the {inp:Record answer order} box is ticked). 
 {p_end}
 
-{pstd}{bf:is_multi_checkbox} filters variables that are of type {it:MultyOptionsQuestion}  and has value 1 for {inp:yes_no_view}.
+{pstd}{bf:is_multi_yn}. Multi-select question where items are selected as yes/no questions
+(i.e. where the {inp:Question type} field is set to {inp:Categorical: Multi-select} and the {inp:Display mode} field is set to {inp:Yes/No buttons}). 
 {p_end}
 
-{pstd}{bf:is_date} filters variables that are of type {it:DateTimeQuestion}  and has value 0 for {inp:is_timestamp}.
+{pstd}{bf:is_multi_checkbox}. Multi-select question where answers are provided as ticked checkboxes
+(i.e. where the {inp:Question type} field is set to {inp:Categorical: Multi-select} and the {inp:Display mode} field is set to {inp:Checkboxes}). 
 {p_end}
 
-{pstd}{bf:is_timestamp} filters variables that are of type {it:DateTimeQuestion}  and has value 1 for {inp:is_timestamp}.
+{pstd}{bf:is_linked}. Single-select or multi-select question whose answers are linked to a roster ID or a (list) question
+(i.e. where the {inp:Source of categories} field is set to {inp:List of question or question from roster group} and the {inp:Bind list question or question from roster group} field is set to a roster or question). 
 {p_end}
 
-{pstd}{bf:is_gps} filters variables that are of type {it:GpsCoordinateQuestion}.
+{pstd}{bf:is_date}. Date question, whether calendar date or timestamp 
+(i.e. where the {inp:Question type} field is set to {inp:Date}). 
 {p_end}
 
-{pstd}{bf:is_variable} filters variables that are of type {it:Variable}.
+{pstd}{bf:is_calendar_date}. Date question where the answer is provided as a selection from a calendar 
+(i.e. where the {inp:Question type} field is set to {inp:Date} and the {inp:Current timestamp (date & time)} box is not ticked). 
 {p_end}
 
-{pstd}{bf:is_picture} filters variables that are of type {it:MultimediaQuestion}.
+{pstd}{bf:is_timestamp}. Date question where the answer represents a timestamp.
+(i.e. where the {inp:Question type} field is set to {inp:Date} and the {inp:Current timestamp (date & time)} box is ticked). 
 {p_end}
 
-{pstd}{bf:is_barcode} filters variables that are of type {it:QRBarcodeQuestion}.
+{pstd}{bf:is_gps}. GPS question
+(i.e. where the {inp:Question type} field is set to {inp:GPS}). 
+{p_end}
+
+{pstd}{bf:is_variable}. Variable rather than a question
+(i.e., a variable that Survey Solutions computed rather than a question that interviewer/respondent answered).
+{p_end}
+
+{pstd}{bf:is_picture}. Picture question
+(i.e. where the {inp:Question type} field is set to {inp:Picture}). 
+{p_end}
+
+{pstd}{bf:is_barcode}. QR/barcode question
+(i.e. where the {inp:Question type} field is set to {inp:Barcode}). 
 {p_end}
 
 {title:Options}
@@ -91,14 +125,14 @@
 {pstd}{bf:{ul:neg}ate} inverts the matching. Rather than return variables variables that match the criteria, this option returns variables that do not match.
 {p_end}
 
-{pstd}{bf:{ul:var}list}({it:varlist}) allows the user to specify a subset of the variables in the data set to filter on. The default is that the command filter on all variables in the current data set. With {bf:{ul:var}list}({it:varlist}), the scope of the search can be narrowed. This narrower variable list could come, for example, from other commands in {inp:selector}.
+{pstd}{bf:{ul:var}list}({it:varlist}) allows the user to specify a subset of the variables in the data set to filter on. The default is that the command filter on all variables in the current data set. With {bf:{ul:var}list}({it:varlist}), the scope of the search can be narrowed. This narrower variable list could come, for example, from other commands in {inp:selector}. 
 {p_end}
 
 {title:Examples}
 
 {dlgtab:Example 1}
 
-{pstd}This example lists all variables that are collected as {inp:NumericQuestion} in SuSo.
+{pstd}This example lists all variables linked to numeric question in SuSo Designer:
 {p_end}
 
 {input}{space 8}sel_vars is_numeric
