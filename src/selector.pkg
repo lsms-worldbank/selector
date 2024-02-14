@@ -1,18 +1,21 @@
 * This package file is generated in the adodown workflow. Do not edit directly.
 *** version
 v 1.0
-*** name
-d selector
+*** title
+d 'SELECTOR': a module to store SurveySolution in variable meta data and then use it
 *** description
 d Load SuSo meta data into chars and utilities using them.
+d
 *** stata
 d Version: Stata 14.1
+d
 *** author
 d Author: LSMS Team, World Bank
 *** contact
 d Contact: lsms@worldbank.org
 *** url
 d URL: https://github.com/lsms-worldbank/selector
+d
 *** date
 d Distribution-Date: 20231206
 *** adofiles
