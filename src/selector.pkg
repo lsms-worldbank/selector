@@ -7,7 +7,7 @@ d 'SELECTOR': a module to store SurveySolution in variable meta data and then us
 d Load SuSo meta data into chars and utilities using them.
 d
 *** stata
-d Version: Stata 14.1
+d Requires: Stata version 14.1
 d
 *** author
 d Author: LSMS Team, World Bank
