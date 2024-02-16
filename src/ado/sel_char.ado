@@ -1,4 +1,4 @@
-*! version 1.0 20231206 LSMS Team, World Bank lsms@worldbank.org
+*! version 1.0 20240216 LSMS Team, World Bank lsms@worldbank.org
 
 cap program drop   sel_char
     program define sel_char, rclass

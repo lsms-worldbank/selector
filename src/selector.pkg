@@ -1,10 +1,22 @@
 * This package file is generated in the adodown workflow. Do not edit directly.
 *** version
 v 1.0
+*** name
+d selector
 *** title
-d 'SELECTOR': a module to store SurveySolution in variable meta data and then use it
+d 'SELECTOR': module to select variables by characteristic (char) or regular expression (regex).
 *** description
-d Load SuSo meta data into chars and utilities using them.
+d selector provides methods for selecting variables of interest in ways that base Stata cannot. For those who find
+d Stata's glob patterns limiting, selector offers selection by regex pattern. For those who use Survey Solutions,
+d selector enables variable selection based on questionnaire metadata (e.g., question type).
+d
+d KW: select
+d KW: keep
+d KW: variables
+d KW: regular expressions
+d KW: chars
+d KW: Survey Solutions
+d KW: data management
 d
 *** stata
 d Requires: Stata version 14.1
@@ -17,7 +29,7 @@ d Contact: lsms@worldbank.org
 d URL: https://github.com/lsms-worldbank/selector
 d
 *** date
-d Distribution-Date: 20231206
+d Distribution-Date: 20240216
 *** adofiles
 f ado/sel_char.ado
 f ado/sel_remove_metadata.ado

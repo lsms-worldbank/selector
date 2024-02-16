@@ -1,4 +1,4 @@
-*! version 1.0 20231206 LSMS Team, World Bank lsms@worldbank.org
+*! version 1.0 20240216 LSMS Team, World Bank lsms@worldbank.org
 
 cap program drop   selector
     program define selector, rclass
@@ -9,7 +9,7 @@ qui {
 
     * UPDATE THESE LOCALS FOR EACH NEW VERSION PUBLISHED
   	local version "1.0"
-    local versionDate "20231206" 
+    local versionDate "20240216" 
 
   	syntax [anything]
 
