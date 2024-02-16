@@ -30,6 +30,9 @@
 !CONTRIBUTING.md
 !LICENSE*
 
+* Unignore reproot files
+!reproot*.yaml
+
 #######################
 # For performance reasons, if a folder is already ignored, then
 # GitHub does not check the content for that folder for matches
@@ -54,6 +57,13 @@
 !/**/*.md
 !src/dev/assets/*.png
 !src/dev/assets/*.css
+
+####################################
+# Ignore ssc outputs
+src/dev/ssc
+
+# Ignore test outputs
+src/tests/outputs/
 
 * Ignore the local dev env set up by repado
 src/tests/dev-env/

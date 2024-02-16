@@ -1,5 +1,5 @@
 {smcl}
-{* 05 Jan 2024}{...}
+{* *! version 1.0 12FEB2024}{...}
 {hline}
 {pstd}help file for {hi:sel_matches_regex}{p_end}
 {hline}
@@ -23,10 +23,10 @@
 
 {title:Description}
 
-{pstd}By default, Stata allows users to specify a list of variables through a range (e.g., {inp:var1 - var5}) or a (glob) pattern (e.g., {inp:var*}). See more {browse "https://www.stata.com/manuals/u11.pdf#u11.4varnameandvarlists":here}.
+{pstd}By default, Stata allows users to specify a list of variables through a range (e.g., {inp:var1 - var5}) or a (glob) pattern (e.g., {inp:var*}). See more {browse "https://www.stata.com/manuals/u11.pdf#u11.4varnameandvarlists":here}. 
 {p_end}
 
-{pstd}However, there is no straight-forward way to specify a list of variables that match a regular expression, a pattern specification that is typically more precise than either of the foregoing Stata options. The {inp:sel_matches_regex} command fills that gap in functionality.
+{pstd}However, there is no straight-forward way to specify a list of variables that match a regular expression, a pattern specification that is typically more precise than either of the foregoing Stata options. The {inp:sel_matches_regex} command fills that gap in functionality. 
 {p_end}
 
 {pstd}In particular, this function aims to meet a few needs:
@@ -44,7 +44,7 @@
 {pstd}{bf:{ul:neg}ate} inverts the regex selection. Rather than return matching variables, this option returns variables that do not match.
 {p_end}
 
-{pstd}{bf:{ul:var}list}({it:varlist}) restricts the scope of the regex search to the user-provided variable list. By default, {inp:sel_matches_regex} searches for matches in all variables in memory. With {bf:varlist}, the scope of the search can be narrowed. This narrower varlist could come, for example, from other commands in {inp:selector}.
+{pstd}{bf:{ul:var}list}({it:varlist}) restricts the scope of the regex search to the user-provided variable list. By default, {inp:sel_matches_regex} searches for matches in all variables in memory. With {bf:varlist}, the scope of the search can be narrowed. This narrower varlist could come, for example, from other commands in {inp:selector}. 
 {p_end}
 
 {title:Examples}
@@ -86,13 +86,13 @@
 {space 8}* assert that there are no variables fail to follow the pattern
 {space 8}* preventing variable naming problems, say, in disseminated data
 {space 8}local pattern_for_data "s01q0[0-9][a-z]*$"
-{space 8}qui: sel_matches_regex "`pattern_for_data'", negate
+{space 8}qui: sel_matches_regex "`pattern_for_data'", negate 
 {space 8}local not_follow = r(varlist)
 {space 8}local n_not_follow : list sizeof not_follow
 {space 8}capture assert n_not_follow == 0
 {space 8}if _rc != 1 {
-{space 8}    di as error "Some variables do not follow the desired pattern (`pattern_for_data')"
-{space 8}    di as text "`not_follow'"
+{space 8}    di as error "Some variables do not follow the desired pattern (`pattern_for_data')" 
+{space 8}    di as text "`not_follow'" 
 {space 8}}
 {text}
 {title:Feedback, Bug Reports, and Contributions}

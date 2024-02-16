@@ -1,11 +1,11 @@
-*! version 1.0 05JAN2024 LSMS Team World Bank lsms@worldbank.org
+*! version 1.0 20231206 LSMS Team, World Bank lsms@worldbank.org
 
 cap program drop   sel_add_metadata
     program define sel_add_metadata, rclass
 
 qui {
 
-    version 14
+    version 14.1
 
     * Syntax is only reading the meta data file
     syntax using

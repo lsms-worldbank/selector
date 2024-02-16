@@ -17,10 +17,10 @@ d KW: Survey Solutions
 d KW: data management 
 d
 *** stata
-d Version: Stata 14.1
+d Requires: Stata version 14.1
 d
 *** author
-d Author: LSMS Worldbank
+d Author: LSMS Team, World Bank
 *** contact
 d Contact: lsms@worldbank.org
 *** url
@@ -28,7 +28,6 @@ d URL: https://github.com/lsms-worldbank/selector
 d
 *** date
 d Distribution-Date: 20231206
-d
 *** adofiles
 f ado/sel_char.ado
 f ado/sel_remove_metadata.ado
@@ -36,7 +35,6 @@ f ado/sel_matches_regex.ado
 f ado/sel_vars.ado
 f ado/sel_add_metadata.ado
 f ado/selector.ado
-
 *** helpfiles
 f sthlp/sel_char.sthlp
 f sthlp/sel_remove_metadata.sthlp
@@ -44,8 +42,6 @@ f sthlp/sel_matches_regex.sthlp
 f sthlp/sel_vars.sthlp
 f sthlp/sel_add_metadata.sthlp
 f sthlp/selector.sthlp
-
 *** ancillaryfiles
-
 *** end
 e

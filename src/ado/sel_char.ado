@@ -1,11 +1,11 @@
-*! version 1.0 05JAN2024 LSMS Team World Bank lsms@worldbank.org
+*! version 1.0 20231206 LSMS Team, World Bank lsms@worldbank.org
 
 cap program drop   sel_char
     program define sel_char, rclass
 
 qui {
 
-    version 14
+    version 14.1
 
     * Update the syntax. This is only a placeholder to make the command run
     syntax [anything], [VARlist(varlist)]
