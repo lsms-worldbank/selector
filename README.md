@@ -50,8 +50,8 @@ Note also: while this package does not require [selector](https://github.com/lsm
 
 `selector` currently provides two means of selecting variables:
 
-- [Regular expressions](#regular-expressions)
-- [Survey Solutions questionnaire metadata (and other `chars`)](#survey-solutions-metadata-and-other-chars)
+1. [Regular expressions](#regular-expressions)
+2. [Survey Solutions questionnaire metadata (and other `chars`)](#survey-solutions-metadata-and-other-chars)
 
 ### Regular expressions
 
@@ -61,8 +61,8 @@ However, there is no straight-forward way to specify a list of variables that ma
 
 In particular, this function aims to meet a few needs:
 
-- Select variables more precisely
-- Identify variables that fail to follow a pattern
+- [Select variables more precisely](#select-variables-more-precisely)
+- [Identify variables that fail to follow a pattern](#identify-variables-that-fail-to-follow-a-pattern)
 
 #### Select variables more precisely
 
