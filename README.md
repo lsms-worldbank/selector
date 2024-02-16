@@ -121,10 +121,32 @@ if _rc != 1 {
 
 #### Survey Solutions metadata
 
+The workflow involves the following steps:
+
+- [Get the Survey Solutions questionnaire in JSON format](#get-the-survey-solutions-questionnaire-in-json-format)
+- [Create a questionnaire metadata data set from the JSON file](#create-a-questionnaire-metadata-data-set-from-the-json-file)
+- [Add the questionnaire metadata to the survey microdata](#add-the-questionnaire-metadata-to-the-survey-microdata)
+- [Select based on metadata](#select-based-on-metadata)
+- [Remove metadata](#remove-metadata)
+
+##### Get the Survey Solutions questionnaire in JSON format
+
+The short answer: download it from your Survey Solutions server. See [here](https://lsms-worldbank.github.io/selector/articles/how-to-get-questionnaire-json.html) for more details.
+
+##### Create a questionnaire metadata data set from the JSON file
+
+The short answer: use the `susometa` R package to transform the questionnaire metadata from JSON to a data frame, and to save that data frame to disk for `selector` to use it. See [here](https://lsms-worldbank.github/io/selector/articles/how-to-create-qnr-metadata-dta.md) for more details.
+
+##### Add the questionnaire metadata to the survey microdata
+
 ```stata
 * add Survey Solutions questionnaire metadata
 sel_add_metadata
+```
 
+##### Select based on metadata
+
+```stata
 * select by question type
 
 * numeric
@@ -149,7 +171,11 @@ sel_vars is_multi_select
 local multi_select "`r(varlist)'"
 * then, select linked questions among them
 sel_vars is_linked, varlist(`multi_select')
+```
 
+##### Remove metadata
+
+```stata
 * remove metadata (e.g., before saving data for dissemination)
 sel_remove_metadata
 ```
