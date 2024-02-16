@@ -27,7 +27,7 @@ net install selector, ///
 
 To target a particular release, set `tag` to your target release:
 
-```
+```stata
 local tag "v1.0"
 net install selector, ///
   from("https://raw.githubusercontent.com/lsms-worldbank/selector/`tag'/src")
@@ -86,7 +86,7 @@ sel_matches_regex "0[23]_unit$"
 ```
 #### Identify variables that fail to follow a pattern
 
-```
+```stata
 * create a set of variables that mostly follow a pattern
 * importantly, some don't
 gen s01q01 = .
@@ -120,7 +120,7 @@ if _rc != 1 {
 
 #### Survey Solutions metadata
 
-```
+```stata
 * add Survey Solutions questionnaire metadata
 sel_add_metadata
 
