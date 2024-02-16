@@ -66,7 +66,7 @@ In particular, this function aims to meet a few needs:
 
 #### Select variables more precisely
 
-```
+```stata
 * create sets of variables
 gen housing_unit = .
 gen s01q01_quantity = .
@@ -84,6 +84,7 @@ sel_matches_regex "_unit$"
 * select variables that end in _unit for questions 02 and 03
 sel_matches_regex "0[23]_unit$"
 ```
+
 #### Identify variables that fail to follow a pattern
 
 ```stata
