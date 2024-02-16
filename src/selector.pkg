@@ -6,7 +6,9 @@ d selector
 *** title
 d 'SELECTOR': module to select variables by characteristic (char) or regular expression (regex).
 *** description
-d selector provides methods for selecting variables of interest in ways that base Stata cannot. For those who find Stata's glob patterns limiting, selector offers selection by regex pattern. For those who use Survey Solutions, selector enables variable selection based on questionnaire metadata (e.g., question type).
+d selector provides methods for selecting variables of interest in ways that base Stata cannot. For those who find
+d Stata's glob patterns limiting, selector offers selection by regex pattern. For those who use Survey Solutions,
+d selector enables variable selection based on questionnaire metadata (e.g., question type).
 d
 d KW: select
 d KW: keep
