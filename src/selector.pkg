@@ -16,7 +16,7 @@ d KW: variables
 d KW: regular expressions
 d KW: chars
 d KW: Survey Solutions
-d KW: data management 
+d KW: data management
 d
 *** stata
 d Requires: Stata version 14.1
@@ -29,7 +29,7 @@ d Contact: lsms@worldbank.org
 d URL: https://github.com/lsms-worldbank/selector
 d
 *** date
-d Distribution-Date: 20231206
+d Distribution-Date: 20240216
 *** adofiles
 f ado/sel_char.ado
 f ado/sel_remove_metadata.ado
