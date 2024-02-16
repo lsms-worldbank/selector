@@ -1,5 +1,5 @@
 {smcl}
-{* 05 Jan 2024}{...}
+{* *! version 1.0 16FEB2024}{...}
 {hline}
 {pstd}help file for {hi:selector}{p_end}
 {hline}

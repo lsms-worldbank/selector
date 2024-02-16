@@ -1,11 +1,11 @@
-*! version 1.0 05JAN2024 LSMS Team World Bank lsms@worldbank.org
+*! version 1.0 20240216 LSMS Team, World Bank lsms@worldbank.org
 
 cap program drop   sel_remove_metadata
     program define sel_remove_metadata
 
 qui {
 
-    version 14
+    version 14.1
 
     * Update the syntax. This is only a placeholder to make the command run
     syntax , [Chars(string) MISScharsok]
