@@ -55,9 +55,9 @@ Note also: while this package does not require [selector](https://github.com/lsm
 
 ### Regular expressions
 
-By default, Stata allows users to specify a list of variables through a range (e.g., `var1 - var5`) or a (glob) pattern (e.g., `var*`).
+By default, Stata allows users to select variables by either specifying a variable range (e.g., `var1 - var5`) or a variable name (glob) pattern (e.g., `var*`).
 
-However, there is no straight-forward way to specify a list of variables that match a regular expression, a pattern specification that is typically more precise than either of the foregoing Stata options. The sel_matches_regex command fills that gap in functionality.
+However, there is no straight-forward way to specify a list of variables that match a regular expression--a pattern specification that is typically more precise than either of the foregoing Stata options. The `sel_matches_regex` command fills that gap in functionality.
 
 In particular, this function aims to meet a few needs:
 
