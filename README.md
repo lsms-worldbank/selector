@@ -1,6 +1,6 @@
 # `selector`
 
-Load SuSo meta data into chars and utilities using them
+Select variables by characteristic (char) or regular expression (regex)
 <!-- 
 TODO: uncomment when logo is posted
 <img src='src/dev/assets/logo.png' align="right" height="139" />
