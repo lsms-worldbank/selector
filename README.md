@@ -15,22 +15,49 @@ The goal of `selector` is to provide methods for selecting variables of interest
 
 ##  Installation
 
-This package is not yet available on SSC, but can be installed from GitHub with the following commands.
-
-To get the latest stable version, run the following two commands:
+To install the latest published version of the package: 
 
 ```stata
-local tag "main"
-net install selector, ///
-  from("https://raw.githubusercontent.com/lsms-worldbank/selector/`tag'/src")
+* install the package from the SSC package repository
+ssc install selector
 ```
 
-To target a particular release, set `tag` to your target release:
+To update the package:
 
 ```stata
-local tag "v1.0"
+* check for updates
+* if any are available, apply them
+adoupdate selector
+```
+
+### Development version
+
+The version of `selector` on SSC corresponds to the code in the `main` branch of [the package's GitHub repository](https://github.com/lsms-worldbank/selector).
+
+To get a bug fix or test bleeding-edge features, you can install code from other branches of the repository. To install the version in a particular branch:
+
+```stata
+* set tag to be the name of the target branch
+* for example, the development branch, which contains code for the next release
+local tag "dev"
+* download the code from that GitHub branch
+* install the package
 net install selector, ///
-  from("https://raw.githubusercontent.com/lsms-worldbank/selector/`tag'/src")
+  from("https://raw.githubusercontent.com/lsms-worldbank/selector/`tag'/src") replace
+```
+
+### Previous versions
+
+If you need to install a previously releases version of `selector`, then you can use the following method. This can be useful, for example, during reproducibility verifications. To install the version in a particular release, set the local `tag` to the target release you want to install in this code:
+
+```stata
+* set the tag to the name of the target release
+* for example v1.0, say, if the current version were v2.0
+local tag "v1.0"
+* download the code from that GitHub release
+* install the package
+net install selector, ///
+  from("https://raw.githubusercontent.com/lsms-worldbank/selector/`tag'/src") replace
 ```
 
 ## Commands
