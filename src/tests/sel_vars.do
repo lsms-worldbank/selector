@@ -3,8 +3,8 @@
   if "`c(username)'" == "wb462869" {
       global clone "C:\Users\wb462869\github\selector"
   }
-  else if "`c(username)'" == "wb393438" {
-      global clone "C:\Users\wb393438\stata_funs\selector"
+  else if "`c(username)'" == "WB393438" {
+      global clone "C:\Users\WB393438\stata_funs\selector"
   }
 
   * Set global to ado_fldr
@@ -82,3 +82,20 @@
 
   sel_vars is_barcode
   assert "`r(varlist)'" == ""
+
+  ***********************************
+  * Tests on data without chars
+
+  * remove characteristics
+  sel_remove_metadata
+
+  * check that sel_vars fails in the absence of chars
+  capture sel_vars is_single_select
+  di as result "sel_vars fails in the absence of SuSo (qeuestion type) metadata"
+  if _rc != 0 {
+      di as result "✅ Test passed"
+  }
+  else {
+      di as error "❌ Test failed"
+      error 0
+  }

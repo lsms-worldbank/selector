@@ -18,6 +18,19 @@ qui {
     local subcommand = "`anything'"
 
     *****************************************
+    * check whether SuSo selectors attached to data set
+    * by looking for data-level char
+    local list_selector_chars : char _dta[selector_chars]
+
+    * react to contents of list of variables with a SuSo type
+    if missing("`list_selector_chars'") {
+      noi di as text "{pstd}{red: Error}: No Survey Solutions metadata found. {p_end}"
+      noi di as text `"{pstd}Add metadata to your data with {browse "https://lsms-worldbank.github.io/selector/reference/sel_add_metadata.html":sel_add_metadata}. {p_end}"'
+      error 99
+      exit
+    }
+
+    *****************************************
     * initiate locals
 
     * If no varlist is provided, use all vars in current dataset
