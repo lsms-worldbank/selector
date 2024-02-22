@@ -2,18 +2,20 @@
 title: How to get the questionnaire JSON file
 ---
 
-- Download it with exported data
-- Download it with the API
+There are two methods for getting the questionnaire JSON file:
 
-###### Download it with exported data
+1. [Download it with exported data](#download-it-with-exported-data)
+2. [Download it with the API](#download-it-with-the-api)
+
+## Download it with exported data
 
 When exporting  data from Survey Solutions, select `Include meta information about questionnaire` under the `Questionnaire information` heading.
 
 Once data have been downloaded, unpack `content.zip` and find the `document.json` file. See more [here](https://docs.mysurvey.solutions/headquarters/export/metadata-organization/) on how to find these files.
 
-This is the is the JSON file needed for the next step in the workflow.
+This is the JSON file needed for the next step in the workflow.
 
-###### Download it with the API
+## Download it with the API
 
 Use some tool to fetch the JSON file from the Survey Solutions' `GET ​/api​/v1​/questionnaires​/{id}​/{version}​/document` endpoint.
 
