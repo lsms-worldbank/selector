@@ -19,7 +19,7 @@ This package is not yet available on SSC, but can be installed from GitHub with 
 
 To get the latest stable version, run the following two commands:
 
-```
+```stata
 local tag "main"
 net install selector, ///
   from("https://raw.githubusercontent.com/lsms-worldbank/selector/`tag'/src")
@@ -32,8 +32,6 @@ local tag "v1.0"
 net install selector, ///
   from("https://raw.githubusercontent.com/lsms-worldbank/selector/`tag'/src")
 ```
-
-Note also: while this package does not require [selector](https://github.com/lsms-worldbank/selector), some commands in selector do leverage the questionnaire metadata that selector adds to survey metadata. 
 
 ## Commands
 
@@ -135,16 +133,23 @@ The short answer: download it from your Survey Solutions server. See [here](http
 
 ##### Create a questionnaire metadata data set from the JSON file
 
-The short answer: use the `susometa` R package to transform the questionnaire metadata from JSON to a data frame, and to save that data frame to disk for `selector` to use it. See [here](https://lsms-worldbank.github/io/selector/articles/how-to-create-qnr-metadata-dta.md) for more details.
+The short answer: use the `susometa` R package to transform the questionnaire metadata from JSON to a data frame, and to save that data frame as a `.dta` file for `selector` to use it. See [here](https://lsms-worldbank.github/io/selector/articles/how-to-create-qnr-metadata-dta.md) for more details.
 
 ##### Add the questionnaire metadata to the survey microdata
 
+For `selector` to use Survey Solutions' questionnaire metadata, it must be added to the data set in memory.
+The `sel_add_metadata` command does exactly that: ingects metadata so that other `selector` commands can use this information.
+
 ```stata
 * add Survey Solutions questionnaire metadata
-sel_add_metadata
+sel_add_metadata using "path/to/your/metadata.dta"
 ```
 
 ##### Select based on metadata
+
+Once metadata have been added to microdata, `selector` commands can select variables based on their characteristics in the Survey Solutions questionnaire that generated them.
+
+For example, one can select by inidividual characteristics like question type:
 
 ```stata
 * select by question type
@@ -164,8 +169,13 @@ sel_vars is_multi_yn
 sel_vars is_multi_checkbox
 * with answer order recorded
 is_multi_ordered
+```
 
+Alternatively, one can combine multiple selectors, since the outputs of one command--that is, the variables with a certain characteristic--can be passed as input into another commend--that is, the variables to consider for another characteristic.
+
+```stata
 * combine selectors
+
 * first, select multi-select
 sel_vars is_multi_select
 local multi_select "`r(varlist)'"
@@ -175,12 +185,37 @@ sel_vars is_linked, varlist(`multi_select')
 
 ##### Remove metadata
 
+Once metadata are no longer needed--for example, as data files are prepared for publication--they can be removed with `sel_remove_metadata`.
+
 ```stata
 * remove metadata (e.g., before saving data for dissemination)
 sel_remove_metadata
 ```
 
 #### Other arbitrary `chars`
+
+The `selector` package uses Stata `chars` to select variables.
+For Survey Solutions users, `selector` provides a dedicated command for accessing particular `chars` corresponding to Survey Solutions questionnaire metadata (i.e., `sel_vars` and its subcommands like `is_numeric`, `is_multi_select`, `is_linked`, etc.).
+
+For those interested in using different `chars`, `selector` provides a general-purpose selector to query and select on the basis of user-provided `chars`: `sel_char`.
+
+For example:
+
+```stata
+* use the automobile data set
+sysuse auto, clear
+
+* add a currency unit char to the price variable
+char price[currency] "USD"
+
+* create another price variable and attach a currency unit char
+gen  price_eur = price * .9
+char price_eur[currency] "EUR"
+
+* select those variables whose currency unit is USD
+sel_char "currency USD"
+return list
+```
 
 ## Learn more
 
