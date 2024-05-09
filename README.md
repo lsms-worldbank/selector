@@ -63,12 +63,12 @@ net install selector, ///
 
 | Command | Description |
 | --- | --- |
-| [sel_add_metadata](https://lsms-worldbank.github.io/selector/reference/sel_add_metadata.html) | Apply SuSo metadata to current data
-| [sel_char](https://lsms-worldbank.github.io/selector/reference/sel_char.html) | Select varaibles based on `char` value
-| [sel_matches_regex](https://lsms-worldbank.github.io/selector/reference/sel_matches_regex.html) | Get variables that match a regular expression.
-| [sel_remove_metadata](https://lsms-worldbank.github.io/selector/reference/sel_remove_metadata.html) | Clean up metadata only needed during cleaning
-| [sel_vars](https://lsms-worldbank.github.io/selector/reference/sel_vars.html) | List variables with matching characteristics in the Survey Solutions’ Designer.
 | [selector](https://lsms-worldbank.github.io/selector/reference/selector.html) | Package command with utilities for the rest of the package
+| [sel_matches_regex](https://lsms-worldbank.github.io/selector/reference/sel_matches_regex.html) | Get variables that match a regular expression.
+| [sel_add_metadata](https://lsms-worldbank.github.io/selector/reference/sel_add_metadata.html) | Apply SuSo metadata to current data
+| [sel_remove_metadata](https://lsms-worldbank.github.io/selector/reference/sel_remove_metadata.html) | Clean up metadata only needed during cleaning
+| [sel_char](https://lsms-worldbank.github.io/selector/reference/sel_char.html) | Select varaibles based on `char` value
+| [sel_vars](https://lsms-worldbank.github.io/selector/reference/sel_vars.html) | List variables with matching characteristics in the Survey Solutions’ Designer.
 
 ## Usage
 
