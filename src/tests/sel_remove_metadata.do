@@ -101,3 +101,21 @@
 
   * check that misscharok suppresses error if try to remove non-existing chars
   sel_remove_metadata, misscharsok
+
+  * ============================================================================
+  * Test that error arises if user specifies non-existant char
+  * ============================================================================
+
+  * ----------------------------------------------------------------------------
+  * Setup
+  * ----------------------------------------------------------------------------
+
+  * Set up the test data to test on
+  use "${data_fldr}/labeled/lbl_dataset.dta", clear
+
+  * ----------------------------------------------------------------------------
+  * Test
+  * ----------------------------------------------------------------------------
+
+  capture sel_remove_metadata, chars(foo)
+  assert _rc == 99

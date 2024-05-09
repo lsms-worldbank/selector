@@ -33,6 +33,14 @@ qui {
       local relevant_vars : list relevant_vars | varlist
     }
 
+    * Error if no variables with user-specified chars found
+    if missing("`relevant_vars'") {
+      noi di as text `"{pstd}{red: Error}: No variables found with chars `chars'. {p_end}"'
+      noi di as text "{pstd}Use the {inp:misscharsok} option to suppress this error.{p_end}"
+      error 99
+      exit
+    }
+
     * Loop over relevant vars and delete the chars
     foreach var of local relevant_vars {
       foreach char of local chars {
