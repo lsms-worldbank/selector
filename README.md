@@ -14,7 +14,7 @@ The goal of `selector` is to provide methods for selecting variables of interest
 
 ##  Installation
 
-To install the latest published version of the package: 
+<!-- To install the latest published version of the package: 
 
 ```stata
 * install the package from the SSC package repository
@@ -27,18 +27,21 @@ To update the package:
 * check for updates
 * if any are available, apply them
 adoupdate selector
-```
+``` -->
 
 ### Development version
 
-The version of `selector` on SSC corresponds to the code in the `main` branch of [the package's GitHub repository](https://github.com/lsms-worldbank/selector).
+<!-- The version of `selector` on SSC corresponds to the code in the `main` branch of [the package's GitHub repository](https://github.com/lsms-worldbank/selector). -->
 
-To get a bug fix or test bleeding-edge features, you can install code from other branches of the repository. To install the version in a particular branch:
+To get a bug fix, a release before SSC publication, or test bleeding-edge features, you can install code from other branches of the repository. The release is version 0.5.
+
+To install the version in a particular branch:
 
 ```stata
 * set tag to be the name of the target branch
 * for example, the development branch, which contains code for the next release
 local tag "dev"
+* similarly, version 0.5, which contains the code for the current, pre-SSC release
 * download the code from that GitHub branch
 * install the package
 net install selector, ///
