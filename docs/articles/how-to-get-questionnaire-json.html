@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>selector - sel_matches_regex</title>
+<title>selector - how-to-get-questionnaire-json</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -111,17 +111,11 @@ ul.task-list{list-style: none;}
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#title" id="toc-title" class="nav-link active" data-scroll-target="#title">Title</a></li>
-  <li><a href="#syntax" id="toc-syntax" class="nav-link" data-scroll-target="#syntax">Syntax</a></li>
-  <li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description">Description</a></li>
-  <li><a href="#options" id="toc-options" class="nav-link" data-scroll-target="#options">Options</a></li>
-  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a>
+  <li><a href="#how-to-get-the-questionnaire-json-file" id="toc-how-to-get-the-questionnaire-json-file" class="nav-link active" data-scroll-target="#how-to-get-the-questionnaire-json-file">How to get the questionnaire JSON file</a>
   <ul class="collapse">
-  <li><a href="#example-1-select-variables-more-precisely" id="toc-example-1-select-variables-more-precisely" class="nav-link" data-scroll-target="#example-1-select-variables-more-precisely">Example 1: Select variables more precisely</a></li>
-  <li><a href="#example-2-identify-variables-that-do-not-follow-a-pattern" id="toc-example-2-identify-variables-that-do-not-follow-a-pattern" class="nav-link" data-scroll-target="#example-2-identify-variables-that-do-not-follow-a-pattern">Example 2: Identify variables that do not follow a pattern</a></li>
+  <li><a href="#download-it-with-exported-data" id="toc-download-it-with-exported-data" class="nav-link" data-scroll-target="#download-it-with-exported-data">Download it with exported data</a></li>
+  <li><a href="#download-it-with-the-api" id="toc-download-it-with-the-api" class="nav-link" data-scroll-target="#download-it-with-the-api">Download it with the API</a></li>
   </ul></li>
-  <li><a href="#feedback-bug-reports-and-contributions" id="toc-feedback-bug-reports-and-contributions" class="nav-link" data-scroll-target="#feedback-bug-reports-and-contributions">Feedback, Bug Reports, and Contributions</a></li>
-  <li><a href="#authors" id="toc-authors" class="nav-link" data-scroll-target="#authors">Authors</a></li>
   </ul>
 </nav>
     </div>
@@ -130,7 +124,7 @@ ul.task-list{list-style: none;}
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">sel_matches_regex</h1>
+<h1 class="title">how-to-get-questionnaire-json</h1>
 </div>
 
 
@@ -144,106 +138,26 @@ ul.task-list{list-style: none;}
 
 </header>
 
-<section id="title" class="level1">
-<h1>Title</h1>
-<p><strong>sel_matches_regex</strong> - Get variables that match a regular expression.</p>
-</section>
-<section id="syntax" class="level1">
-<h1>Syntax</h1>
-<p><strong>sel_matches_regex</strong> <em>regex_string</em>, [<strong><strong>var</strong>list</strong>(<em>varlist</em>) <strong><strong>neg</strong>ate</strong>]</p>
-<table class="table">
-<thead>
-<tr class="header">
-<th><em>options</em></th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong><strong>neg</strong>ate</strong></td>
-<td>Returns variables <strong>not</strong> matched by regex</td>
-</tr>
-<tr class="even">
-<td><strong><strong>var</strong>list</strong>(<em>varlist</em>)</td>
-<td>Sets the scope of the regex search</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="description" class="level1">
-<h1>Description</h1>
-<p>By default, Stata allows users to specify a list of variables through a range (e.g., <code>var1 - var5</code>) or a (glob) pattern (e.g., <code>var*</code>). See more <a href="https://www.stata.com/manuals/u11.pdf#u11.4varnameandvarlists">here</a>.</p>
-<p>However, there is no straight-forward way to specify a list of variables that match a regular expression, a pattern specification that is typically more precise than either of the foregoing Stata options. The <code>sel_matches_regex</code> command fills that gap in functionality.</p>
-<p>In particular, this function aims to meet a few needs:</p>
+<section id="how-to-get-the-questionnaire-json-file" class="level1">
+<h1>How to get the questionnaire JSON file</h1>
+<p>There are two methods for getting the questionnaire JSON file:</p>
 <ol type="1">
-<li>Select variables more precisely</li>
-<li>Identify no variables fail to follow a pattern</li>
+<li><a href="#download-it-with-exported-data">Download it with exported data</a></li>
+<li><a href="#download-it-with-the-api">Download it with the API</a></li>
 </ol>
-<p>See examples below.</p>
+<section id="download-it-with-exported-data" class="level2">
+<h2 class="anchored" data-anchor-id="download-it-with-exported-data">Download it with exported data</h2>
+<p>When exporting data from Survey Solutions, select <code>Include meta information about questionnaire</code> under the <code>Questionnaire information</code> heading.</p>
+<p>Once data have been downloaded, unpack <code>content.zip</code> and find the <code>document.json</code> file. See more <a href="https://docs.mysurvey.solutions/headquarters/export/metadata-organization/">here</a> on how to find these files.</p>
+<p>This is the JSON file needed for the next step in the workflow.</p>
 </section>
-<section id="options" class="level1">
-<h1>Options</h1>
-<p><strong><strong>neg</strong>ate</strong> inverts the regex selection. Rather than return matching variables, this option returns variables that do not match.</p>
-<p><strong><strong>var</strong>list</strong>(<em>varlist</em>) restricts the scope of the regex search to the user-provided variable list. By default, <code>sel_matches_regex</code> searches for matches in all variables in memory. With <strong>varlist</strong>, the scope of the search can be narrowed. This narrower varlist could come, for example, from other commands in <code>selector</code>.</p>
-</section>
-<section id="examples" class="level1">
-<h1>Examples</h1>
-<section id="example-1-select-variables-more-precisely" class="level2">
-<h2 class="anchored" data-anchor-id="example-1-select-variables-more-precisely">Example 1: Select variables more precisely</h2>
-<pre><code>* create sets of variables
-gen housing_unit = .
-gen s01q01_quantity = .
-gen s01q01_unit = .
-gen s01q02_quantity = .
-gen s01q02_unit = .
-gen s01q03_quantity = .
-gen s01q03_unit = .
-gen s01q04_quantity = .
-gen s01q04_unit = .
-
-* select variables that end in _unit
-sel_matches_regex "_unit$"
-
-* select variables that end in _unit for questions 02 and 03
-sel_matches_regex "0[23]_unit$"</code></pre>
-</section>
-<section id="example-2-identify-variables-that-do-not-follow-a-pattern" class="level2">
-<h2 class="anchored" data-anchor-id="example-2-identify-variables-that-do-not-follow-a-pattern">Example 2: Identify variables that do not follow a pattern</h2>
-<pre><code>* create a set of variables that mostly follow a pattern
-* importantly, some don't
-gen s01q01 = .
-gen s01q02 = .
-gen s01_q03 = .
-gen s01q04 = .
-gen S01q04 = .
-gen s01q05a = .
-gen s01q05_unit = .
-
-* identify variables that do NOT follow the pattern
-sel_matches_regex "s01q0[0-9][a-z]*$", negate
-
-* assert that there are no variables fail to follow the pattern
-* preventing variable naming problems, say, in disseminated data
-local pattern_for_data "s01q0[0-9][a-z]*$"
-qui: sel_matches_regex "`pattern_for_data'", negate
-local not_follow = r(varlist)
-local n_not_follow : list sizeof not_follow
-capture assert n_not_follow == 0
-if _rc != 1 {
-    di as error "Some variables do not follow the desired pattern (`pattern_for_data')"
-    di as text "`not_follow'"
-}</code></pre>
-</section>
-</section>
-<section id="feedback-bug-reports-and-contributions" class="level1">
-<h1>Feedback, Bug Reports, and Contributions</h1>
-<p>Read more about these commands on <a href="https://github.com/lsms-worldbank/selector">this repo</a> where this package is developed. Please provide any feedback by <a href="https://github.com/lsms-worldbank/selector/issues">opening an issue</a>. PRs with suggestions for improvements are also greatly appreciated.</p>
-</section>
-<section id="authors" class="level1">
-<h1>Authors</h1>
-<p>LSMS Team, The World Bank lsms@worldbank.org</p>
+<section id="download-it-with-the-api" class="level2">
+<h2 class="anchored" data-anchor-id="download-it-with-the-api">Download it with the API</h2>
+<p>Use some tool to fetch the JSON file from the Survey Solutions’ <code>GET ​/api​/v1​/questionnaires​/{id}​/{version}​/document</code> endpoint.</p>
+<p>Consider using a function from an API client. <a href="https://arthur-shaw.github.io/susoapi/reference/get_questionnaire_document.html">Here</a> is one such function.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

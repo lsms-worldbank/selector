@@ -15,6 +15,69 @@ span.underline{text-decoration: underline;}
 div.column{display: inline-block; vertical-align: top; width: 50%;}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -25,6 +88,7 @@ ul.task-list{list-style: none;}
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./images/logo.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -79,8 +143,12 @@ ul.task-list{list-style: none;}
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-articles" role="button" data-bs-toggle="dropdown" aria-expanded="false">Articles</a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-articles">    
         <li>
-    <a class="dropdown-item" href="./articles/README.qmd">
- <span class="dropdown-text"></span></a>
+    <a class="dropdown-item" href="./articles/how-to-create-qnr-metadata-dta.html">
+ <span class="dropdown-text">how-to-create-qnr-metadata-dta</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./articles/how-to-get-questionnaire-json.html">
+ <span class="dropdown-text">how-to-get-questionnaire-json</span></a>
   </li>  
     </ul>
   </li>
@@ -106,7 +174,22 @@ ul.task-list{list-style: none;}
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#selector" id="toc-selector" class="nav-link active" data-scroll-target="#selector">selector</a></li>
+  <li><a href="#selector" id="toc-selector" class="nav-link active" data-scroll-target="#selector"><code>selector</code></a>
+  <ul class="collapse">
+  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a>
+  <ul class="collapse">
+  <li><a href="#development-version" id="toc-development-version" class="nav-link" data-scroll-target="#development-version">Development version</a></li>
+  <li><a href="#previous-versions" id="toc-previous-versions" class="nav-link" data-scroll-target="#previous-versions">Previous versions</a></li>
+  </ul></li>
+  <li><a href="#commands" id="toc-commands" class="nav-link" data-scroll-target="#commands">Commands</a></li>
+  <li><a href="#usage" id="toc-usage" class="nav-link" data-scroll-target="#usage">Usage</a>
+  <ul class="collapse">
+  <li><a href="#regular-expressions" id="toc-regular-expressions" class="nav-link" data-scroll-target="#regular-expressions">Regular expressions</a></li>
+  <li><a href="#survey-solutions-metadata-and-other-chars" id="toc-survey-solutions-metadata-and-other-chars" class="nav-link" data-scroll-target="#survey-solutions-metadata-and-other-chars">Survey Solutions metadata (and other <code>chars</code>)</a></li>
+  </ul></li>
+  <li><a href="#learn-more" id="toc-learn-more" class="nav-link" data-scroll-target="#learn-more">Learn more</a></li>
+  <li><a href="#contact" id="toc-contact" class="nav-link" data-scroll-target="#contact">Contact</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -116,10 +199,256 @@ ul.task-list{list-style: none;}
 
 
 <section id="selector" class="level1">
-<h1>selector</h1>
-<p>Load SuSo meta data into chars and utilities using them</p>
+<h1><code>selector</code></h1>
+<p>Select variables by characteristic (char) or regular expression (regex)</p>
+<p><img src="images/logo.png" align="right" height="139"></p>
+<!-- badges: start -->
+<p><a href="https://lifecycle.r-lib.org/articles/stages.html#experimental"><img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg" class="img-fluid" alt="Lifecycle: experimental"></a> <!-- badges: end --></p>
+<p>The goal of <code>selector</code> is to provide methods for selecting variables of interest in ways that base Stata cannot. For those who find Stata’s glob patterns limiting, <code>selector</code> offers selection by regex pattern. For those who use <a href="https://mysurvey.solutions/">Survey Solutions</a>, <code>selector</code> enables variable selection based on questionnaire metadata (e.g., question type).</p>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<!-- To install the latest published version of the package: 
+
+```stata
+* install the package from the SSC package repository
+ssc install selector
+```
+
+To update the package:
+
+```stata
+* check for updates
+* if any are available, apply them
+adoupdate selector
+``` -->
+<section id="development-version" class="level3">
+<h3 class="anchored" data-anchor-id="development-version">Development version</h3>
+<!-- The version of `selector` on SSC corresponds to the code in the `main` branch of [the package's GitHub repository](https://github.com/lsms-worldbank/selector). -->
+<p>To get a bug fix, a release before SSC publication, or test bleeding-edge features, you can install code from other branches of the repository. The release is version 0.5.</p>
+<p>To install the version in a particular branch:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>* <span class="kw">set</span> <span class="fu">tag</span> to <span class="kw">be</span> the <span class="bn">name</span> <span class="kw">of</span> the target branch</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>* <span class="kw">for</span> example, the development branch, which contains code <span class="kw">for</span> the next release</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> <span class="fu">tag</span> <span class="st">"dev"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>* similarly, <span class="kw">version</span> 0.5, which contains the code <span class="kw">for</span> the current, pre-SSC release</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>* download the code from that GitHub branch</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>* install the package</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>net install selector, <span class="co">///</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  from(<span class="st">"https://raw.githubusercontent.com/lsms-worldbank/selector/`tag'/src"</span>) <span class="kw">replace</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="previous-versions" class="level3">
+<h3 class="anchored" data-anchor-id="previous-versions">Previous versions</h3>
+<p>If you need to install a previously releases version of <code>selector</code>, then you can use the following method. This can be useful, for example, during reproducibility verifications. To install the version in a particular release, set the local <code>tag</code> to the target release you want to install in this code:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>* <span class="kw">set</span> the <span class="fu">tag</span> to the <span class="bn">name</span> <span class="kw">of</span> the target release</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>* <span class="kw">for</span> example v1.0, say, <span class="kw">if</span> the current <span class="kw">version</span> were v2.0</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> <span class="fu">tag</span> <span class="st">"v1.0"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>* download the code from that GitHub release</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>* install the package</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>net install selector, <span class="co">///</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  from(<span class="st">"https://raw.githubusercontent.com/lsms-worldbank/selector/`tag'/src"</span>) <span class="kw">replace</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="commands" class="level2">
+<h2 class="anchored" data-anchor-id="commands">Commands</h2>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://lsms-worldbank.github.io/selector/reference/selector.html">selector</a></td>
+<td>Package command with utilities for the rest of the package</td>
+</tr>
+<tr class="even">
+<td><a href="https://lsms-worldbank.github.io/selector/reference/sel_matches_regex.html">sel_matches_regex</a></td>
+<td>Get variables that match a regular expression.</td>
+</tr>
+<tr class="odd">
+<td><a href="https://lsms-worldbank.github.io/selector/reference/sel_add_metadata.html">sel_add_metadata</a></td>
+<td>Apply SuSo metadata to current data</td>
+</tr>
+<tr class="even">
+<td><a href="https://lsms-worldbank.github.io/selector/reference/sel_remove_metadata.html">sel_remove_metadata</a></td>
+<td>Clean up metadata only needed during cleaning</td>
+</tr>
+<tr class="odd">
+<td><a href="https://lsms-worldbank.github.io/selector/reference/sel_char.html">sel_char</a></td>
+<td>Select varaibles based on <code>char</code> value</td>
+</tr>
+<tr class="even">
+<td><a href="https://lsms-worldbank.github.io/selector/reference/sel_vars.html">sel_vars</a></td>
+<td>List variables with matching characteristics in the Survey Solutions’ Designer.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="usage" class="level2">
+<h2 class="anchored" data-anchor-id="usage">Usage</h2>
+<p><code>selector</code> currently provides two means of selecting variables:</p>
+<ol type="1">
+<li><a href="#regular-expressions">Regular expressions</a></li>
+<li><a href="#survey-solutions-metadata-and-other-chars">Survey Solutions questionnaire metadata (and other <code>chars</code>)</a></li>
+</ol>
+<section id="regular-expressions" class="level3">
+<h3 class="anchored" data-anchor-id="regular-expressions">Regular expressions</h3>
+<p>By default, Stata allows users to select variables by either specifying a variable range (e.g., <code>var1 - var5</code>) or a variable name (glob) pattern (e.g., <code>var*</code>).</p>
+<p>However, there is no straight-forward way to specify a list of variables that match a regular expression–a pattern specification that is typically more precise than either of the foregoing Stata options. The <code>sel_matches_regex</code> command fills that gap in functionality.</p>
+<p>In particular, this function aims to meet a few needs:</p>
+<ul>
+<li><a href="#select-variables-more-precisely">Select variables more precisely</a></li>
+<li><a href="#identify-variables-that-fail-to-follow-a-pattern">Identify variables that fail to follow a pattern</a></li>
+</ul>
+<section id="select-variables-more-precisely" class="level4">
+<h4 class="anchored" data-anchor-id="select-variables-more-precisely">Select variables more precisely</h4>
+<div class="sourceCode" id="cb3"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>* create sets <span class="kw">of</span> variables</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> housing_unit = .</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> s01q01_quantity = .</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> s01q01_unit = .</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> s01q02_quantity = .</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> s01q02_unit = .</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> s01q03_quantity = .</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> s01q03_unit = .</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> s01q04_quantity = .</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> s01q04_unit = .</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>* select variables that <span class="kw">end</span> <span class="kw">in</span> _unit</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>sel_matches_regex <span class="st">"_unit$"</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>* select variables that <span class="kw">end</span> <span class="kw">in</span> _unit <span class="kw">for</span> questions 02 and 03</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>sel_matches_regex <span class="st">"0[23]_unit$"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="identify-variables-that-fail-to-follow-a-pattern" class="level4">
+<h4 class="anchored" data-anchor-id="identify-variables-that-fail-to-follow-a-pattern">Identify variables that fail to follow a pattern</h4>
+<div class="sourceCode" id="cb4"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>* create a <span class="kw">set</span> <span class="kw">of</span> variables that mostly follow a pattern</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>* importantly, some don't</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> s01q01 = .</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> s01q02 = .</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> s01_q03 = .</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> s01q04 = .</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> S01q04 = .</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> s01q05a = .</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span> s01q05_unit = .</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>* identify variables that <span class="kw">do</span> NOT follow the pattern</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>sel_matches_regex <span class="st">"s01q0[0-9][a-z]*$"</span>, negate</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>* <span class="kw">assert</span> that there are no variables fail to follow the pattern</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>* preventing <span class="kw">variable</span> naming problems, say, <span class="kw">in</span> disseminated <span class="kw">data</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> pattern_for_data <span class="st">"s01q0[0-9][a-z]*$"</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="kw">qui</span>: sel_matches_regex <span class="st">"`pattern_for_data'"</span>, negate</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> not_follow = <span class="fu">r</span>(<span class="kw">varlist</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> n_not_follow : <span class="ot">list</span> <span class="kw">sizeof</span> not_follow</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="kw">capture</span> <span class="kw">assert</span> n_not_follow == 0</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="dt">_rc</span> != 1 {</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">di</span> <span class="kw">as</span> <span class="kw">error</span> <span class="st">"Some variables do not follow the desired pattern (`pattern_for_data')"</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">di</span> <span class="kw">as</span> <span class="bn">text</span> <span class="st">"`not_follow'"</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="survey-solutions-metadata-and-other-chars" class="level3">
+<h3 class="anchored" data-anchor-id="survey-solutions-metadata-and-other-chars">Survey Solutions metadata (and other <code>chars</code>)</h3>
+<ul>
+<li><a href="#survey-solutions-metadata">Survey Solutions metadata</a></li>
+<li><a href="#other-arbitrary-chars">Other arbitrary <code>chars</code></a></li>
+</ul>
+<section id="survey-solutions-metadata" class="level4">
+<h4 class="anchored" data-anchor-id="survey-solutions-metadata">Survey Solutions metadata</h4>
+<p>The workflow involves the following steps:</p>
+<ul>
+<li><a href="#get-the-survey-solutions-questionnaire-in-json-format">Get the Survey Solutions questionnaire in JSON format</a></li>
+<li><a href="#create-a-questionnaire-metadata-data-set-from-the-json-file">Create a questionnaire metadata data set from the JSON file</a></li>
+<li><a href="#add-the-questionnaire-metadata-to-the-survey-microdata">Add the questionnaire metadata to the survey microdata</a></li>
+<li><a href="#select-based-on-metadata">Select based on metadata</a></li>
+<li><a href="#remove-metadata">Remove metadata</a></li>
+</ul>
+<section id="get-the-survey-solutions-questionnaire-in-json-format" class="level5">
+<h5 class="anchored" data-anchor-id="get-the-survey-solutions-questionnaire-in-json-format">Get the Survey Solutions questionnaire in JSON format</h5>
+<p>The short answer: download it from your Survey Solutions server. See <a href="https://lsms-worldbank.github.io/selector/articles/how-to-get-questionnaire-json.html">here</a> for more details.</p>
+</section>
+<section id="create-a-questionnaire-metadata-data-set-from-the-json-file" class="level5">
+<h5 class="anchored" data-anchor-id="create-a-questionnaire-metadata-data-set-from-the-json-file">Create a questionnaire metadata data set from the JSON file</h5>
+<p>The short answer: use the <code>susometa</code> R package to transform the questionnaire metadata from JSON to a data frame, and to save that data frame as a <code>.dta</code> file for <code>selector</code> to use it. See <a href="https://lsms-worldbank.github/io/selector/articles/how-to-create-qnr-metadata-dta.md">here</a> for more details.</p>
+</section>
+<section id="add-the-questionnaire-metadata-to-the-survey-microdata" class="level5">
+<h5 class="anchored" data-anchor-id="add-the-questionnaire-metadata-to-the-survey-microdata">Add the questionnaire metadata to the survey microdata</h5>
+<p>For <code>selector</code> to use Survey Solutions’ questionnaire metadata, it must be added to the data set in memory. The <code>sel_add_metadata</code> command does exactly that: ingects metadata so that other <code>selector</code> commands can use this information.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>* add Survey Solutions questionnaire metadata</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>sel_add_metadata <span class="kw">using</span> <span class="st">"path/to/your/metadata.dta"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="select-based-on-metadata" class="level5">
+<h5 class="anchored" data-anchor-id="select-based-on-metadata">Select based on metadata</h5>
+<p>Once metadata have been added to microdata, <code>selector</code> commands can select variables based on their characteristics in the Survey Solutions questionnaire that generated them.</p>
+<p>For example, one can select by inidividual characteristics like question type:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>* select <span class="kw">by</span> question <span class="dv">type</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>* <span class="kw">numeric</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>* any <span class="dv">type</span> <span class="kw">of</span> <span class="kw">numeric</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>sel_vars is_numeric</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>* any with decimals</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>sel_vars is_demical</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>* multi-select</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>* any <span class="dv">type</span> <span class="kw">of</span> multi-select</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>sel_vars is_multi_select</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>* yes/no</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>sel_vars is_multi_yn</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>* checkboxes</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>sel_vars is_multi_checkbox</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>* with answer <span class="kw">order</span> recorded</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>is_multi_ordered</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Alternatively, one can combine multiple selectors, since the outputs of one command–that is, the variables with a certain characteristic–can be passed as input into another commend–that is, the variables to consider for another characteristic.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>* <span class="bn">combine</span> selectors</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>* first, select multi-select</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>sel_vars is_multi_select</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> multi_select <span class="st">"`r(varlist)'"</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>* then, select linked questions among them</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>sel_vars is_linked, <span class="kw">varlist</span>(<span class="ot">`multi_select'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="remove-metadata" class="level5">
+<h5 class="anchored" data-anchor-id="remove-metadata">Remove metadata</h5>
+<p>Once metadata are no longer needed–for example, as data files are prepared for publication–they can be removed with <code>sel_remove_metadata</code>.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>* remove metadata (<span class="fu">e</span>.g., before <span class="kw">saving</span> <span class="kw">data</span> <span class="kw">for</span> dissemination)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>sel_remove_metadata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="other-arbitrary-chars" class="level4">
+<h4 class="anchored" data-anchor-id="other-arbitrary-chars">Other arbitrary <code>chars</code></h4>
+<p>The <code>selector</code> package uses Stata <code>chars</code> to select variables. For Survey Solutions users, <code>selector</code> provides a dedicated command for accessing particular <code>chars</code> corresponding to Survey Solutions questionnaire metadata (i.e., <code>sel_vars</code> and its subcommands like <code>is_numeric</code>, <code>is_multi_select</code>, <code>is_linked</code>, etc.).</p>
+<p>For those interested in using different <code>chars</code>, <code>selector</code> provides a general-purpose selector to query and select on the basis of user-provided <code>chars</code>: <code>sel_char</code>.</p>
+<p>For example:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode stata code-with-copy"><code class="sourceCode stata"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>* <span class="kw">use</span> the automobile <span class="kw">data</span> <span class="kw">set</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">sysuse</span> auto, <span class="kw">clear</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>* add a currency unit <span class="fu">char</span> to the price <span class="kw">variable</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">char</span> price[currency] <span class="st">"USD"</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>* create another price <span class="kw">variable</span> and attach a currency unit <span class="fu">char</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="kw">gen</span>  price_eur = price * .9</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">char</span> price_eur[currency] <span class="st">"EUR"</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>* select those variables whose currency unit is USD</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>sel_char <span class="st">"currency USD"</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span> <span class="ot">list</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+</section>
+<section id="learn-more" class="level2">
+<h2 class="anchored" data-anchor-id="learn-more">Learn more</h2>
+<p>To learn more about the package:</p>
+<ul>
+<li>Consult the reference documentation</li>
+<li>Read how-to articles</li>
+</ul>
+</section>
+<section id="contact" class="level2">
+<h2 class="anchored" data-anchor-id="contact">Contact</h2>
+<p>LSMS Team, World Bank lsms@worldbank.org</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

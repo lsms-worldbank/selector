@@ -4,7 +4,35 @@
     "href": "index.html",
     "title": "selector",
     "section": "",
-    "text": "Load SuSo meta data into chars and utilities using them"
+    "text": "Select variables by characteristic (char) or regular expression (regex)\n\n\n \nThe goal of selector is to provide methods for selecting variables of interest in ways that base Stata cannot. For those who find Stata’s glob patterns limiting, selector offers selection by regex pattern. For those who use Survey Solutions, selector enables variable selection based on questionnaire metadata (e.g., question type).\n\n\n\n\n\n\nTo get a bug fix, a release before SSC publication, or test bleeding-edge features, you can install code from other branches of the repository. The release is version 0.5.\nTo install the version in a particular branch:\n* set tag to be the name of the target branch\n* for example, the development branch, which contains code for the next release\nlocal tag \"dev\"\n* similarly, version 0.5, which contains the code for the current, pre-SSC release\n* download the code from that GitHub branch\n* install the package\nnet install selector, ///\n  from(\"https://raw.githubusercontent.com/lsms-worldbank/selector/`tag'/src\") replace\n\n\n\nIf you need to install a previously releases version of selector, then you can use the following method. This can be useful, for example, during reproducibility verifications. To install the version in a particular release, set the local tag to the target release you want to install in this code:\n* set the tag to the name of the target release\n* for example v1.0, say, if the current version were v2.0\nlocal tag \"v1.0\"\n* download the code from that GitHub release\n* install the package\nnet install selector, ///\n  from(\"https://raw.githubusercontent.com/lsms-worldbank/selector/`tag'/src\") replace\n\n\n\n\n\n\n\nCommand\nDescription\n\n\n\n\nselector\nPackage command with utilities for the rest of the package\n\n\nsel_matches_regex\nGet variables that match a regular expression.\n\n\nsel_add_metadata\nApply SuSo metadata to current data\n\n\nsel_remove_metadata\nClean up metadata only needed during cleaning\n\n\nsel_char\nSelect varaibles based on char value\n\n\nsel_vars\nList variables with matching characteristics in the Survey Solutions’ Designer.\n\n\n\n\n\n\nselector currently provides two means of selecting variables:\n\nRegular expressions\nSurvey Solutions questionnaire metadata (and other chars)\n\n\n\nBy default, Stata allows users to select variables by either specifying a variable range (e.g., var1 - var5) or a variable name (glob) pattern (e.g., var*).\nHowever, there is no straight-forward way to specify a list of variables that match a regular expression–a pattern specification that is typically more precise than either of the foregoing Stata options. The sel_matches_regex command fills that gap in functionality.\nIn particular, this function aims to meet a few needs:\n\nSelect variables more precisely\nIdentify variables that fail to follow a pattern\n\n\n\n* create sets of variables\ngen housing_unit = .\ngen s01q01_quantity = .\ngen s01q01_unit = .\ngen s01q02_quantity = .\ngen s01q02_unit = .\ngen s01q03_quantity = .\ngen s01q03_unit = .\ngen s01q04_quantity = .\ngen s01q04_unit = .\n\n* select variables that end in _unit\nsel_matches_regex \"_unit$\"\n\n* select variables that end in _unit for questions 02 and 03\nsel_matches_regex \"0[23]_unit$\"\n\n\n\n* create a set of variables that mostly follow a pattern\n* importantly, some don't\ngen s01q01 = .\ngen s01q02 = .\ngen s01_q03 = .\ngen s01q04 = .\ngen S01q04 = .\ngen s01q05a = .\ngen s01q05_unit = .\n\n* identify variables that do NOT follow the pattern\nsel_matches_regex \"s01q0[0-9][a-z]*$\", negate\n\n* assert that there are no variables fail to follow the pattern\n* preventing variable naming problems, say, in disseminated data\nlocal pattern_for_data \"s01q0[0-9][a-z]*$\"\nqui: sel_matches_regex \"`pattern_for_data'\", negate\nlocal not_follow = r(varlist)\nlocal n_not_follow : list sizeof not_follow\ncapture assert n_not_follow == 0\nif _rc != 1 {\n    di as error \"Some variables do not follow the desired pattern (`pattern_for_data')\"\n    di as text \"`not_follow'\"\n}\n\n\n\n\n\nSurvey Solutions metadata\nOther arbitrary chars\n\n\n\nThe workflow involves the following steps:\n\nGet the Survey Solutions questionnaire in JSON format\nCreate a questionnaire metadata data set from the JSON file\nAdd the questionnaire metadata to the survey microdata\nSelect based on metadata\nRemove metadata\n\n\n\nThe short answer: download it from your Survey Solutions server. See here for more details.\n\n\n\nThe short answer: use the susometa R package to transform the questionnaire metadata from JSON to a data frame, and to save that data frame as a .dta file for selector to use it. See here for more details.\n\n\n\nFor selector to use Survey Solutions’ questionnaire metadata, it must be added to the data set in memory. The sel_add_metadata command does exactly that: ingects metadata so that other selector commands can use this information.\n* add Survey Solutions questionnaire metadata\nsel_add_metadata using \"path/to/your/metadata.dta\"\n\n\n\nOnce metadata have been added to microdata, selector commands can select variables based on their characteristics in the Survey Solutions questionnaire that generated them.\nFor example, one can select by inidividual characteristics like question type:\n* select by question type\n\n* numeric\n* any type of numeric\nsel_vars is_numeric\n* any with decimals\nsel_vars is_demical\n\n* multi-select\n* any type of multi-select\nsel_vars is_multi_select\n* yes/no\nsel_vars is_multi_yn\n* checkboxes\nsel_vars is_multi_checkbox\n* with answer order recorded\nis_multi_ordered\nAlternatively, one can combine multiple selectors, since the outputs of one command–that is, the variables with a certain characteristic–can be passed as input into another commend–that is, the variables to consider for another characteristic.\n* combine selectors\n\n* first, select multi-select\nsel_vars is_multi_select\nlocal multi_select \"`r(varlist)'\"\n* then, select linked questions among them\nsel_vars is_linked, varlist(`multi_select')\n\n\n\nOnce metadata are no longer needed–for example, as data files are prepared for publication–they can be removed with sel_remove_metadata.\n* remove metadata (e.g., before saving data for dissemination)\nsel_remove_metadata\n\n\n\n\nThe selector package uses Stata chars to select variables. For Survey Solutions users, selector provides a dedicated command for accessing particular chars corresponding to Survey Solutions questionnaire metadata (i.e., sel_vars and its subcommands like is_numeric, is_multi_select, is_linked, etc.).\nFor those interested in using different chars, selector provides a general-purpose selector to query and select on the basis of user-provided chars: sel_char.\nFor example:\n* use the automobile data set\nsysuse auto, clear\n\n* add a currency unit char to the price variable\nchar price[currency] \"USD\"\n\n* create another price variable and attach a currency unit char\ngen  price_eur = price * .9\nchar price_eur[currency] \"EUR\"\n\n* select those variables whose currency unit is USD\nsel_char \"currency USD\"\nreturn list\n\n\n\n\n\nTo learn more about the package:\n\nConsult the reference documentation\nRead how-to articles\n\n\n\n\nLSMS Team, World Bank lsms@worldbank.org"
+  },
+  {
+    "objectID": "articles/how-to-create-qnr-metadata-dta.html",
+    "href": "articles/how-to-create-qnr-metadata-dta.html",
+    "title": "how-to-create-qnr-metadata-dta",
+    "section": "",
+    "text": "To create a questionnaire metadata data set, one must:\n\nExtract data from JSON\nReshape data into rectangular form\nExtract data from reusable categories\nReshape that data into desired form\nCombine JSON and reusable categories data\nSelect data relevant for questions and variables\nWrite data to a Stata file\n\nAt present, this can be achieved with the R script below.\nIn the future, this will likely be done through a simple function in the {susometa} package, and potentially in a selector command that wraps this function.\n# =============================================================================\n# Set up paths\n# =============================================================================\n\n# NOTE: provide paths with / rather than \\\njson_dir <- \"\"\nout_dir <- \"\"\n\n# =============================================================================\n# Install required packages\n# =============================================================================\n\n# for package installation\nif (!require(\"pak\")) {\n  install.packages(\"pak\")\n}\n\n# install required packages\nrequired_packages <- c(\n  \"stringr\",\n  \"lsms-worldbank/susometa\",\n  \"fs\",\n  \"haven\"\n)\n\npak::pak(required_packages)\n\n# =============================================================================\n# Ingest JSON questionnaire metadata\n# =============================================================================\n\nqnr_df <- susometa::parse_questionnaire(path = fs::path(json_dir, \"document.json\"))\n\n# =============================================================================\n# Add reusable categories\n# =============================================================================\n\ncategories_df_raw <- susometa::parse_categories(dir = fs::path(json_dir, \"Categories\"))\ncategories_df <- susometa::reshape_categories(categories_df = categories_df_raw)\nqnr_df <- susometa::join_categories(\n  qnr_json_df = qnr_df,\n  categories_df = categories_df\n)\n\n# =============================================================================\n# Make the metadata data frame Stata-friendly in form and content\n# =============================================================================\n\n# function to convert Boolean values to integer\nfrom_bool_to_int <- function(x) {\n  dplyr::case_when(\n    x == TRUE ~ 1,\n    x == FALSE ~ 0,\n    TRUE ~ NA\n  ) %>%\n  as.integer()\n}\n\n# create a Stata-friendly version of the data frame\nstata_qnr_df <- qnr_df %>%\n  # rename columns with illegal names\n  dplyr::rename_with(\n    .fn = ~ stringr::str_replace_all(\n      string = .x,\n      pattern = \"\\\\.\", \n      replacement = \"_\"\n    )\n  ) %>%\n  dplyr::mutate(\n    # remove newline from string variables\n    dplyr::across(\n      .cols = tidyselect::where(is.character),\n      .fns = ~ stringr::str_replace_all(\n        string = .x,\n        pattern = \"\\n\",\n        replacement = \"\"\n      )\n    ),\n    dplyr::across(\n      .cols = tidyselect::starts_with(\"is_\"),\n      .fns = ~ from_bool_to_int(.x)\n    )\n  ) %>%\n  # remove columns with stubborn newline characters\n  dplyr::select(-text)\n\n# =============================================================================\n# Extract data for questions in the export data\n# =============================================================================\n\n# get question metadata\nq_df <- stata_qnr_df |>\n  # keep only questions and relevant metadata attributes\n  susometa::get_questions() |>\n  # remove columns that may have newline characters\n  dplyr::select(\n    -dplyr::matches(\"_expression\") # filter, enablement, and validation expressions\n  )\n\n# get variable metadata\nvar_df <- susometa::get_variables(qnr_df = stata_qnr_df) |>\n  # populate `varname` column with `name_variable`\n  dplyr::mutate(varname = name_variable)\n\n# combine question and variable metadata\nqv_df <- dplyr::bind_rows(q_df, var_df)\n\n# =============================================================================\n# Save metadata to a Stata file\n# =============================================================================\n\n# question and variable metadata\nhaven::write_dta(data = qv_df, path = fs::path(out_dir, \"question_metadata.dta\"))"
+  },
+  {
+    "objectID": "articles/how-to-get-questionnaire-json.html",
+    "href": "articles/how-to-get-questionnaire-json.html",
+    "title": "how-to-get-questionnaire-json",
+    "section": "",
+    "text": "There are two methods for getting the questionnaire JSON file:\n\nDownload it with exported data\nDownload it with the API\n\n\n\nWhen exporting data from Survey Solutions, select Include meta information about questionnaire under the Questionnaire information heading.\nOnce data have been downloaded, unpack content.zip and find the document.json file. See more here on how to find these files.\nThis is the JSON file needed for the next step in the workflow.\n\n\n\nUse some tool to fetch the JSON file from the Survey Solutions’ GET ​/api​/v1​/questionnaires​/{id}​/{version}​/document endpoint.\nConsider using a function from an API client. Here is one such function."
+  },
+  {
+    "objectID": "src/mdhlp/selector.html",
+    "href": "src/mdhlp/selector.html",
+    "title": "selector",
+    "section": "",
+    "text": "Syntax\nselector\n\n\nDescription\nThis command only returns the version number and version data to the user. This command has little application for the user. For packages installed on SSC it is important that a there is a command in the package that has the same name as the package. That is the main purpose of this command.\n\n\nOptions\nThis command has no options.\n\n\nFeedback, Bug Reports, and Contributions\nRead more about these commands on this repo where this package is developed. Please provide any feedback by opening an issue. PRs with suggestions for improvements are also greatly appreciated.\n\n\nAuthors\nLSMS Team, The World Bank lsms@worldbank.org"
+  },
+  {
+    "objectID": "src/mdhlp/sel_add_metadata.html",
+    "href": "src/mdhlp/sel_add_metadata.html",
+    "title": "selector",
+    "section": "",
+    "text": "Syntax\nsel_add_metadata using path/to/metadata.dta\n\n\nDescription\nThis command applies Survey Solutions (SuSo) meta data to chars. This command expects as input the file outputted by the R-function cleanstart.\nAfter this commands runs successfully, SuSo meta data is stored in char values that can be read like this:\nlocal type : char varA[type]\"\nif \"`type'\" == \"NumericQuestion\" {\n  // Do something to numeric questons\n}\n\n\nOptions\nThis command does not have any options. It only takes the path to the meta data file in using.\n\n\nExamples\nlocal metadatafile \"${meta_data}/question_metadata.dta\"\nsel_add_metadata using `metadatafile'\n\n\nFeedback, Bug Reports, and Contributions\nRead more about these commands on this repo where this package is developed. Please provide any feedback by opening an issue. PRs with suggestions for improvements are also greatly appreciated.\n\n\nAuthors\nLSMS Team, The World Bank lsms@worldbank.org"
   },
   {
     "objectID": "src/mdhlp/sel_matches_regex.html",
@@ -28,11 +56,18 @@
     "text": "Example 2: Identify variables that do not follow a pattern\n* create a set of variables that mostly follow a pattern\n* importantly, some don't\ngen s01q01 = .\ngen s01q02 = .\ngen s01_q03 = .\ngen s01q04 = .\ngen S01q04 = .\ngen s01q05a = .\ngen s01q05_unit = .\n\n* identify variables that do NOT follow the pattern\nsel_matches_regex \"s01q0[0-9][a-z]*$\", negate\n\n* assert that there are no variables fail to follow the pattern\n* preventing variable naming problems, say, in disseminated data\nlocal pattern_for_data \"s01q0[0-9][a-z]*$\"\nqui: sel_matches_regex \"`pattern_for_data'\", negate\nlocal not_follow = r(varlist)\nlocal n_not_follow : list sizeof not_follow\ncapture assert n_not_follow == 0\nif _rc != 1 {\n    di as error \"Some variables do not follow the desired pattern (`pattern_for_data')\"\n    di as text \"`not_follow'\"\n}"
   },
   {
-    "objectID": "src/mdhlp/sel_add_metadata.html",
-    "href": "src/mdhlp/sel_add_metadata.html",
+    "objectID": "src/mdhlp/sel_vars.html",
+    "href": "src/mdhlp/sel_vars.html",
     "title": "selector",
     "section": "",
-    "text": "Syntax\nsel_add_metadata using path/to/metadata.dta\n\n\nDescription\nThis command applies Survey Solutions (SuSo) meta data to chars. This command expects as input the file outputted by the R-function cleanstart.\nAfter this commands runs successfully, SuSo meta data is stored in char values that can be read like this:\nlocal type : char varA[type]\"\nif \"`type'\" == \"NumericQuestion\" {\n  // Do something to numeric questons\n}\n\n\nOptions\nThis command does not have any options. It only takes the path to the meta data file in using.\n\n\nExamples\nlocal metadatafile \"${meta_data}/question_metadata.dta\"\nsel_add_metadata using `metadatafile'\n\n\nFeedback, Bug Reports, and Contributions\nRead more about these commands on this repo where this package is developed. Please provide any feedback by opening an issue. PRs with suggestions for improvements are also greatly appreciated.\n\n\nAuthors\nLSMS Team, The World Bank lsms@worldbank.org"
+    "text": "sel_vars - List variables with matching characteristics in the Survey Solutions’ Designer."
+  },
+  {
+    "objectID": "src/mdhlp/sel_vars.html#example-1",
+    "href": "src/mdhlp/sel_vars.html#example-1",
+    "title": "selector",
+    "section": "Example 1",
+    "text": "Example 1\nThis example lists all variables linked to numeric question in SuSo Designer:\nsel_vars is_numeric\nreturn list"
   },
   {
     "objectID": "src/mdhlp/sel_remove_metadata.html",
@@ -84,32 +119,67 @@
     "text": "Example 3\nThis example is synonymous with example 2, as the variable list that is a result of the first run of sel_char is passed into the varlist() option in the second run of sel_char. This can be especially useful when combining this command with other commands in the selector package.\nsysuse auto, clear\n\nchar price[currency] \"USD\"\n\ngen  price_eur = price * .9\nchar price_eur[currency] \"EUR\"\n\nchar price[raw] \"1\"\nchar price_eur[raw] \"1\"\n\nsel_char \"raw 1\"\nsel_char \"currency USD\" , varlist(`r(varlist)')\nreturn list"
   },
   {
-    "objectID": "src/mdhlp/selector.html",
-    "href": "src/mdhlp/selector.html",
+    "objectID": "src/vignettes/how-to-get-questionnaire-json.html",
+    "href": "src/vignettes/how-to-get-questionnaire-json.html",
     "title": "selector",
     "section": "",
-    "text": "Syntax\nselector\n\n\nDescription\nThis command only returns the version number and version data to the user. This command has little application for the user. For packages installed on SSC it is important that a there is a command in the package that has the same name as the package. That is the main purpose of this command.\n\n\nOptions\nThis command has no options.\n\n\nFeedback, Bug Reports, and Contributions\nRead more about these commands on this repo where this package is developed. Please provide any feedback by opening an issue. PRs with suggestions for improvements are also greatly appreciated.\n\n\nAuthors\nLSMS Team, The World Bank lsms@worldbank.org"
+    "text": "There are two methods for getting the questionnaire JSON file:\n\nDownload it with exported data\nDownload it with the API\n\n\n\nWhen exporting data from Survey Solutions, select Include meta information about questionnaire under the Questionnaire information heading.\nOnce data have been downloaded, unpack content.zip and find the document.json file. See more here on how to find these files.\nThis is the JSON file needed for the next step in the workflow.\n\n\n\nUse some tool to fetch the JSON file from the Survey Solutions’ GET ​/api​/v1​/questionnaires​/{id}​/{version}​/document endpoint.\nConsider using a function from an API client. Here is one such function."
   },
   {
-    "objectID": "src/mdhlp/sel_vars.html",
-    "href": "src/mdhlp/sel_vars.html",
+    "objectID": "src/vignettes/how-to-create-qnr-metadata-dta.html",
+    "href": "src/vignettes/how-to-create-qnr-metadata-dta.html",
     "title": "selector",
     "section": "",
-    "text": "sel_vars - List variables with matching characteristics in the Survey Solutions’ Designer."
+    "text": "To create a questionnaire metadata data set, one must:\n\nExtract data from JSON\nReshape data into rectangular form\nExtract data from reusable categories\nReshape that data into desired form\nCombine JSON and reusable categories data\nSelect data relevant for questions and variables\nWrite data to a Stata file\n\nAt present, this can be achieved with the R script below.\nIn the future, this will likely be done through a simple function in the {susometa} package, and potentially in a selector command that wraps this function.\n# =============================================================================\n# Set up paths\n# =============================================================================\n\n# NOTE: provide paths with / rather than \\\njson_dir <- \"\"\nout_dir <- \"\"\n\n# =============================================================================\n# Install required packages\n# =============================================================================\n\n# for package installation\nif (!require(\"pak\")) {\n  install.packages(\"pak\")\n}\n\n# install required packages\nrequired_packages <- c(\n  \"stringr\",\n  \"lsms-worldbank/susometa\",\n  \"fs\",\n  \"haven\"\n)\n\npak::pak(required_packages)\n\n# =============================================================================\n# Ingest JSON questionnaire metadata\n# =============================================================================\n\nqnr_df <- susometa::parse_questionnaire(path = fs::path(json_dir, \"document.json\"))\n\n# =============================================================================\n# Add reusable categories\n# =============================================================================\n\ncategories_df_raw <- susometa::parse_categories(dir = fs::path(json_dir, \"Categories\"))\ncategories_df <- susometa::reshape_categories(categories_df = categories_df_raw)\nqnr_df <- susometa::join_categories(\n  qnr_json_df = qnr_df,\n  categories_df = categories_df\n)\n\n# =============================================================================\n# Make the metadata data frame Stata-friendly in form and content\n# =============================================================================\n\n# function to convert Boolean values to integer\nfrom_bool_to_int <- function(x) {\n  dplyr::case_when(\n    x == TRUE ~ 1,\n    x == FALSE ~ 0,\n    TRUE ~ NA\n  ) %>%\n  as.integer()\n}\n\n# create a Stata-friendly version of the data frame\nstata_qnr_df <- qnr_df %>%\n  # rename columns with illegal names\n  dplyr::rename_with(\n    .fn = ~ stringr::str_replace_all(\n      string = .x,\n      pattern = \"\\\\.\", \n      replacement = \"_\"\n    )\n  ) %>%\n  dplyr::mutate(\n    # remove newline from string variables\n    dplyr::across(\n      .cols = tidyselect::where(is.character),\n      .fns = ~ stringr::str_replace_all(\n        string = .x,\n        pattern = \"\\n\",\n        replacement = \"\"\n      )\n    ),\n    dplyr::across(\n      .cols = tidyselect::starts_with(\"is_\"),\n      .fns = ~ from_bool_to_int(.x)\n    )\n  ) %>%\n  # remove columns with stubborn newline characters\n  dplyr::select(-text)\n\n# =============================================================================\n# Extract data for questions in the export data\n# =============================================================================\n\n# get question metadata\nq_df <- stata_qnr_df |>\n  # keep only questions and relevant metadata attributes\n  susometa::get_questions() |>\n  # remove columns that may have newline characters\n  dplyr::select(\n    -dplyr::matches(\"_expression\") # filter, enablement, and validation expressions\n  )\n\n# get variable metadata\nvar_df <- susometa::get_variables(qnr_df = stata_qnr_df) |>\n  # populate `varname` column with `name_variable`\n  dplyr::mutate(varname = name_variable)\n\n# combine question and variable metadata\nqv_df <- dplyr::bind_rows(q_df, var_df)\n\n# =============================================================================\n# Save metadata to a Stata file\n# =============================================================================\n\n# question and variable metadata\nhaven::write_dta(data = qv_df, path = fs::path(out_dir, \"question_metadata.dta\"))"
   },
   {
-    "objectID": "src/mdhlp/sel_vars.html#example-1",
-    "href": "src/mdhlp/sel_vars.html#example-1",
-    "title": "selector",
+    "objectID": "reference/sel_char.html",
+    "href": "reference/sel_char.html",
+    "title": "sel_char",
+    "section": "",
+    "text": "sel_char - This command is used for short description."
+  },
+  {
+    "objectID": "reference/sel_char.html#example-1",
+    "href": "reference/sel_char.html#example-1",
+    "title": "sel_char",
     "section": "Example 1",
-    "text": "Example 1\nThis example lists all variables linked to numeric question in SuSo Designer:\nsel_vars is_numeric\nreturn list"
+    "text": "Example 1\nIn this example a second price varible is created. The currency used for the variables is stored in the char value “currency”. Then sel_char is used to list all variables that has the value “USD” in the char “currency”.\nsysuse auto, clear\n\nchar price[currency] \"USD\"\n\ngen  price_eur = price * .9\nchar price_eur[currency] \"EUR\"\n\nsel_char \"currency USD\"\nreturn list"
   },
   {
-    "objectID": "reference/sel_add_metadata.html",
-    "href": "reference/sel_add_metadata.html",
-    "title": "sel_add_metadata.md",
+    "objectID": "reference/sel_char.html#example-2",
+    "href": "reference/sel_char.html#example-2",
+    "title": "sel_char",
+    "section": "Example 2",
+    "text": "Example 2\nYou can combine multiple char values to filter your variable list further. When combining multiple chars the command returns data on the filtering on each char.\nsysuse auto, clear\n\nchar price[currency] \"USD\"\n\ngen  price_eur = price * .9\nchar price_eur[currency] \"EUR\"\n\nchar price[raw] \"1\"\nchar price_eur[raw] \"1\"\n\nsel_char \"raw 1\" \"currency USD\"\nreturn list"
+  },
+  {
+    "objectID": "reference/sel_char.html#example-3",
+    "href": "reference/sel_char.html#example-3",
+    "title": "sel_char",
+    "section": "Example 3",
+    "text": "Example 3\nThis example is synonymous with example 2, as the variable list that is a result of the first run of sel_char is passed into the varlist() option in the second run of sel_char. This can be especially useful when combining this command with other commands in the selector package.\nsysuse auto, clear\n\nchar price[currency] \"USD\"\n\ngen  price_eur = price * .9\nchar price_eur[currency] \"EUR\"\n\nchar price[raw] \"1\"\nchar price_eur[raw] \"1\"\n\nsel_char \"raw 1\"\nsel_char \"currency USD\" , varlist(`r(varlist)')\nreturn list"
+  },
+  {
+    "objectID": "reference/sel_remove_metadata.html",
+    "href": "reference/sel_remove_metadata.html",
+    "title": "sel_remove_metadata",
     "section": "",
-    "text": "Syntax\nsel_add_metadata using path/to/metadata.dta\n\n\nDescription\nThis command applies Survey Solutions (SuSo) meta data to chars. This command expects as input the file outputted by the R-function cleanstart.\nAfter this commands runs successfully, SuSo meta data is stored in char values that can be read like this:\nlocal type : char varA[type]\"\nif \"`type'\" == \"NumericQuestion\" {\n  // Do something to numeric questons\n}\n\n\nOptions\nThis command does not have any options. It only takes the path to the meta data file in using.\n\n\nExamples\nlocal metadatafile \"${meta_data}/question_metadata.dta\"\nsel_add_metadata using `metadatafile'\n\n\nFeedback, Bug Reports, and Contributions\nRead more about these commands on this repo where this package is developed. Please provide any feedback by opening an issue. PRs with suggestions for improvements are also greatly appreciated.\n\n\nAuthors\nLSMS Team, The World Bank lsms@worldbank.org"
+    "text": "sel_remove_metadata - Clean up metadata only needed during cleaning"
+  },
+  {
+    "objectID": "reference/sel_remove_metadata.html#example-1",
+    "href": "reference/sel_remove_metadata.html#example-1",
+    "title": "sel_remove_metadata",
+    "section": "Example 1",
+    "text": "Example 1\nIf the meta data to be removed was added by sel_add_metadata then this command can be specified as simply as this:\n  sel_remove_metadata"
+  },
+  {
+    "objectID": "reference/sel_remove_metadata.html#example-2",
+    "href": "reference/sel_remove_metadata.html#example-2",
+    "title": "sel_remove_metadata",
+    "section": "Example 2",
+    "text": "Example 2\nIf it custom chars to be removed, for example mychar and abc, the the command should be specified like thisL\n  sel_remove_metadata, chars(mychar abc)"
   },
   {
     "objectID": "reference/index.html",
@@ -119,94 +189,52 @@
     "text": "Functions\nDescription\n\n\n\n\nsel_add_metadata\nApply SuSo metadata to current data\n\n\nsel_char\nThis command is used for short description.\n\n\nsel_matches_regex\nGet variables that match a regular expression.\n\n\nsel_remove_metadata\nClean up metadata only needed during cleaning\n\n\nsel_vars\nList variables with matching characteristics in the Survey Solutions’ Designer.\n\n\nselector\nPackage command with utilities for the rest of the package"
   },
   {
+    "objectID": "reference/sel_add_metadata.html",
+    "href": "reference/sel_add_metadata.html",
+    "title": "sel_add_metadata",
+    "section": "",
+    "text": "Syntax\nsel_add_metadata using path/to/metadata.dta\n\n\nDescription\nThis command applies Survey Solutions (SuSo) meta data to chars. This command expects as input the file outputted by the R-function cleanstart.\nAfter this commands runs successfully, SuSo meta data is stored in char values that can be read like this:\nlocal type : char varA[type]\"\nif \"`type'\" == \"NumericQuestion\" {\n  // Do something to numeric questons\n}\n\n\nOptions\nThis command does not have any options. It only takes the path to the meta data file in using.\n\n\nExamples\nlocal metadatafile \"${meta_data}/question_metadata.dta\"\nsel_add_metadata using `metadatafile'\n\n\nFeedback, Bug Reports, and Contributions\nRead more about these commands on this repo where this package is developed. Please provide any feedback by opening an issue. PRs with suggestions for improvements are also greatly appreciated.\n\n\nAuthors\nLSMS Team, The World Bank lsms@worldbank.org"
+  },
+  {
     "objectID": "reference/sel_matches_regex.html",
     "href": "reference/sel_matches_regex.html",
-    "title": "sel_matches_regex.md",
+    "title": "sel_matches_regex",
     "section": "",
     "text": "sel_matches_regex - Get variables that match a regular expression."
   },
   {
     "objectID": "reference/sel_matches_regex.html#example-1-select-variables-more-precisely",
     "href": "reference/sel_matches_regex.html#example-1-select-variables-more-precisely",
-    "title": "sel_matches_regex.md",
+    "title": "sel_matches_regex",
     "section": "Example 1: Select variables more precisely",
     "text": "Example 1: Select variables more precisely\n* create sets of variables\ngen housing_unit = .\ngen s01q01_quantity = .\ngen s01q01_unit = .\ngen s01q02_quantity = .\ngen s01q02_unit = .\ngen s01q03_quantity = .\ngen s01q03_unit = .\ngen s01q04_quantity = .\ngen s01q04_unit = .\n\n* select variables that end in _unit\nsel_matches_regex \"_unit$\"\n\n* select variables that end in _unit for questions 02 and 03\nsel_matches_regex \"0[23]_unit$\""
   },
   {
     "objectID": "reference/sel_matches_regex.html#example-2-identify-variables-that-do-not-follow-a-pattern",
     "href": "reference/sel_matches_regex.html#example-2-identify-variables-that-do-not-follow-a-pattern",
-    "title": "sel_matches_regex.md",
+    "title": "sel_matches_regex",
     "section": "Example 2: Identify variables that do not follow a pattern",
     "text": "Example 2: Identify variables that do not follow a pattern\n* create a set of variables that mostly follow a pattern\n* importantly, some don't\ngen s01q01 = .\ngen s01q02 = .\ngen s01_q03 = .\ngen s01q04 = .\ngen S01q04 = .\ngen s01q05a = .\ngen s01q05_unit = .\n\n* identify variables that do NOT follow the pattern\nsel_matches_regex \"s01q0[0-9][a-z]*$\", negate\n\n* assert that there are no variables fail to follow the pattern\n* preventing variable naming problems, say, in disseminated data\nlocal pattern_for_data \"s01q0[0-9][a-z]*$\"\nqui: sel_matches_regex \"`pattern_for_data'\", negate\nlocal not_follow = r(varlist)\nlocal n_not_follow : list sizeof not_follow\ncapture assert n_not_follow == 0\nif _rc != 1 {\n    di as error \"Some variables do not follow the desired pattern (`pattern_for_data')\"\n    di as text \"`not_follow'\"\n}"
   },
   {
-    "objectID": "reference/sel_char.html",
-    "href": "reference/sel_char.html",
-    "title": "sel_char.md",
-    "section": "",
-    "text": "sel_char - This command is used for short description."
-  },
-  {
-    "objectID": "reference/sel_char.html#example-1",
-    "href": "reference/sel_char.html#example-1",
-    "title": "sel_char.md",
-    "section": "Example 1",
-    "text": "Example 1\nIn this example a second price varible is created. The currency used for the variables is stored in the char value “currency”. Then sel_char is used to list all variables that has the value “USD” in the char “currency”.\nsysuse auto, clear\n\nchar price[currency] \"USD\"\n\ngen  price_eur = price * .9\nchar price_eur[currency] \"EUR\"\n\nsel_char \"currency USD\"\nreturn list"
-  },
-  {
-    "objectID": "reference/sel_char.html#example-2",
-    "href": "reference/sel_char.html#example-2",
-    "title": "sel_char.md",
-    "section": "Example 2",
-    "text": "Example 2\nYou can combine multiple char values to filter your variable list further. When combining multiple chars the command returns data on the filtering on each char.\nsysuse auto, clear\n\nchar price[currency] \"USD\"\n\ngen  price_eur = price * .9\nchar price_eur[currency] \"EUR\"\n\nchar price[raw] \"1\"\nchar price_eur[raw] \"1\"\n\nsel_char \"raw 1\" \"currency USD\"\nreturn list"
-  },
-  {
-    "objectID": "reference/sel_char.html#example-3",
-    "href": "reference/sel_char.html#example-3",
-    "title": "sel_char.md",
-    "section": "Example 3",
-    "text": "Example 3\nThis example is synonymous with example 2, as the variable list that is a result of the first run of sel_char is passed into the varlist() option in the second run of sel_char. This can be especially useful when combining this command with other commands in the selector package.\nsysuse auto, clear\n\nchar price[currency] \"USD\"\n\ngen  price_eur = price * .9\nchar price_eur[currency] \"EUR\"\n\nchar price[raw] \"1\"\nchar price_eur[raw] \"1\"\n\nsel_char \"raw 1\"\nsel_char \"currency USD\" , varlist(`r(varlist)')\nreturn list"
-  },
-  {
-    "objectID": "reference/selector.html",
-    "href": "reference/selector.html",
-    "title": "selector.md",
-    "section": "",
-    "text": "Syntax\nselector\n\n\nDescription\nThis command only returns the version number and version data to the user. This command has little application for the user. For packages installed on SSC it is important that a there is a command in the package that has the same name as the package. That is the main purpose of this command.\n\n\nOptions\nThis command has no options.\n\n\nFeedback, Bug Reports, and Contributions\nRead more about these commands on this repo where this package is developed. Please provide any feedback by opening an issue. PRs with suggestions for improvements are also greatly appreciated.\n\n\nAuthors\nLSMS Team, The World Bank lsms@worldbank.org"
-  },
-  {
-    "objectID": "reference/sel_remove_metadata.html",
-    "href": "reference/sel_remove_metadata.html",
-    "title": "sel_remove_metadata.md",
-    "section": "",
-    "text": "sel_remove_metadata - Clean up metadata only needed during cleaning"
-  },
-  {
-    "objectID": "reference/sel_remove_metadata.html#example-1",
-    "href": "reference/sel_remove_metadata.html#example-1",
-    "title": "sel_remove_metadata.md",
-    "section": "Example 1",
-    "text": "Example 1\nIf the meta data to be removed was added by sel_add_metadata then this command can be specified as simply as this:\n  sel_remove_metadata"
-  },
-  {
-    "objectID": "reference/sel_remove_metadata.html#example-2",
-    "href": "reference/sel_remove_metadata.html#example-2",
-    "title": "sel_remove_metadata.md",
-    "section": "Example 2",
-    "text": "Example 2\nIf it custom chars to be removed, for example mychar and abc, the the command should be specified like thisL\n  sel_remove_metadata, chars(mychar abc)"
-  },
-  {
     "objectID": "reference/sel_vars.html",
     "href": "reference/sel_vars.html",
-    "title": "sel_vars.md",
+    "title": "sel_vars",
     "section": "",
     "text": "sel_vars - List variables with matching characteristics in the Survey Solutions’ Designer."
   },
   {
     "objectID": "reference/sel_vars.html#example-1",
     "href": "reference/sel_vars.html#example-1",
-    "title": "sel_vars.md",
+    "title": "sel_vars",
     "section": "Example 1",
     "text": "Example 1\nThis example lists all variables linked to numeric question in SuSo Designer:\nsel_vars is_numeric\nreturn list"
+  },
+  {
+    "objectID": "reference/selector.html",
+    "href": "reference/selector.html",
+    "title": "selector",
+    "section": "",
+    "text": "Syntax\nselector\n\n\nDescription\nThis command only returns the version number and version data to the user. This command has little application for the user. For packages installed on SSC it is important that a there is a command in the package that has the same name as the package. That is the main purpose of this command.\n\n\nOptions\nThis command has no options.\n\n\nFeedback, Bug Reports, and Contributions\nRead more about these commands on this repo where this package is developed. Please provide any feedback by opening an issue. PRs with suggestions for improvements are also greatly appreciated.\n\n\nAuthors\nLSMS Team, The World Bank lsms@worldbank.org"
   }
 ]
