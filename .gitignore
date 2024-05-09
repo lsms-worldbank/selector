@@ -30,6 +30,9 @@
 !CONTRIBUTING.md
 !LICENSE*
 
+# Track files related to doc site's style and structure
+!src/dev/assets/*
+
 * Unignore reproot files
 !reproot*.yaml
 
