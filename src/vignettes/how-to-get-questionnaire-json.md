@@ -1,6 +1,4 @@
----
-title: How to get the questionnaire JSON file
----
+# How to get the questionnaire JSON file
 
 There are two methods for getting the questionnaire JSON file:
 

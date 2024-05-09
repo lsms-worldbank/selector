@@ -1,6 +1,4 @@
----
-title: How to create a questionnaire metadata data set from the JSON file
----
+# How to create a questionnaire metadata data set from the JSON file
 
 To create a questionnaire metadata data set, one must:
 
