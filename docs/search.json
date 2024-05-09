@@ -186,7 +186,21 @@
     "href": "reference/index.html",
     "title": "Function reference",
     "section": "",
-    "text": "Functions\nDescription\n\n\n\n\nsel_add_metadata\nApply SuSo metadata to current data\n\n\nsel_char\nThis command is used for short description.\n\n\nsel_matches_regex\nGet variables that match a regular expression.\n\n\nsel_remove_metadata\nClean up metadata only needed during cleaning\n\n\nsel_vars\nList variables with matching characteristics in the Survey Solutions’ Designer.\n\n\nselector\nPackage command with utilities for the rest of the package"
+    "text": "Functions\nDescription\n\n\n\n\nsel_add_metadata\nApply SuSo metadata to current data\n\n\nsel_remove_metadata\nClean up metadata only needed during cleaning\n\n\n\n\n\n\n\n\n\nFunctions\nDescription\n\n\n\n\nsel_vars\nList variables with matching characteristics in the Survey Solutions’ Designer.\n\n\nsel_char\nThis command is used for short description."
+  },
+  {
+    "objectID": "reference/index.html#regular-expressions",
+    "href": "reference/index.html#regular-expressions",
+    "title": "Function reference",
+    "section": "Regular expressions",
+    "text": "Regular expressions\n\nGet variables with matching names/patterns\n\n\n\nFunctions\nDescription\n\n\n\n\nsel_matches_regex\nGet variables that match a regular expression."
+  },
+  {
+    "objectID": "reference/index.html#other",
+    "href": "reference/index.html#other",
+    "title": "Function reference",
+    "section": "Other",
+    "text": "Other\n\nDisparate commands\n\n\n\nFunctions\nDescription\n\n\n\n\nselector\nPackage command with utilities for the rest of the package"
   },
   {
     "objectID": "reference/sel_add_metadata.html",
