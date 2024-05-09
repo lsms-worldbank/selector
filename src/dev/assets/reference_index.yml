@@ -1,0 +1,18 @@
+reference:
+- title: "Survey Soultions questionnaire metadata (and other `chars`)"
+- subtitle: "Add, remove metadata"
+  contents:
+  - sel_add_metadata
+  - sel_remove_metadata
+- subtitle: "Get variables with matching characteristics"
+  contents:
+  - sel_vars
+  - sel_char
+- title: "Regular expressions"
+- subtitle: "Get variables with matching names/patterns"
+  contents:
+  - sel_matches_regex
+- title: "Other"
+- subtitle: "Disparate commands"
+  contents:
+  - selector
